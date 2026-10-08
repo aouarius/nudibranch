@@ -5,41 +5,71 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import io.github.aouarius.nudibranche.core.Rarity
 
-object CardColors {
+/** Dark app chrome around light, paper-like cards. */
+object AppColors {
     val Background = Color(0xFF16181D)
-    val CardFrame = Color(0xFF1B1D22)
-    val CardInner = Color(0xFF23262D)
-    val CardBorder = Color(0xFF3A3F49)
+    val Surface = Color(0xFF23262D)
+    val Border = Color(0xFF3A3F49)
     val Text = Color(0xFFE8E8E8)
     val TextMuted = Color(0xFF9AA3B0)
-    val Label = Color(0xFF8D96A4)
-    val Locked = Color(0xFF131519)
-    val LockedInner = Color(0xFF16181D)
+    val Accent = Color(0xFFB993FF)
+}
+
+object CardColors {
+    val Paper = Color(0xFFFDF8EC)
+    val Ink = Color(0xFF1A1A1A)
+    val InkMuted = Color(0xFF5A5A5A)
+    val Label = Color(0xFF6E6E6E)
+    val Divider = Color(0xFFDDD6C6)
+    val ArtBorder = Color(0xFFC9A94A)
+    val ArtBackground = Color(0xFF1D4E74)
+    val Handwriting = Color(0xFF1F3A73)
+    val Rule = Color(0xFFD9E2EE)
+
+    val LockedFrame = Color(0xFF3A3F47)
+    val LockedPaper = Color(0xFF23272E)
+    val LockedText = Color(0xFF8A8F98)
+
+    private val Holo = listOf(
+        Color(0xFFFF6EC4), Color(0xFFFFD36E), Color(0xFF6EFFC4), Color(0xFF6EC8FF), Color(0xFFC46EFF),
+    )
 
     fun frame(rarity: Rarity): Brush = when (rarity) {
-        Rarity.HAEUFIG -> Brush.linearGradient(listOf(Color(0xFF4A5059), Color(0xFF1B1D22)))
-        Rarity.SELTEN -> Brush.linearGradient(listOf(Color(0xFF1D4F7A), Color(0xFF101A26)))
-        Rarity.LEGENDAER -> Brush.linearGradient(listOf(Color(0xFF3C2A6B), Color(0xFF120C22)))
+        Rarity.HAEUFIG -> Brush.linearGradient(listOf(Color(0xFF9AA4AD), Color(0xFFD7DDE2)))
+        Rarity.SELTEN -> Brush.linearGradient(listOf(Color(0xFF2F6FD6), Color(0xFF7FB2FF)))
+        Rarity.LEGENDAER -> Brush.linearGradient(Holo)
     }
 
     fun tag(rarity: Rarity): Brush = when (rarity) {
-        Rarity.HAEUFIG -> Brush.horizontalGradient(listOf(Color(0xFF8A929E), Color(0xFF8A929E)))
-        Rarity.SELTEN -> Brush.horizontalGradient(listOf(Color(0xFF5B8FD6), Color(0xFF5B8FD6)))
-        Rarity.LEGENDAER -> Brush.horizontalGradient(listOf(Color(0xFFB993FF), Color(0xFFF0A6C8)))
+        Rarity.HAEUFIG -> Brush.horizontalGradient(listOf(Color(0xFF7D8790), Color(0xFF7D8790)))
+        Rarity.SELTEN -> Brush.horizontalGradient(listOf(Color(0xFF2F6FD6), Color(0xFF2F6FD6)))
+        Rarity.LEGENDAER -> Brush.horizontalGradient(listOf(Color(0xFFC46EFF), Color(0xFFFF6EC4)))
     }
+}
+
+/** Spacing steps used across the app, so gaps line up. */
+object Space {
+    val xs = 4.dp
+    val s = 8.dp
+    val m = 12.dp
+    val l = 16.dp
+    val xl = 24.dp
 }
 
 @Composable
 fun NudibrancheTheme(content: @Composable () -> Unit) {
     MaterialTheme(
         colorScheme = darkColorScheme(
-            primary = Color(0xFFB993FF),
-            onPrimary = Color(0xFF16181D),
-            background = CardColors.Background,
-            surface = CardColors.CardInner,
-            onSurface = CardColors.Text,
+            primary = AppColors.Accent,
+            onPrimary = AppColors.Background,
+            background = AppColors.Background,
+            surface = AppColors.Surface,
+            onSurface = AppColors.Text,
+            onSurfaceVariant = AppColors.TextMuted,
+            outline = AppColors.Border,
         ),
         content = content,
     )

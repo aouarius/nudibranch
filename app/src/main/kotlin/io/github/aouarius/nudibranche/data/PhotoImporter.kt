@@ -21,7 +21,7 @@ class PhotoImporter(private val context: Context) {
 
     suspend fun read(uri: Uri): ImportedPhoto = withContext(Dispatchers.IO) {
         val bytes = context.contentResolver.openInputStream(uri)?.use { it.readBytes() }
-            ?: error("Das Foto konnte nicht gelesen werden.")
+            ?: error("Photo could not be opened")
         val exif = ExifInterface(ByteArrayInputStream(bytes))
         val date = exif.getAttribute(ExifInterface.TAG_DATETIME_ORIGINAL)
             ?: exif.getAttribute(ExifInterface.TAG_DATETIME)

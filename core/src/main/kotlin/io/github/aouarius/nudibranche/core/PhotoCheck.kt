@@ -11,13 +11,7 @@ data class PhotoMetadata(
     val contentHash: String,
 )
 
-enum class PhotoProblem(val message: String) {
-    NO_DATE("Das Foto hat kein Aufnahmedatum. Bitte das Originalfoto aus der Kamera verwenden."),
-    FUTURE_DATE("Das Aufnahmedatum liegt in der Zukunft."),
-    NO_CAMERA("Im Foto ist keine Kamera hinterlegt. Screenshots und bearbeitete Bilder zählen nicht."),
-    SCREENSHOT("Das Bild ist ein Screenshot."),
-    ALREADY_USED("Dieses Foto wurde schon für eine Karte verwendet."),
-}
+enum class PhotoProblem { NO_DATE, FUTURE_DATE, NO_CAMERA, SCREENSHOT, ALREADY_USED }
 
 sealed interface PhotoCheckResult {
     data object Accepted : PhotoCheckResult

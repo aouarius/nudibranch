@@ -5,7 +5,10 @@ package io.github.aouarius.nudibranche.ui
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,7 +17,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -34,13 +36,13 @@ import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,20 +51,32 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
-import kotlinx.coroutines.delay
 import io.github.aouarius.nudibranche.core.DiveDetails
+import io.github.aouarius.nudibranche.core.Language
 import io.github.aouarius.nudibranche.core.Region
 import io.github.aouarius.nudibranche.core.Sighting
 import io.github.aouarius.nudibranche.core.Species
+import kotlinx.coroutines.delay
+
+private val DialogCardWidth = 320.dp
 
 @Composable
 fun CatalogScreen(viewModel: CatalogViewModel = viewModel()) {
+    CompositionLocalProvider(LocalStrings provides stringsFor(viewModel.language)) {
+        Catalog(viewModel)
+    }
+}
+
+@Composable
+private fun Catalog(viewModel: CatalogViewModel) {
+    val strings = LocalStrings.current
     val collection = viewModel.collection
     var region by rememberSaveable { mutableStateOf<Region?>(null) }
     var detailId by rememberSaveable { mutableStateOf<String?>(null) }
@@ -73,41 +87,50 @@ fun CatalogScreen(viewModel: CatalogViewModel = viewModel()) {
     val shown = viewModel.species.filter { region == null || it.region == region }
 
     Scaffold(
-        containerColor = CardColors.Background,
+        containerColor = AppColors.Background,
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = { picker.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly)) },
                 icon = { Icon(Icons.Filled.Add, contentDescription = null) },
-                text = { Text("Foto hinzufügen") },
+                text = { Text(strings.addPhoto, fontSize = 15.sp) },
             )
         },
     ) { padding ->
         Column(Modifier.padding(padding)) {
-            Row(
-                Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Column(Modifier.weight(1f)) {
-                    Text("Nudidex", color = CardColors.Text, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+            Column(Modifier.padding(start = Space.l, end = Space.l, top = Space.l, bottom = Space.s)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        "${collection.unlockedCount()} von ${viewModel.species.size} Karten gefunden",
-                        color = CardColors.TextMuted,
-                        fontSize = 13.sp,
+                        "Nudidex",
+                        color = AppColors.Text,
+                        fontSize = 30.sp,
+                        fontWeight = FontWeight.Black,
+                        letterSpacing = 0.5.sp,
+                        modifier = Modifier.weight(1f),
                     )
+                    LanguageToggle(viewModel.language, onChange = viewModel::changeLanguage)
                 }
-                OutlinedButton(onClick = { showGlobe = true }) { Text("🌍 Fundorte") }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        strings.cardsFound(collection.unlockedCount(), viewModel.species.size),
+                        color = AppColors.TextMuted,
+                        fontSize = 14.sp,
+                        modifier = Modifier.weight(1f),
+                    )
+                    TextButton(onClick = { showGlobe = true }) { Text(strings.findSpotsButton, fontSize = 14.sp) }
+                }
             }
             RegionFilter(selected = region, onSelect = { region = it })
             LazyVerticalGrid(
-                columns = GridCells.Adaptive(minSize = 160.dp),
-                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 96.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
+                columns = GridCells.Adaptive(minSize = 156.dp),
+                contentPadding = PaddingValues(start = Space.l, end = Space.l, top = Space.m, bottom = 104.dp),
+                horizontalArrangement = Arrangement.spacedBy(Space.m),
+                verticalArrangement = Arrangement.spacedBy(Space.m),
             ) {
                 items(shown, key = { it.id }) { species ->
                     SpeciesCard(
                         species = species,
                         sighting = collection.firstSighting(species.id),
+                        compact = true,
                         modifier = Modifier.clickable { detailId = species.id },
                     )
                 }
@@ -116,11 +139,7 @@ fun CatalogScreen(viewModel: CatalogViewModel = viewModel()) {
     }
 
     viewModel.species.firstOrNull { it.id == detailId }?.let { species ->
-        CardDetailDialog(
-            species = species,
-            viewModel = viewModel,
-            onDismiss = { detailId = null },
-        )
+        CardDetailDialog(species = species, viewModel = viewModel, onDismiss = { detailId = null })
     }
     if (showGlobe) {
         FindsGlobeDialog(viewModel, onDismiss = { showGlobe = false })
@@ -128,20 +147,46 @@ fun CatalogScreen(viewModel: CatalogViewModel = viewModel()) {
     ImportDialogs(viewModel)
 }
 
+/** Two-part pill: DE | EN. */
+@Composable
+private fun LanguageToggle(current: Language, onChange: (Language) -> Unit) {
+    val shape = RoundedCornerShape(50)
+    Row(
+        Modifier
+            .clip(shape)
+            .border(1.dp, AppColors.Border, shape),
+    ) {
+        Language.entries.forEach { language ->
+            val selected = language == current
+            Text(
+                language.name,
+                color = if (selected) AppColors.Background else AppColors.TextMuted,
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .background(if (selected) AppColors.Accent else AppColors.Background)
+                    .clickable { onChange(language) }
+                    .padding(horizontal = 12.dp, vertical = 6.dp),
+            )
+        }
+    }
+}
+
 @Composable
 private fun RegionFilter(selected: Region?, onSelect: (Region?) -> Unit) {
+    val strings = LocalStrings.current
     Row(
         Modifier
             .horizontalScroll(rememberScrollState())
-            .padding(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+            .padding(horizontal = Space.l),
+        horizontalArrangement = Arrangement.spacedBy(Space.s),
     ) {
-        FilterChip(selected = selected == null, onClick = { onSelect(null) }, label = { Text("Alle") })
+        FilterChip(selected = selected == null, onClick = { onSelect(null) }, label = { Text(strings.allRegions) })
         Region.entries.forEach { region ->
             FilterChip(
                 selected = selected == region,
                 onClick = { onSelect(region) },
-                label = { Text(region.displayName) },
+                label = { Text(region.label(strings.language)) },
             )
         }
     }
@@ -149,6 +194,7 @@ private fun RegionFilter(selected: Region?, onSelect: (Region?) -> Unit) {
 
 @Composable
 private fun CardDetailDialog(species: Species, viewModel: CatalogViewModel, onDismiss: () -> Unit) {
+    val strings = LocalStrings.current
     val sightings = viewModel.collection.sightingsOf(species.id)
     var flipped by remember { mutableStateOf(false) }
     var editing by remember { mutableStateOf<Sighting?>(null) }
@@ -157,7 +203,7 @@ private fun CardDetailDialog(species: Species, viewModel: CatalogViewModel, onDi
             FlippableCard(
                 flipped = flipped,
                 modifier = Modifier
-                    .width(300.dp)
+                    .width(DialogCardWidth)
                     .clickable(enabled = sightings.isNotEmpty() && editing == null) { flipped = !flipped },
                 front = { SpeciesCard(species, sightings.firstOrNull()) },
                 back = {
@@ -179,15 +225,15 @@ private fun CardDetailDialog(species: Species, viewModel: CatalogViewModel, onDi
                 },
             )
             if (sightings.isNotEmpty()) {
-                Spacer(Modifier.height(10.dp))
+                Spacer(Modifier.height(Space.m))
                 Text(
                     when {
-                        editing != null -> "Schreib deinen Tauchgang auf die Rückseite"
-                        flipped -> "Tippen, um die Karte umzudrehen"
-                        else -> "Tippen für das Logbuch auf der Rückseite"
+                        editing != null -> strings.writeOnBack
+                        flipped -> strings.tapToTurnBack
+                        else -> strings.tapForLogbook
                     },
-                    color = CardColors.TextMuted,
-                    fontSize = 13.sp,
+                    color = AppColors.TextMuted,
+                    fontSize = 14.sp,
                 )
             }
         }
@@ -200,23 +246,24 @@ private fun WriteOnBackDialog(
     land: List<DoubleArray>,
     onSave: (DiveDetails) -> Unit,
 ) {
+    val strings = LocalStrings.current
     var flipped by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
         delay(900)
         flipped = true
     }
-    Dialog(onDismissRequest = { onSave(DiveDetails()) }) {
+    Dialog(onDismissRequest = { onSave(state.sighting.dive) }) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-                if (flipped) "Schreib deinen Tauchgang auf die Rückseite" else "Deine Karte",
-                color = CardColors.Text,
-                fontSize = 17.sp,
+                if (flipped) strings.writeOnBack else strings.yourCard,
+                color = AppColors.Text,
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
             )
-            Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.height(Space.m))
             FlippableCard(
                 flipped = flipped,
-                modifier = Modifier.width(300.dp),
+                modifier = Modifier.width(DialogCardWidth),
                 front = { SpeciesCard(state.species, state.sighting) },
                 back = {
                     CardBackEditor(
@@ -224,8 +271,8 @@ private fun WriteOnBackDialog(
                         land = land,
                         initial = state.sighting.dive,
                         onSave = onSave,
-                        onCancel = { onSave(DiveDetails()) },
-                        cancelLabel = "Überspringen",
+                        onCancel = { onSave(state.sighting.dive) },
+                        cancelLabel = strings.skip,
                     )
                 },
             )
@@ -235,14 +282,15 @@ private fun WriteOnBackDialog(
 
 @Composable
 private fun ImportDialogs(viewModel: CatalogViewModel) {
+    val strings = LocalStrings.current
     when (val state = viewModel.importState) {
         ImportState.Idle -> Unit
         ImportState.Checking -> Dialog(onDismissRequest = {}) {
             Surface(shape = RoundedCornerShape(16.dp)) {
-                Row(Modifier.padding(24.dp), verticalAlignment = Alignment.CenterVertically) {
+                Row(Modifier.padding(Space.xl), verticalAlignment = Alignment.CenterVertically) {
                     CircularProgressIndicator()
-                    Spacer(Modifier.width(16.dp))
-                    Text("Foto wird geprüft …")
+                    Spacer(Modifier.width(Space.l))
+                    Text(strings.checkingPhoto, fontSize = 15.sp)
                 }
             }
         }
@@ -254,32 +302,36 @@ private fun ImportDialogs(viewModel: CatalogViewModel) {
         is ImportState.EnterDiveDetails -> WriteOnBackDialog(state, viewModel.land, onSave = viewModel::onDiveDetailsEntered)
         is ImportState.Rejected -> AlertDialog(
             onDismissRequest = viewModel::dismissImport,
-            title = { Text("Foto nicht akzeptiert") },
-            text = { Text(state.problems.joinToString("\n\n") { "• ${it.message}" }) },
-            confirmButton = { TextButton(onClick = viewModel::dismissImport) { Text("OK") } },
+            title = { Text(strings.photoNotAccepted) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(Space.s)) {
+                    state.problems.forEach { Text("• ${strings.problem(it)}", fontSize = 15.sp, lineHeight = 21.sp) }
+                }
+            },
+            confirmButton = { TextButton(onClick = viewModel::dismissImport) { Text(strings.ok) } },
         )
-        is ImportState.Failed -> AlertDialog(
+        ImportState.Failed -> AlertDialog(
             onDismissRequest = viewModel::dismissImport,
-            title = { Text("Fehler") },
-            text = { Text(state.message) },
-            confirmButton = { TextButton(onClick = viewModel::dismissImport) { Text("OK") } },
+            title = { Text(strings.error) },
+            text = { Text(strings.photoUnreadable, fontSize = 15.sp) },
+            confirmButton = { TextButton(onClick = viewModel::dismissImport) { Text(strings.ok) } },
         )
         is ImportState.Unlocked -> Dialog(onDismissRequest = viewModel::dismissImport) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    if (state.firstFind) "Neue Karte freigeschaltet!" else "Weitere Sichtung gespeichert",
-                    color = CardColors.Text,
-                    fontSize = 20.sp,
+                    if (state.firstFind) strings.newCardUnlocked else strings.sightingSaved,
+                    color = AppColors.Text,
+                    fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
                 )
-                Spacer(Modifier.height(12.dp))
+                Spacer(Modifier.height(Space.l))
                 SpeciesCard(
                     state.species,
                     viewModel.collection.firstSighting(state.species.id),
-                    Modifier.width(300.dp),
+                    Modifier.width(DialogCardWidth),
                 )
-                Spacer(Modifier.height(12.dp))
-                Button(onClick = viewModel::dismissImport) { Text("Super") }
+                Spacer(Modifier.height(Space.l))
+                Button(onClick = viewModel::dismissImport) { Text(strings.great, fontSize = 15.sp) }
             }
         }
     }
@@ -287,50 +339,50 @@ private fun ImportDialogs(viewModel: CatalogViewModel) {
 
 @Composable
 private fun SpeciesPicker(species: List<Species>, onChoose: (Species) -> Unit, onDismiss: () -> Unit) {
+    val strings = LocalStrings.current
     var query by remember { mutableStateOf("") }
     val matches = species.filter {
         query.isBlank() ||
             it.latinName.contains(query, ignoreCase = true) ||
-            it.germanName?.contains(query, ignoreCase = true) == true
+            it.germanName?.contains(query, ignoreCase = true) == true ||
+            it.englishName?.contains(query, ignoreCase = true) == true
     }
     Dialog(onDismissRequest = onDismiss) {
-        Surface(shape = RoundedCornerShape(16.dp)) {
-            Column(Modifier.padding(16.dp).heightIn(max = 560.dp)) {
-                Text("Welche Art ist auf dem Foto?", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                Spacer(Modifier.height(4.dp))
-                Text(
-                    "Die automatische Erkennung kommt in einer späteren Version. Bis dahin wählst du die Art selbst.",
-                    color = CardColors.TextMuted,
-                    fontSize = 12.sp,
-                )
-                Spacer(Modifier.height(8.dp))
+        Surface(shape = RoundedCornerShape(20.dp)) {
+            Column(Modifier.padding(Space.l).heightIn(max = 600.dp)) {
+                Text(strings.whichSpecies, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                Spacer(Modifier.height(Space.xs))
+                Text(strings.recognitionLater, color = AppColors.TextMuted, fontSize = 13.sp, lineHeight = 18.sp)
+                Spacer(Modifier.height(Space.m))
                 OutlinedTextField(
                     value = query,
                     onValueChange = { query = it },
-                    label = { Text("Suchen") },
+                    label = { Text(strings.search) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                 )
+                Spacer(Modifier.height(Space.s))
                 LazyColumn(Modifier.weight(1f, fill = false)) {
                     items(matches, key = { it.id }) { item ->
                         Column(
                             Modifier
                                 .fillMaxWidth()
                                 .clickable { onChoose(item) }
-                                .padding(vertical = 10.dp),
+                                .padding(vertical = Space.m),
                         ) {
-                            Text(item.displayName, fontWeight = FontWeight.SemiBold)
+                            Text(item.name(strings.language), fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+                            Spacer(Modifier.height(2.dp))
                             Text(
-                                "${item.latinName} · ${item.region.displayName}",
-                                color = CardColors.TextMuted,
+                                "${item.latinName} · ${item.region.label(strings.language)}",
+                                color = AppColors.TextMuted,
                                 fontStyle = FontStyle.Italic,
-                                fontSize = 12.sp,
+                                fontSize = 13.sp,
                             )
                         }
-                        HorizontalDivider(color = CardColors.CardBorder)
+                        HorizontalDivider(color = AppColors.Border)
                     }
                 }
-                TextButton(onClick = onDismiss, modifier = Modifier.align(Alignment.End)) { Text("Abbrechen") }
+                TextButton(onClick = onDismiss, modifier = Modifier.align(Alignment.End)) { Text(strings.cancel) }
             }
         }
     }

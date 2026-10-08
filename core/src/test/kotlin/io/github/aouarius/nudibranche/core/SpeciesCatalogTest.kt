@@ -17,18 +17,22 @@ class SpeciesCatalogTest {
     }
 
     @Test
-    fun displayNameFallsBackToLatinName() {
+    fun nameFallsBackToLatinNamePerLanguage() {
         val species = SpeciesCatalog.parse(
-            """[{"id":"a","number":1,"latinName":"Cratena peregrina","family":"F","region":"MITTELMEER",
-            "rarity":"HAEUFIG","maxSizeCm":4,"depthMinM":1,"depthMaxM":40,"food":"x","habitat":"y"}]""",
-        )
-        assertEquals("Cratena peregrina", species.single().displayName)
+            """[{"id":"a","number":1,"latinName":"Hexabranchus sanguineus","englishName":"Spanish dancer",
+            "family":"F","region":"INDOPAZIFIK","rarity":"LEGENDAER","maxSizeCm":40,"depthMinM":1,"depthMaxM":50,
+            "food":"Schwämme","foodEn":"Sponges","habitat":"Riffe","habitatEn":"Reefs"}]""",
+        ).single()
+        assertEquals("Hexabranchus sanguineus", species.name(Language.DE))
+        assertEquals("Spanish dancer", species.name(Language.EN))
+        assertEquals("Sponges", species.food(Language.EN))
+        assertEquals("Riffe", species.habitat(Language.DE))
     }
 
     @Test
     fun duplicateIdsAreRejected() {
         val entry = """{"id":"a","number":%d,"latinName":"L","family":"F","region":"MITTELMEER",
-            "rarity":"HAEUFIG","maxSizeCm":4,"depthMinM":1,"depthMaxM":40,"food":"x","habitat":"y"}"""
+            "rarity":"HAEUFIG","maxSizeCm":4,"depthMinM":1,"depthMaxM":40,"food":"x","foodEn":"x","habitat":"y","habitatEn":"y"}"""
         assertThrows(IllegalArgumentException::class.java) {
             SpeciesCatalog.parse("[${entry.format(1)},${entry.format(2)}]")
         }

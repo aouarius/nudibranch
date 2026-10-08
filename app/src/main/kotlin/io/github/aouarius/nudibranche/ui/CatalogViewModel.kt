@@ -1,6 +1,7 @@
 package io.github.aouarius.nudibranche.ui
 
 import android.app.Application
+import android.content.Context
 import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import io.github.aouarius.nudibranche.core.CardCollection
 import io.github.aouarius.nudibranche.core.DiveDetails
 import io.github.aouarius.nudibranche.core.LandShapes
+import io.github.aouarius.nudibranche.core.Language
 import io.github.aouarius.nudibranche.core.PhotoCheckResult
 import io.github.aouarius.nudibranche.core.PhotoChecker
 import io.github.aouarius.nudibranche.core.PhotoProblem
@@ -22,6 +24,7 @@ import io.github.aouarius.nudibranche.data.PhotoImporter
 import kotlinx.coroutines.launch
 import java.io.File
 import java.time.LocalDateTime
+import java.util.Locale
 
 sealed interface ImportState {
     data object Idle : ImportState
@@ -30,7 +33,7 @@ sealed interface ImportState {
     /** The photo is stored; the card turns over so the diver can write on its back. */
     data class EnterDiveDetails(val sighting: Sighting, val species: Species, val firstFind: Boolean) : ImportState
     data class Rejected(val problems: List<PhotoProblem>) : ImportState
-    data class Failed(val message: String) : ImportState
+    data object Failed : ImportState
     data class Unlocked(val species: Species, val firstFind: Boolean) : ImportState
 }
 
@@ -42,6 +45,20 @@ class CatalogViewModel(app: Application) : AndroidViewModel(app) {
     /** Land outlines for the globe, read once when first needed. */
     val land: List<DoubleArray> by lazy {
         LandShapes.parse(app.assets.open("land.json").bufferedReader().use { it.readText() })
+    }
+
+    private val settings = app.getSharedPreferences("settings", Context.MODE_PRIVATE)
+
+    /** Chosen in the app; until then German phones get German, all others English. */
+    var language: Language by mutableStateOf(
+        settings.getString("language", null)?.let { saved -> Language.entries.firstOrNull { it.name == saved } }
+            ?: if (Locale.getDefault().language == "de") Language.DE else Language.EN,
+    )
+        private set
+
+    fun changeLanguage(newLanguage: Language) {
+        language = newLanguage
+        settings.edit().putString("language", newLanguage.name).apply()
     }
 
     private val store = CollectionStore(File(app.filesDir, "collection.json"))
@@ -63,7 +80,7 @@ class CatalogViewModel(app: Application) : AndroidViewModel(app) {
                     is PhotoCheckResult.Rejected -> ImportState.Rejected(result.problems)
                 }
             } catch (e: Exception) {
-                ImportState.Failed(e.message ?: "Das Foto konnte nicht gelesen werden.")
+                ImportState.Failed
             }
         }
     }

@@ -40,15 +40,16 @@ fun markerColor(rarity: Rarity): Color = when (rarity) {
     Rarity.LEGENDAER -> Color(0xFFF0A6C8)
 }
 
-fun formatSpot(spot: LatLon): String {
-    val lat = "%.2f° %s".format(abs(spot.latitude), if (spot.latitude >= 0) "N" else "S")
-    val lon = "%.2f° %s".format(abs(spot.longitude), if (spot.longitude >= 0) "O" else "W")
+fun formatSpot(spot: LatLon, strings: Strings): String {
+    val lat = "%.2f° %s".format(strings.locale, abs(spot.latitude), if (spot.latitude >= 0) strings.north else strings.south)
+    val lon = "%.2f° %s".format(strings.locale, abs(spot.longitude), if (spot.longitude >= 0) strings.east else strings.west)
     return "$lat, $lon"
 }
 
 /** All finds with a spot on one globe. Tapping a marker shows its card. */
 @Composable
 fun FindsGlobeDialog(viewModel: CatalogViewModel, onDismiss: () -> Unit) {
+    val strings = LocalStrings.current
     val finds = viewModel.collection.sightings.mapNotNull { sighting ->
         val spot = sighting.dive.spot ?: return@mapNotNull null
         val species = viewModel.species.firstOrNull { it.id == sighting.speciesId } ?: return@mapNotNull null
@@ -59,22 +60,20 @@ fun FindsGlobeDialog(viewModel: CatalogViewModel, onDismiss: () -> Unit) {
     val selectedFind = finds.firstOrNull { it.first.photoHash == selected }
 
     Dialog(onDismissRequest = onDismiss) {
-        Surface(shape = RoundedCornerShape(16.dp), color = CardColors.Background) {
+        Surface(shape = RoundedCornerShape(20.dp), color = AppColors.Surface) {
             Column(
-                Modifier.padding(16.dp).verticalScroll(rememberScrollState()),
+                Modifier.padding(Space.l).verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text("Fundorte", color = CardColors.Text, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                Text(strings.findSpotsTitle, color = AppColors.Text, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                Spacer(Modifier.height(Space.xs))
                 Text(
-                    if (finds.isEmpty()) {
-                        "Noch keine Fundorte. Setze den Fundort auf der Rückseite einer Karte."
-                    } else {
-                        "${finds.size} ${if (finds.size == 1) "Fund" else "Funde"} · ziehen zum Drehen"
-                    },
-                    color = CardColors.TextMuted,
-                    fontSize = 12.sp,
+                    if (finds.isEmpty()) strings.noFindSpots else strings.findsHint(finds.size),
+                    color = AppColors.TextMuted,
+                    fontSize = 13.sp,
+                    lineHeight = 18.sp,
                 )
-                Spacer(Modifier.height(12.dp))
+                Spacer(Modifier.height(Space.m))
                 Globe(
                     land = viewModel.land,
                     center = center,
@@ -87,16 +86,16 @@ fun FindsGlobeDialog(viewModel: CatalogViewModel, onDismiss: () -> Unit) {
                     modifier = Modifier.fillMaxWidth(),
                 )
                 selectedFind?.let { (sighting, species, spot) ->
-                    Spacer(Modifier.height(12.dp))
-                    SpeciesCard(species, viewModel.collection.firstSighting(species.id), Modifier.width(220.dp))
-                    Spacer(Modifier.height(6.dp))
+                    Spacer(Modifier.height(Space.m))
+                    SpeciesCard(species, viewModel.collection.firstSighting(species.id), Modifier.width(200.dp), compact = true)
+                    Spacer(Modifier.height(Space.s))
                     Text(
-                        listOfNotNull(sighting.dive.site, formatSpot(spot)).joinToString(" · "),
-                        color = CardColors.TextMuted,
-                        fontSize = 12.sp,
+                        listOfNotNull(sighting.dive.site, formatSpot(spot, strings)).joinToString(" · "),
+                        color = AppColors.TextMuted,
+                        fontSize = 13.sp,
                     )
                 }
-                TextButton(onClick = onDismiss, modifier = Modifier.align(Alignment.End)) { Text("Schließen") }
+                TextButton(onClick = onDismiss, modifier = Modifier.align(Alignment.End)) { Text(strings.close) }
             }
         }
     }
@@ -110,28 +109,30 @@ fun SpotPickerDialog(
     onPick: (LatLon?) -> Unit,
     onDismiss: () -> Unit,
 ) {
+    val strings = LocalStrings.current
     var center by remember { mutableStateOf(initial ?: DefaultCenter) }
     var spot by remember { mutableStateOf(initial) }
     Dialog(onDismissRequest = onDismiss) {
-        Surface(shape = RoundedCornerShape(16.dp), color = CardColors.Background) {
-            Column(Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("Fundort setzen", color = CardColors.Text, fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                Text("Drehen und auf die Fundstelle tippen", color = CardColors.TextMuted, fontSize = 12.sp)
-                Spacer(Modifier.height(12.dp))
+        Surface(shape = RoundedCornerShape(20.dp), color = AppColors.Surface) {
+            Column(Modifier.padding(Space.l), horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(strings.setFindSpot, color = AppColors.Text, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                Spacer(Modifier.height(Space.xs))
+                Text(strings.turnAndTap, color = AppColors.TextMuted, fontSize = 13.sp)
+                Spacer(Modifier.height(Space.m))
                 Globe(
                     land = land,
                     center = center,
                     onCenterChange = { center = it },
-                    markers = listOfNotNull(spot?.let { GlobeMarker("spot", it, Color(0xFFE6DCC3)) }),
+                    markers = listOfNotNull(spot?.let { GlobeMarker("spot", it, Color(0xFFFFD36E)) }),
                     onSpotTap = { spot = it },
                     modifier = Modifier.fillMaxWidth(),
                 )
-                Spacer(Modifier.height(8.dp))
-                Text(spot?.let(::formatSpot) ?: "Noch kein Fundort gewählt", color = CardColors.Text, fontSize = 13.sp)
-                Row(Modifier.fillMaxWidth().padding(top = 8.dp), horizontalArrangement = Arrangement.End) {
-                    if (initial != null) TextButton(onClick = { onPick(null) }) { Text("Entfernen") }
-                    TextButton(onClick = onDismiss) { Text("Abbrechen") }
-                    Button(onClick = { onPick(spot) }, enabled = spot != null) { Text("Übernehmen") }
+                Spacer(Modifier.height(Space.s))
+                Text(spot?.let { formatSpot(it, strings) } ?: strings.noSpotChosen, color = AppColors.Text, fontSize = 15.sp)
+                Row(Modifier.fillMaxWidth().padding(top = Space.m), horizontalArrangement = Arrangement.End) {
+                    if (initial != null) TextButton(onClick = { onPick(null) }) { Text(strings.remove) }
+                    TextButton(onClick = onDismiss) { Text(strings.cancel) }
+                    Button(onClick = { onPick(spot) }, enabled = spot != null) { Text(strings.useSpot) }
                 }
             }
         }

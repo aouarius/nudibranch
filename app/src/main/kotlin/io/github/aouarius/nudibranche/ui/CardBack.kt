@@ -46,10 +46,12 @@ import io.github.aouarius.nudibranche.core.LatLon
 import io.github.aouarius.nudibranche.core.Sighting
 import io.github.aouarius.nudibranche.core.Species
 
-private val Paper = Color(0xFF262A31)
-private val Ink = Color(0xFFE6DCC3)
-private val Rule = Color(0x1FFFFFFF)
-private val Handwriting = TextStyle(fontFamily = FontFamily.Cursive, fontSize = 16.sp, color = Ink)
+private val Handwriting = TextStyle(
+    fontFamily = FontFamily.Cursive,
+    fontSize = 18.sp,
+    lineHeight = 22.sp,
+    color = CardColors.Handwriting,
+)
 
 /**
  * Turns a card over around its vertical axis. The front keeps defining the size,
@@ -80,35 +82,35 @@ fun FlippableCard(
 /** The back of a card: same frame as the front, with ruled paper like a logbook page. */
 @Composable
 private fun CardBackFrame(species: Species, content: @Composable ColumnScope.() -> Unit) {
-    val innerShape = RoundedCornerShape(8.dp)
+    val strings = LocalStrings.current
+    val innerShape = RoundedCornerShape(9.dp)
     Box(
         Modifier
             .fillMaxSize()
-            .clip(RoundedCornerShape(12.dp))
+            .clip(RoundedCornerShape(14.dp))
             .background(CardColors.frame(species.rarity))
-            .padding(6.dp),
+            .padding(8.dp),
     ) {
         Column(
             Modifier
                 .fillMaxSize()
                 .clip(innerShape)
-                .background(Paper)
-                .border(1.dp, CardColors.CardBorder, innerShape)
+                .background(CardColors.Paper)
                 .drawBehind {
-                    val step = 24.dp.toPx()
-                    var y = 34.dp.toPx()
+                    val step = 26.dp.toPx()
+                    var y = 44.dp.toPx()
                     while (y < size.height) {
-                        drawLine(Rule, Offset(0f, y), Offset(size.width, y), strokeWidth = 1f)
+                        drawLine(CardColors.Rule, Offset(0f, y), Offset(size.width, y), strokeWidth = 1.5f)
                         y += step
                     }
                 }
-                .padding(10.dp),
+                .padding(horizontal = 14.dp, vertical = 12.dp),
         ) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text("LOGBUCH", color = CardColors.Label, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 2.sp)
-                Text("#%03d".format(species.number), color = CardColors.Label, fontSize = 11.sp)
+                Text(strings.logbook, color = CardColors.Label, fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 2.sp)
+                Text("#%03d".format(species.number), color = CardColors.Label, fontSize = 12.sp)
             }
-            Spacer(Modifier.height(6.dp))
+            Spacer(Modifier.height(Space.s))
             content()
         }
     }
@@ -121,7 +123,7 @@ fun CardBack(species: Species, sightings: List<Sighting>, onEdit: (Sighting) -> 
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState())) {
             sightings.forEach { sighting ->
                 SightingEntry(sighting, onEdit = { onEdit(sighting) })
-                Spacer(Modifier.height(10.dp))
+                Spacer(Modifier.height(Space.m))
             }
         }
     }
@@ -129,28 +131,29 @@ fun CardBack(species: Species, sightings: List<Sighting>, onEdit: (Sighting) -> 
 
 @Composable
 private fun SightingEntry(sighting: Sighting, onEdit: () -> Unit) {
+    val strings = LocalStrings.current
     val dive = sighting.dive
     val facts = listOfNotNull(dive.depthM?.let { "$it m" }, dive.waterTempC?.let { "$it °C" })
     Column(Modifier.fillMaxWidth()) {
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Text(
-                listOfNotNull(formatCardDate(sighting.takenAt), dive.site).joinToString(" · "),
+                listOfNotNull(formatCardDate(sighting.takenAt, strings), dive.site).joinToString(" · "),
                 style = Handwriting,
                 modifier = Modifier.weight(1f),
             )
             Text(
                 "✎",
                 color = CardColors.Label,
-                fontSize = 16.sp,
-                modifier = Modifier.clickable(onClick = onEdit).padding(horizontal = 6.dp),
+                fontSize = 18.sp,
+                modifier = Modifier.clip(RoundedCornerShape(50)).clickable(onClick = onEdit).padding(horizontal = 10.dp, vertical = 4.dp),
             )
         }
         dive.location?.let { Text(it, style = Handwriting) }
-        dive.spot?.let { Text("🌍 ${formatSpot(it)}", style = Handwriting.copy(fontSize = 13.sp)) }
+        dive.spot?.let { Text("🌍 ${formatSpot(it, strings)}", style = Handwriting.copy(fontSize = 15.sp)) }
         if (facts.isNotEmpty()) Text(facts.joinToString(" · "), style = Handwriting)
-        dive.notes?.let { Text(it, style = Handwriting.copy(fontSize = 14.sp)) }
+        dive.notes?.let { Text(it, style = Handwriting.copy(fontSize = 16.sp)) }
         if (dive.isEmpty) {
-            Text("Noch nichts notiert. Tippe auf ✎.", color = CardColors.TextMuted, fontSize = 11.sp)
+            Text(strings.nothingNoted, color = CardColors.Label, fontSize = 12.sp)
         }
     }
 }
@@ -163,8 +166,9 @@ fun CardBackEditor(
     initial: DiveDetails,
     onSave: (DiveDetails) -> Unit,
     onCancel: () -> Unit,
-    cancelLabel: String = "Abbrechen",
+    cancelLabel: String? = null,
 ) {
+    val strings = LocalStrings.current
     var site by rememberSaveable { mutableStateOf(initial.site.orEmpty()) }
     var location by rememberSaveable { mutableStateOf(initial.location.orEmpty()) }
     var depth by rememberSaveable { mutableStateOf(initial.depthM?.toString().orEmpty()) }
@@ -191,30 +195,31 @@ fun CardBackEditor(
     CardBackFrame(species) {
         Column(
             Modifier.weight(1f).verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(6.dp),
+            verticalArrangement = Arrangement.spacedBy(Space.s),
         ) {
-            WrittenField("Tauchplatz", site) { site = it }
-            WrittenField("Ort / Land", location) { location = it }
+            WrittenField(strings.diveSite, site) { site = it }
+            WrittenField(strings.place, location) { location = it }
             Column(Modifier.fillMaxWidth().clickable { pickingSpot = true }) {
-                Text("Fundort", color = CardColors.Label, fontSize = 9.sp, fontWeight = FontWeight.SemiBold)
+                Text(strings.findSpot, color = CardColors.Label, fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
                 Text(
-                    spot?.let { "🌍 ${formatSpot(it)}" } ?: "🌍 Auf dem Globus setzen",
-                    style = if (spot != null) Handwriting else Handwriting.copy(color = CardColors.TextMuted, fontSize = 14.sp),
+                    spot?.let { "🌍 ${formatSpot(it, strings)}" } ?: "🌍 ${strings.setOnGlobe}",
+                    style = if (spot != null) Handwriting else Handwriting.copy(color = CardColors.Label, fontSize = 15.sp),
+                    modifier = Modifier.padding(vertical = 2.dp),
                 )
             }
-            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                WrittenField("Tiefe (m)", depth, number = true, modifier = Modifier.weight(1f)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(Space.m)) {
+                WrittenField(strings.depthMeters, depth, number = true, modifier = Modifier.weight(1f)) {
                     depth = it.filter(Char::isDigit).take(3)
                 }
-                WrittenField("Wasser (°C)", temperature, number = true, modifier = Modifier.weight(1f)) {
+                WrittenField(strings.waterCelsius, temperature, number = true, modifier = Modifier.weight(1f)) {
                     temperature = it.filter { c -> c.isDigit() || c == '-' }.take(3)
                 }
             }
-            WrittenField("Notizen", notes, singleLine = false) { notes = it }
+            WrittenField(strings.notes, notes, singleLine = false) { notes = it }
         }
-        Row(Modifier.fillMaxWidth().padding(top = 6.dp), horizontalArrangement = Arrangement.End) {
-            CardButton(cancelLabel, emphasized = false, onClick = onCancel)
-            CardButton("Speichern", emphasized = true) {
+        Row(Modifier.fillMaxWidth().padding(top = Space.s), horizontalArrangement = Arrangement.End) {
+            CardButton(cancelLabel ?: strings.cancel, emphasized = false, onClick = onCancel)
+            CardButton(strings.save, emphasized = true) {
                 onSave(
                     DiveDetails(
                         site = site.trim().ifEmpty { null },
@@ -242,21 +247,21 @@ private fun WrittenField(
     onChange: (String) -> Unit,
 ) {
     Column(modifier) {
-        Text(label, color = CardColors.Label, fontSize = 9.sp, fontWeight = FontWeight.SemiBold)
+        Text(label, color = CardColors.Label, fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
         BasicTextField(
             value = value,
             onValueChange = onChange,
             singleLine = singleLine,
             minLines = if (singleLine) 1 else 2,
             textStyle = Handwriting,
-            cursorBrush = SolidColor(Ink),
+            cursorBrush = SolidColor(CardColors.Handwriting),
             keyboardOptions = if (number) KeyboardOptions(keyboardType = KeyboardType.Number) else KeyboardOptions.Default,
             modifier = Modifier
                 .fillMaxWidth()
                 .drawBehind {
                     drawLine(CardColors.Label, Offset(0f, size.height), Offset(size.width, size.height), strokeWidth = 1f)
                 }
-                .padding(bottom = 2.dp),
+                .padding(top = 2.dp, bottom = 4.dp),
         )
     }
 }
@@ -265,14 +270,14 @@ private fun WrittenField(
 private fun CardButton(label: String, emphasized: Boolean, onClick: () -> Unit) {
     Text(
         label,
-        color = if (emphasized) Color(0xFF16181D) else CardColors.TextMuted,
-        fontSize = 13.sp,
+        color = if (emphasized) Color.White else CardColors.InkMuted,
+        fontSize = 14.sp,
         fontWeight = FontWeight.Bold,
         modifier = Modifier
             .padding(start = 8.dp)
             .clip(RoundedCornerShape(6.dp))
-            .background(if (emphasized) Ink else Color.Transparent)
+            .background(if (emphasized) CardColors.Handwriting else Color.Transparent)
             .clickable(onClick = onClick)
-            .padding(horizontal = 12.dp, vertical = 6.dp),
+            .padding(horizontal = 14.dp, vertical = 8.dp),
     )
 }
