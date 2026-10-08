@@ -9,6 +9,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.aouarius.nudibranche.core.CardCollection
 import io.github.aouarius.nudibranche.core.DiveDetails
+import io.github.aouarius.nudibranche.core.LandShapes
 import io.github.aouarius.nudibranche.core.PhotoCheckResult
 import io.github.aouarius.nudibranche.core.PhotoChecker
 import io.github.aouarius.nudibranche.core.PhotoProblem
@@ -37,6 +38,11 @@ class CatalogViewModel(app: Application) : AndroidViewModel(app) {
 
     val species: List<Species> =
         SpeciesCatalog.parse(app.assets.open("species.json").bufferedReader().use { it.readText() })
+
+    /** Land outlines for the globe, read once when first needed. */
+    val land: List<DoubleArray> by lazy {
+        LandShapes.parse(app.assets.open("land.json").bufferedReader().use { it.readText() })
+    }
 
     private val store = CollectionStore(File(app.filesDir, "collection.json"))
     private val importer = PhotoImporter(app)
@@ -74,6 +80,7 @@ class CatalogViewModel(app: Application) : AndroidViewModel(app) {
                 takenAt = metadata.takenAt.toString(),
                 unlockedAt = LocalDateTime.now().withNano(0).toString(),
                 cameraModel = metadata.cameraModel,
+                dive = DiveDetails(latitude = state.photo.gps?.latitude, longitude = state.photo.gps?.longitude),
             )
             importState = ImportState.EnterDiveDetails(sighting, species, !collection.isUnlocked(species.id))
         }

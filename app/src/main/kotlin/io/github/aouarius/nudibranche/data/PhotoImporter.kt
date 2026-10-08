@@ -3,6 +3,7 @@ package io.github.aouarius.nudibranche.data
 import android.content.Context
 import android.net.Uri
 import androidx.exifinterface.media.ExifInterface
+import io.github.aouarius.nudibranche.core.LatLon
 import io.github.aouarius.nudibranche.core.PhotoMetadata
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -12,7 +13,8 @@ import java.security.MessageDigest
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class ImportedPhoto(val bytes: ByteArray, val metadata: PhotoMetadata)
+/** [gps] is only set when the photo still carries a location (cameras with GPS, files not stripped by Android). */
+class ImportedPhoto(val bytes: ByteArray, val metadata: PhotoMetadata, val gps: LatLon?)
 
 /** Reads a picked photo, extracts its EXIF data and stores accepted photos in app storage. */
 class PhotoImporter(private val context: Context) {
@@ -32,6 +34,7 @@ class PhotoImporter(private val context: Context) {
                 software = exif.getAttribute(ExifInterface.TAG_SOFTWARE),
                 contentHash = sha256(bytes),
             ),
+            gps = exif.latLong?.let { LatLon(it[0], it[1]) },
         )
     }
 

@@ -11,9 +11,16 @@ data class DiveDetails(
     val depthM: Int? = null,
     val waterTempC: Int? = null,
     val notes: String? = null,
+    val latitude: Double? = null,
+    val longitude: Double? = null,
 ) {
     val isEmpty: Boolean
-        get() = site == null && location == null && depthM == null && waterTempC == null && notes == null
+        get() = site == null && location == null && depthM == null && waterTempC == null && notes == null &&
+            spot == null
+
+    /** Where the find was made, when the diver set it. */
+    val spot: LatLon?
+        get() = if (latitude != null && longitude != null) LatLon(latitude, longitude) else null
 }
 
 /** One accepted photo of a species. Dates are ISO-8601 local date-times. */

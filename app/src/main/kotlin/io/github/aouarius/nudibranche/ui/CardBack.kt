@@ -42,6 +42,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.github.aouarius.nudibranche.core.DiveDetails
+import io.github.aouarius.nudibranche.core.LatLon
 import io.github.aouarius.nudibranche.core.Sighting
 import io.github.aouarius.nudibranche.core.Species
 
@@ -145,6 +146,7 @@ private fun SightingEntry(sighting: Sighting, onEdit: () -> Unit) {
             )
         }
         dive.location?.let { Text(it, style = Handwriting) }
+        dive.spot?.let { Text("🌍 ${formatSpot(it)}", style = Handwriting.copy(fontSize = 13.sp)) }
         if (facts.isNotEmpty()) Text(facts.joinToString(" · "), style = Handwriting)
         dive.notes?.let { Text(it, style = Handwriting.copy(fontSize = 14.sp)) }
         if (dive.isEmpty) {
@@ -157,6 +159,7 @@ private fun SightingEntry(sighting: Sighting, onEdit: () -> Unit) {
 @Composable
 fun CardBackEditor(
     species: Species,
+    land: List<DoubleArray>,
     initial: DiveDetails,
     onSave: (DiveDetails) -> Unit,
     onCancel: () -> Unit,
@@ -167,6 +170,23 @@ fun CardBackEditor(
     var depth by rememberSaveable { mutableStateOf(initial.depthM?.toString().orEmpty()) }
     var temperature by rememberSaveable { mutableStateOf(initial.waterTempC?.toString().orEmpty()) }
     var notes by rememberSaveable { mutableStateOf(initial.notes.orEmpty()) }
+    var latitude by rememberSaveable { mutableStateOf(initial.latitude) }
+    var longitude by rememberSaveable { mutableStateOf(initial.longitude) }
+    var pickingSpot by rememberSaveable { mutableStateOf(false) }
+    val spot = if (latitude != null && longitude != null) LatLon(latitude!!, longitude!!) else null
+
+    if (pickingSpot) {
+        SpotPickerDialog(
+            land = land,
+            initial = spot,
+            onPick = {
+                latitude = it?.latitude
+                longitude = it?.longitude
+                pickingSpot = false
+            },
+            onDismiss = { pickingSpot = false },
+        )
+    }
 
     CardBackFrame(species) {
         Column(
@@ -175,6 +195,13 @@ fun CardBackEditor(
         ) {
             WrittenField("Tauchplatz", site) { site = it }
             WrittenField("Ort / Land", location) { location = it }
+            Column(Modifier.fillMaxWidth().clickable { pickingSpot = true }) {
+                Text("Fundort", color = CardColors.Label, fontSize = 9.sp, fontWeight = FontWeight.SemiBold)
+                Text(
+                    spot?.let { "🌍 ${formatSpot(it)}" } ?: "🌍 Auf dem Globus setzen",
+                    style = if (spot != null) Handwriting else Handwriting.copy(color = CardColors.TextMuted, fontSize = 14.sp),
+                )
+            }
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 WrittenField("Tiefe (m)", depth, number = true, modifier = Modifier.weight(1f)) {
                     depth = it.filter(Char::isDigit).take(3)
@@ -195,6 +222,8 @@ fun CardBackEditor(
                         depthM = depth.toIntOrNull(),
                         waterTempC = temperature.toIntOrNull(),
                         notes = notes.trim().ifEmpty { null },
+                        latitude = spot?.latitude,
+                        longitude = spot?.longitude,
                     ),
                 )
             }

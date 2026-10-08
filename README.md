@@ -10,6 +10,7 @@ Der Plan steht in [docs/plan.md](docs/plan.md).
 
 - `core/`: reine Kotlin-Logik ohne Android (Artenliste, Fotoprüfung, Sammlung) mit Unit-Tests.
 - `app/`: die Android-App (Jetpack Compose).
+- `app/src/main/assets/land.json`: Landumrisse für den Globus, aus [Natural Earth](https://www.naturalearthdata.com) (gemeinfrei, 1:110 Mio.).
 - `app/src/main/assets/species.json`: die Artenliste. Die Angaben zu Größe, Tiefe, Nahrung und Lebensraum sind vorläufig und müssen noch gegen eine Artdatenbank geprüft werden.
 
 ## Bauen

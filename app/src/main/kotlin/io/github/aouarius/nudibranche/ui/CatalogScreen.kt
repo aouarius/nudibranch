@@ -34,6 +34,7 @@ import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -65,6 +66,7 @@ fun CatalogScreen(viewModel: CatalogViewModel = viewModel()) {
     val collection = viewModel.collection
     var region by rememberSaveable { mutableStateOf<Region?>(null) }
     var detailId by rememberSaveable { mutableStateOf<String?>(null) }
+    var showGlobe by rememberSaveable { mutableStateOf(false) }
     val picker = rememberLauncherForActivityResult(PickVisualMedia()) { uri ->
         if (uri != null) viewModel.onPhotoPicked(uri)
     }
@@ -81,13 +83,19 @@ fun CatalogScreen(viewModel: CatalogViewModel = viewModel()) {
         },
     ) { padding ->
         Column(Modifier.padding(padding)) {
-            Column(Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
-                Text("Nudibranche", color = CardColors.Text, fontSize = 24.sp, fontWeight = FontWeight.Bold)
-                Text(
-                    "${collection.unlockedCount()} von ${viewModel.species.size} Karten gefunden",
-                    color = CardColors.TextMuted,
-                    fontSize = 13.sp,
-                )
+            Row(
+                Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Column(Modifier.weight(1f)) {
+                    Text("Nudibranche", color = CardColors.Text, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                    Text(
+                        "${collection.unlockedCount()} von ${viewModel.species.size} Karten gefunden",
+                        color = CardColors.TextMuted,
+                        fontSize = 13.sp,
+                    )
+                }
+                OutlinedButton(onClick = { showGlobe = true }) { Text("🌍 Fundorte") }
             }
             RegionFilter(selected = region, onSelect = { region = it })
             LazyVerticalGrid(
@@ -113,6 +121,9 @@ fun CatalogScreen(viewModel: CatalogViewModel = viewModel()) {
             viewModel = viewModel,
             onDismiss = { detailId = null },
         )
+    }
+    if (showGlobe) {
+        FindsGlobeDialog(viewModel, onDismiss = { showGlobe = false })
     }
     ImportDialogs(viewModel)
 }
@@ -154,6 +165,7 @@ private fun CardDetailDialog(species: Species, viewModel: CatalogViewModel, onDi
                     if (edited != null) {
                         CardBackEditor(
                             species = species,
+                            land = viewModel.land,
                             initial = edited.dive,
                             onSave = {
                                 viewModel.updateDive(edited, it)
@@ -183,7 +195,11 @@ private fun CardDetailDialog(species: Species, viewModel: CatalogViewModel, onDi
 }
 
 @Composable
-private fun WriteOnBackDialog(state: ImportState.EnterDiveDetails, onSave: (DiveDetails) -> Unit) {
+private fun WriteOnBackDialog(
+    state: ImportState.EnterDiveDetails,
+    land: List<DoubleArray>,
+    onSave: (DiveDetails) -> Unit,
+) {
     var flipped by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
         delay(900)
@@ -205,7 +221,8 @@ private fun WriteOnBackDialog(state: ImportState.EnterDiveDetails, onSave: (Dive
                 back = {
                     CardBackEditor(
                         species = state.species,
-                        initial = DiveDetails(),
+                        land = land,
+                        initial = state.sighting.dive,
                         onSave = onSave,
                         onCancel = { onSave(DiveDetails()) },
                         cancelLabel = "Überspringen",
@@ -234,7 +251,7 @@ private fun ImportDialogs(viewModel: CatalogViewModel) {
             onChoose = viewModel::onSpeciesChosen,
             onDismiss = viewModel::dismissImport,
         )
-        is ImportState.EnterDiveDetails -> WriteOnBackDialog(state, onSave = viewModel::onDiveDetailsEntered)
+        is ImportState.EnterDiveDetails -> WriteOnBackDialog(state, viewModel.land, onSave = viewModel::onDiveDetailsEntered)
         is ImportState.Rejected -> AlertDialog(
             onDismissRequest = viewModel::dismissImport,
             title = { Text("Foto nicht akzeptiert") },
