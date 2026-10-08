@@ -43,4 +43,17 @@ class PhotoCheckerTest {
     fun reusedPhotoIsRejected() {
         assertEquals(listOf(PhotoProblem.ALREADY_USED), problems(goodPhoto, used = setOf("abc")))
     }
+
+    @Test
+    fun withoutAntiCheatOnlyDuplicatesAreRejected() {
+        val screenshot = PhotoMetadata(null, null, null, "Screenshot", "hash")
+        assertEquals(
+            PhotoCheckResult.Accepted,
+            PhotoChecker.check(screenshot, LocalDateTime.of(2026, 1, 1, 0, 0), emptySet(), antiCheat = false),
+        )
+        assertEquals(
+            PhotoCheckResult.Rejected(listOf(PhotoProblem.ALREADY_USED)),
+            PhotoChecker.check(screenshot, LocalDateTime.of(2026, 1, 1, 0, 0), setOf("hash"), antiCheat = false),
+        )
+    }
 }

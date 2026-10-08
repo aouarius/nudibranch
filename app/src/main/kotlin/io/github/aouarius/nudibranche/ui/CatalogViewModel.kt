@@ -61,6 +61,14 @@ class CatalogViewModel(app: Application) : AndroidViewModel(app) {
         settings.edit().putString("language", newLanguage.name).apply()
     }
 
+    private companion object {
+        /**
+         * Date, camera and screenshot checks are switched off for now (Alex, 2026-10-08):
+         * cheating only spoils it for the cheater. Set to true to bring them back.
+         */
+        const val PHOTO_ANTI_CHEAT = false
+    }
+
     private val store = CollectionStore(File(app.filesDir, "collection.json"))
     private val importer = PhotoImporter(app)
 
@@ -75,7 +83,13 @@ class CatalogViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch {
             importState = try {
                 val photo = importer.read(uri)
-                when (val result = PhotoChecker.check(photo.metadata, LocalDateTime.now(), collection.usedHashes)) {
+                val result = PhotoChecker.check(
+                    photo.metadata,
+                    LocalDateTime.now(),
+                    collection.usedHashes,
+                    antiCheat = PHOTO_ANTI_CHEAT,
+                )
+                when (result) {
                     PhotoCheckResult.Accepted -> ImportState.ChooseSpecies(photo)
                     is PhotoCheckResult.Rejected -> ImportState.Rejected(result.problems)
                 }
@@ -94,7 +108,7 @@ class CatalogViewModel(app: Application) : AndroidViewModel(app) {
                 speciesId = species.id,
                 photoPath = importer.save(state.photo),
                 photoHash = metadata.contentHash,
-                takenAt = metadata.takenAt.toString(),
+                takenAt = (metadata.takenAt ?: LocalDateTime.now().withNano(0)).toString(),
                 unlockedAt = LocalDateTime.now().withNano(0).toString(),
                 cameraModel = metadata.cameraModel,
                 dive = DiveDetails(latitude = state.photo.gps?.latitude, longitude = state.photo.gps?.longitude),

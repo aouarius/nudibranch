@@ -22,20 +22,25 @@ object PhotoChecker {
     /** Allows for time zone differences between the camera clock and the phone. */
     private const val FUTURE_TOLERANCE_HOURS = 24L
 
+    /**
+     * With [antiCheat] off only the duplicate check remains: the same file twice
+     * would clash in the collection, which keys sightings by photo hash.
+     */
     fun check(
         photo: PhotoMetadata,
         now: LocalDateTime,
         usedHashes: Set<String>,
+        antiCheat: Boolean = true,
     ): PhotoCheckResult {
         val problems = buildList {
-            when {
+            if (antiCheat) when {
                 photo.takenAt == null -> add(PhotoProblem.NO_DATE)
                 photo.takenAt.isAfter(now.plusHours(FUTURE_TOLERANCE_HOURS)) -> add(PhotoProblem.FUTURE_DATE)
             }
-            if (photo.cameraMake.isNullOrBlank() && photo.cameraModel.isNullOrBlank()) {
+            if (antiCheat && photo.cameraMake.isNullOrBlank() && photo.cameraModel.isNullOrBlank()) {
                 add(PhotoProblem.NO_CAMERA)
             }
-            if (photo.software?.contains("screenshot", ignoreCase = true) == true) {
+            if (antiCheat && photo.software?.contains("screenshot", ignoreCase = true) == true) {
                 add(PhotoProblem.SCREENSHOT)
             }
             if (photo.contentHash in usedHashes) {
