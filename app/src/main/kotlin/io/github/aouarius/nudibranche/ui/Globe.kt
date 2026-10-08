@@ -1,17 +1,23 @@
 package io.github.aouarius.nudibranche.ui
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.input.pointer.pointerInput
 import io.github.aouarius.nudibranche.core.LatLon
 import io.github.aouarius.nudibranche.core.Orthographic
@@ -25,10 +31,11 @@ private val OceanDark = Color(0xFF0A2233)
 private val LandFill = Color(0xFF3A4250)
 private val LandEdge = Color(0xFF0C0E12)
 private val Rim = Color(0xFF5B8FD6)
+private const val MaxZoom = 6f
 
 /**
- * A globe that turns when dragged. Tapping a marker reports its id; tapping elsewhere
- * on the globe reports that spot.
+ * A globe that turns when dragged and zooms with two fingers or a double tap.
+ * Tapping a marker reports its id; tapping elsewhere on the globe reports that spot.
  */
 @Composable
 fun Globe(
@@ -42,13 +49,14 @@ fun Globe(
 ) {
     val currentCenter = rememberUpdatedState(center)
     val currentMarkers = rememberUpdatedState(markers)
+    var zoom by remember { mutableFloatStateOf(1f) }
     Canvas(
         modifier
             .aspectRatio(1f)
             .pointerInput(Unit) {
-                detectDragGestures { change, drag ->
-                    change.consume()
-                    val radius = min(size.width, size.height) / 2f
+                detectTransformGestures { _, drag, zoomChange, _ ->
+                    zoom = (zoom * zoomChange).coerceIn(1f, MaxZoom)
+                    val radius = min(size.width, size.height) / 2f * zoom
                     val degreesPerPixel = Math.toDegrees(1.0 / radius)
                     val c = currentCenter.value
                     onCenterChange(
@@ -60,8 +68,10 @@ fun Globe(
                 }
             }
             .pointerInput(Unit) {
-                detectTapGestures { tap ->
-                    val radius = min(size.width, size.height) / 2f
+                detectTapGestures(
+                    onDoubleTap = { zoom = if (zoom < MaxZoom / 2f) zoom * 2.5f else 1f },
+                ) { tap ->
+                    val radius = min(size.width, size.height) / 2f * zoom
                     val mid = Offset(size.width / 2f, size.height / 2f)
                     val c = currentCenter.value
                     val hit = currentMarkers.value.firstOrNull { marker ->
@@ -80,51 +90,60 @@ fun Globe(
                 }
             },
     ) {
-        val radius = min(size.width, size.height) / 2f
+        val radius = min(size.width, size.height) / 2f * zoom
         val mid = Offset(size.width / 2f, size.height / 2f)
+        clipRect { drawGlobe(land, center, markers, radius, mid) }
+    }
+}
 
-        drawCircle(
-            Brush.radialGradient(listOf(OceanLight, OceanDark), center = mid - Offset(radius * 0.3f, radius * 0.3f), radius = radius * 1.4f),
-            radius = radius,
-            center = mid,
-        )
+private fun DrawScope.drawGlobe(
+    land: List<DoubleArray>,
+    center: LatLon,
+    markers: List<GlobeMarker>,
+    radius: Float,
+    mid: Offset,
+) {
+    drawCircle(
+        Brush.radialGradient(listOf(OceanLight, OceanDark), center = mid - Offset(radius * 0.3f, radius * 0.3f), radius = radius * 1.4f),
+        radius = radius,
+        center = mid,
+    )
 
-        // Points on the far side are pulled onto the rim, so shapes that cross it stay closed.
-        land.forEach { ring ->
-            val path = Path()
-            var anyVisible = false
-            var i = 0
-            while (i < ring.size) {
-                val p = Orthographic.project(LatLon(ring[i + 1], ring[i]), center)
-                var x = p.x
-                var y = p.y
-                if (!p.visible) {
-                    val length = hypot(x, y).coerceAtLeast(1e-9)
-                    x /= length
-                    y /= length
-                } else {
-                    anyVisible = true
-                }
-                val point = Offset(mid.x + (x * radius).toFloat(), mid.y - (y * radius).toFloat())
-                if (i == 0) path.moveTo(point.x, point.y) else path.lineTo(point.x, point.y)
-                i += 2
+    // Points on the far side are pulled onto the rim, so shapes that cross it stay closed.
+    land.forEach { ring ->
+        val path = Path()
+        var anyVisible = false
+        var i = 0
+        while (i < ring.size) {
+            val p = Orthographic.project(LatLon(ring[i + 1], ring[i]), center)
+            var x = p.x
+            var y = p.y
+            if (!p.visible) {
+                val length = hypot(x, y).coerceAtLeast(1e-9)
+                x /= length
+                y /= length
+            } else {
+                anyVisible = true
             }
-            if (anyVisible) {
-                path.close()
-                drawPath(path, LandFill)
-                drawPath(path, LandEdge, style = Stroke(width = 1.2f))
-            }
+            val point = Offset(mid.x + (x * radius).toFloat(), mid.y - (y * radius).toFloat())
+            if (i == 0) path.moveTo(point.x, point.y) else path.lineTo(point.x, point.y)
+            i += 2
         }
+        if (anyVisible) {
+            path.close()
+            drawPath(path, LandFill)
+            drawPath(path, LandEdge, style = Stroke(width = 1.2f))
+        }
+    }
 
-        drawCircle(Rim, radius = radius, center = mid, style = Stroke(width = 2f))
+    drawCircle(Rim, radius = radius, center = mid, style = Stroke(width = 2f))
 
-        markers.forEach { marker ->
-            val p = Orthographic.project(marker.position, center)
-            if (p.visible) {
-                val point = Offset(mid.x + (p.x * radius).toFloat(), mid.y - (p.y * radius).toFloat())
-                drawCircle(Color(0xFF0C0E12), radius = 9f, center = point)
-                drawCircle(marker.color, radius = 6.5f, center = point)
-            }
+    markers.forEach { marker ->
+        val p = Orthographic.project(marker.position, center)
+        if (p.visible) {
+            val point = Offset(mid.x + (p.x * radius).toFloat(), mid.y - (p.y * radius).toFloat())
+            drawCircle(Color(0xFF0C0E12), radius = 9f, center = point)
+            drawCircle(marker.color, radius = 6.5f, center = point)
         }
     }
 }

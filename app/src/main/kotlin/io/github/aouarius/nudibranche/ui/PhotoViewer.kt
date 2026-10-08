@@ -1,5 +1,6 @@
 package io.github.aouarius.nudibranche.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.rememberTransformableState
@@ -187,6 +188,7 @@ fun PhotoViewer(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class) // transformable(canPan = ...)
 @Composable
 private fun ZoomablePhoto(sighting: Sighting, description: String, onZoomChange: (Boolean) -> Unit) {
     var scale by remember { mutableFloatStateOf(1f) }
