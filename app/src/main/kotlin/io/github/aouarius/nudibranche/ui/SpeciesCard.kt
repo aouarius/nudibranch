@@ -97,7 +97,7 @@ fun SpeciesCard(species: Species, sighting: Sighting?, modifier: Modifier = Modi
             HorizontalDivider(Modifier.padding(top = 6.dp, bottom = 4.dp), color = CardColors.CardBorder)
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(
-                    text = if (sighting != null) "📷 ${formatDate(sighting.takenAt)}" else "Tauche, um sie zu finden",
+                    text = if (sighting != null) "📷 ${formatCardDate(sighting.takenAt).orEmpty()}" else "Tauche, um sie zu finden",
                     color = CardColors.Label,
                     fontSize = 9.sp,
                     maxLines = 1,
@@ -194,5 +194,5 @@ private fun depthText(species: Species): String =
 
 private val CARD_DATE: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
 
-private fun formatDate(isoDateTime: String): String =
-    runCatching { LocalDateTime.parse(isoDateTime).format(CARD_DATE) }.getOrDefault("")
+fun formatCardDate(isoDateTime: String): String? =
+    runCatching { LocalDateTime.parse(isoDateTime).format(CARD_DATE) }.getOrNull()

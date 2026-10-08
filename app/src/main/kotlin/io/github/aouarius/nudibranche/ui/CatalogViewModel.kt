@@ -8,6 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.aouarius.nudibranche.core.CardCollection
+import io.github.aouarius.nudibranche.core.DiveDetails
 import io.github.aouarius.nudibranche.core.PhotoCheckResult
 import io.github.aouarius.nudibranche.core.PhotoChecker
 import io.github.aouarius.nudibranche.core.PhotoProblem
@@ -25,6 +26,8 @@ sealed interface ImportState {
     data object Idle : ImportState
     data object Checking : ImportState
     class ChooseSpecies(val photo: ImportedPhoto) : ImportState
+    /** The photo is stored; the card turns over so the diver can write on its back. */
+    data class EnterDiveDetails(val sighting: Sighting, val species: Species, val firstFind: Boolean) : ImportState
     data class Rejected(val problems: List<PhotoProblem>) : ImportState
     data class Failed(val message: String) : ImportState
     data class Unlocked(val species: Species, val firstFind: Boolean) : ImportState
@@ -63,22 +66,29 @@ class CatalogViewModel(app: Application) : AndroidViewModel(app) {
     fun onSpeciesChosen(species: Species) {
         val state = importState as? ImportState.ChooseSpecies ?: return
         viewModelScope.launch {
-            val firstFind = !collection.isUnlocked(species.id)
             val metadata = state.photo.metadata
-            val path = importer.save(state.photo)
-            collection = collection.add(
-                Sighting(
-                    speciesId = species.id,
-                    photoPath = path,
-                    photoHash = metadata.contentHash,
-                    takenAt = metadata.takenAt.toString(),
-                    unlockedAt = LocalDateTime.now().withNano(0).toString(),
-                    cameraModel = metadata.cameraModel,
-                ),
+            val sighting = Sighting(
+                speciesId = species.id,
+                photoPath = importer.save(state.photo),
+                photoHash = metadata.contentHash,
+                takenAt = metadata.takenAt.toString(),
+                unlockedAt = LocalDateTime.now().withNano(0).toString(),
+                cameraModel = metadata.cameraModel,
             )
-            store.save(collection)
-            importState = ImportState.Unlocked(species, firstFind)
+            importState = ImportState.EnterDiveDetails(sighting, species, !collection.isUnlocked(species.id))
         }
+    }
+
+    fun onDiveDetailsEntered(dive: DiveDetails) {
+        val state = importState as? ImportState.EnterDiveDetails ?: return
+        collection = collection.add(state.sighting.copy(dive = dive))
+        importState = ImportState.Unlocked(state.species, state.firstFind)
+        viewModelScope.launch { store.save(collection) }
+    }
+
+    fun updateDive(sighting: Sighting, dive: DiveDetails) {
+        collection = collection.updateDive(sighting.photoHash, dive)
+        viewModelScope.launch { store.save(collection) }
     }
 
     fun dismissImport() {

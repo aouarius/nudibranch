@@ -41,4 +41,22 @@ class CardCollectionTest {
         val collection = CardCollection().add(sighting("a", "h1"))
         assertEquals(collection, CardCollection.decode(collection.encode()))
     }
+
+    @Test
+    fun diveDetailsAreSavedAndOldFilesStillLoad() {
+        val dive = DiveDetails(site = "Grotta Azzurra", location = "Elba", depthM = 18, waterTempC = 21, notes = "Auf Schwamm")
+        val collection = CardCollection().add(sighting("a", "h1").copy(dive = dive))
+        assertEquals(dive, CardCollection.decode(collection.encode()).sightings.single().dive)
+
+        val oldFile = """{"sightings":[{"speciesId":"a","photoPath":"p","photoHash":"h","takenAt":"t","unlockedAt":"u"}]}"""
+        assertTrue(CardCollection.decode(oldFile).sightings.single().dive.isEmpty)
+    }
+
+    @Test
+    fun diveNotesCanBeEditedLater() {
+        val collection = CardCollection().add(sighting("a", "h1")).add(sighting("a", "h2"))
+        val updated = collection.updateDive("h2", DiveDetails(site = "Punta Fetovaia"))
+        assertEquals("Punta Fetovaia", updated.sightingsOf("a")[1].dive.site)
+        assertTrue(updated.sightingsOf("a")[0].dive.isEmpty)
+    }
 }

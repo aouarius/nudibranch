@@ -40,6 +40,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,7 +54,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.delay
+import io.github.aouarius.nudibranche.core.DiveDetails
 import io.github.aouarius.nudibranche.core.Region
+import io.github.aouarius.nudibranche.core.Sighting
 import io.github.aouarius.nudibranche.core.Species
 
 @Composable
@@ -134,19 +138,80 @@ private fun RegionFilter(selected: Region?, onSelect: (Region?) -> Unit) {
 
 @Composable
 private fun CardDetailDialog(species: Species, viewModel: CatalogViewModel, onDismiss: () -> Unit) {
-    val collection = viewModel.collection
+    val sightings = viewModel.collection.sightingsOf(species.id)
+    var flipped by remember { mutableStateOf(false) }
+    var editing by remember { mutableStateOf<Sighting?>(null) }
     Dialog(onDismissRequest = onDismiss) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            SpeciesCard(species, collection.firstSighting(species.id), Modifier.width(300.dp))
-            val count = collection.sightingCount(species.id)
-            if (count > 0) {
-                Spacer(Modifier.height(8.dp))
+            FlippableCard(
+                flipped = flipped,
+                modifier = Modifier
+                    .width(300.dp)
+                    .clickable(enabled = sightings.isNotEmpty() && editing == null) { flipped = !flipped },
+                front = { SpeciesCard(species, sightings.firstOrNull()) },
+                back = {
+                    val edited = editing
+                    if (edited != null) {
+                        CardBackEditor(
+                            species = species,
+                            initial = edited.dive,
+                            onSave = {
+                                viewModel.updateDive(edited, it)
+                                editing = null
+                            },
+                            onCancel = { editing = null },
+                        )
+                    } else {
+                        CardBack(species, sightings, onEdit = { editing = it })
+                    }
+                },
+            )
+            if (sightings.isNotEmpty()) {
+                Spacer(Modifier.height(10.dp))
                 Text(
-                    if (count == 1) "1 Sichtung" else "$count Sichtungen",
+                    when {
+                        editing != null -> "Schreib deinen Tauchgang auf die Rückseite"
+                        flipped -> "Tippen, um die Karte umzudrehen"
+                        else -> "Tippen für das Logbuch auf der Rückseite"
+                    },
                     color = CardColors.TextMuted,
                     fontSize = 13.sp,
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun WriteOnBackDialog(state: ImportState.EnterDiveDetails, onSave: (DiveDetails) -> Unit) {
+    var flipped by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) {
+        delay(900)
+        flipped = true
+    }
+    Dialog(onDismissRequest = { onSave(DiveDetails()) }) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(
+                if (flipped) "Schreib deinen Tauchgang auf die Rückseite" else "Deine Karte",
+                color = CardColors.Text,
+                fontSize = 17.sp,
+                fontWeight = FontWeight.Bold,
+            )
+            Spacer(Modifier.height(12.dp))
+            FlippableCard(
+                flipped = flipped,
+                modifier = Modifier.width(300.dp),
+                front = { SpeciesCard(state.species, state.sighting) },
+                back = {
+                    CardBackEditor(
+                        species = state.species,
+                        initial = DiveDetails(),
+                        onSave = onSave,
+                        onCancel = { onSave(DiveDetails()) },
+                        cancelLabel = "Überspringen",
+                    )
+                },
+            )
         }
     }
 }
@@ -169,6 +234,7 @@ private fun ImportDialogs(viewModel: CatalogViewModel) {
             onChoose = viewModel::onSpeciesChosen,
             onDismiss = viewModel::dismissImport,
         )
+        is ImportState.EnterDiveDetails -> WriteOnBackDialog(state, onSave = viewModel::onDiveDetailsEntered)
         is ImportState.Rejected -> AlertDialog(
             onDismissRequest = viewModel::dismissImport,
             title = { Text("Foto nicht akzeptiert") },
