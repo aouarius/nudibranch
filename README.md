@@ -12,6 +12,8 @@ Der Plan steht in [docs/plan.md](docs/plan.md).
 - `app/`: die Android-App (Jetpack Compose).
 - `app/src/main/assets/land.json`: Landumrisse für den Globus, aus [Natural Earth](https://www.naturalearthdata.com) (gemeinfrei, 1:110 Mio.).
 - `app/src/main/assets/species.json`: die Artenliste. Die Angaben zu Größe, Tiefe, Nahrung und Lebensraum sind vorläufig und müssen noch gegen eine Artdatenbank geprüft werden.
+- `app/src/main/assets/species_photos/`: ein Referenzfoto pro Art für die Bibliothek, von [iNaturalist](https://www.inaturalist.org) unter CC0, CC BY oder CC BY-SA. Urheber, Lizenz und Quelle stehen pro Art in `species.json` und werden in der App angezeigt.
+- `tools/fetch_species_photos.py`: holt Fotokandidaten für neue Arten. Läuft über den Workflow „Fetch species photos“ (Push auf den Branch `fetch-species-photos`), der die Kandidaten zum Aussuchen auf diesen Branch committet.
 
 ## Bauen
 

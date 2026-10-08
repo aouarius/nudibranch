@@ -2,12 +2,15 @@ package io.github.aouarius.nudibranche.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -36,14 +39,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import coil.compose.AsyncImage
 import io.github.aouarius.nudibranche.core.Region
 import io.github.aouarius.nudibranche.core.Species
+import io.github.aouarius.nudibranche.core.SpeciesPhoto
 
 /** Reference page with every species, found or not. The collection stays the main page. */
 @Composable
@@ -111,6 +118,39 @@ private fun NumberBadge(species: Species) {
     }
 }
 
+private fun SpeciesPhoto.assetUri() = "file:///android_asset/species_photos/$file"
+
+/** Reference photo with the species number on a small rarity-colored tag. */
+@Composable
+private fun SpeciesThumbnail(species: Species) {
+    val photo = species.photo ?: return NumberBadge(species)
+    Box(
+        Modifier
+            .size(64.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(AppColors.Border),
+    ) {
+        AsyncImage(
+            model = photo.assetUri(),
+            contentDescription = species.latinName,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.matchParentSize(),
+        )
+        Text(
+            "#%03d".format(species.number),
+            color = Color.White,
+            fontSize = 10.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(3.dp)
+                .clip(RoundedCornerShape(50))
+                .background(CardColors.tag(species.rarity))
+                .padding(horizontal = 5.dp, vertical = 1.dp),
+        )
+    }
+}
+
 @Composable
 private fun LibraryRow(species: Species, found: Boolean, onClick: () -> Unit) {
     val strings = LocalStrings.current
@@ -123,7 +163,7 @@ private fun LibraryRow(species: Species, found: Boolean, onClick: () -> Unit) {
             .padding(Space.m),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        NumberBadge(species)
+        SpeciesThumbnail(species)
         Spacer(Modifier.width(Space.m))
         Column(Modifier.weight(1f)) {
             Text(
@@ -167,7 +207,15 @@ private fun LibraryDetailDialog(species: Species, viewModel: CatalogViewModel, o
     val first = viewModel.collection.firstSighting(species.id)
     Dialog(onDismissRequest = onDismiss) {
         Surface(shape = RoundedCornerShape(20.dp), color = AppColors.Surface) {
-            Column(Modifier.padding(Space.xl)) {
+            Column(
+                Modifier
+                    .verticalScroll(rememberScrollState())
+                    .padding(Space.xl),
+            ) {
+                species.photo?.let { photo ->
+                    LibraryPhoto(species, photo)
+                    Spacer(Modifier.height(Space.l))
+                }
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     NumberBadge(species)
                     Spacer(Modifier.width(Space.m))
@@ -202,6 +250,34 @@ private fun LibraryDetailDialog(species: Species, viewModel: CatalogViewModel, o
                 TextButton(onClick = onDismiss, modifier = Modifier.align(Alignment.End)) { Text(strings.close) }
             }
         }
+    }
+}
+
+@Composable
+private fun LibraryPhoto(species: Species, photo: SpeciesPhoto) {
+    val uriHandler = LocalUriHandler.current
+    Column {
+        AsyncImage(
+            model = photo.assetUri(),
+            contentDescription = species.latinName,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(4f / 3f)
+                .clip(RoundedCornerShape(14.dp))
+                .background(AppColors.Border),
+        )
+        Text(
+            photo.credit,
+            color = AppColors.TextMuted,
+            fontSize = 11.sp,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier
+                .align(Alignment.End)
+                .clickable { uriHandler.openUri(photo.source) }
+                .padding(top = Space.xs),
+        )
     }
 }
 

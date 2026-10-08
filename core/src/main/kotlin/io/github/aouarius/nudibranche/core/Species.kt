@@ -42,6 +42,7 @@ data class Species(
     val foodEn: String,
     val habitat: String,
     val habitatEn: String,
+    val photo: SpeciesPhoto? = null,
 ) {
     /** Name shown on the card: the common name when one is established, else the Latin name. */
     fun name(language: Language): String =
@@ -50,4 +51,17 @@ data class Species(
     fun food(language: Language): String = if (language == Language.DE) food else foodEn
 
     fun habitat(language: Language): String = if (language == Language.DE) habitat else habitatEn
+}
+
+/** Reference photo bundled in assets/species_photos, with the credit its license asks for. */
+@Serializable
+data class SpeciesPhoto(
+    val file: String,
+    val author: String? = null,
+    val license: String,
+    val source: String,
+) {
+    /** For example "© Yves Bas · CC BY · iNaturalist". */
+    val credit: String
+        get() = listOfNotNull(author?.let { "© $it" }, license, "iNaturalist").joinToString(" · ")
 }
