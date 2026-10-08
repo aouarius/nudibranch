@@ -72,7 +72,8 @@ private val Large = CardMetrics(
 )
 
 /**
- * A collectible card. Without a sighting it shows the locked side with only a habitat hint.
+ * A collectible card. Without a sighting it shows the locked side: only the picture and
+ * the region where the species lives.
  * [compact] is the grid tile: name, picture, rarity, size and depth; the large card shows everything.
  */
 @Composable
@@ -102,30 +103,32 @@ fun SpeciesCard(
                 .background(if (unlocked) CardColors.Paper else CardColors.LockedPaper)
                 .padding(m.inner),
         ) {
-            Text(
-                text = if (unlocked) species.name(language) else "???",
-                color = ink,
-                fontWeight = FontWeight.Bold,
-                fontSize = m.name,
-                lineHeight = m.name * 1.15f,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-            Text(
-                text = if (unlocked) species.latinName else strings.notDiscovered,
-                color = if (unlocked) CardColors.InkMuted else CardColors.LockedText,
-                fontStyle = FontStyle.Italic,
-                fontSize = m.latin,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-            Spacer(Modifier.height(m.gap))
+            if (unlocked) {
+                Text(
+                    text = species.name(language),
+                    color = ink,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = m.name,
+                    lineHeight = m.name * 1.15f,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                Text(
+                    text = species.latinName,
+                    color = CardColors.InkMuted,
+                    fontStyle = FontStyle.Italic,
+                    fontSize = m.latin,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                Spacer(Modifier.height(m.gap))
+            }
             CardArt(species, sighting)
             Spacer(Modifier.height(m.gap))
             RarityTag(species, unlocked, m.tag)
             Spacer(Modifier.height(m.gap * 0.6f))
             when {
-                sighting == null -> StatRow(strings.habitat, species.habitat(language), m, ink)
+                sighting == null -> Unit
                 compact -> {
                     StatRow(strings.size, strings.upTo(species.maxSizeCm), m, ink)
                     StatRow(strings.depth, depthText(species, strings), m, ink)
@@ -221,7 +224,7 @@ private fun RarityTag(species: Species, unlocked: Boolean, size: TextUnit) {
             species.region.label(language),
         ).joinToString(" · ")
     } else {
-        "? · ${species.region.label(language)}"
+        "📍 ${species.region.label(language)}"
     }
     Text(
         text = label,

@@ -19,7 +19,6 @@ interface Strings {
     val showFound: String
     val noCardsFoundYet: String
 
-    val notDiscovered: String
     val size: String
     fun upTo(cm: Int): String
     val depth: String
@@ -106,7 +105,6 @@ object GermanStrings : Strings {
     override val showFound = "Gefundene"
     override val noCardsFoundYet = "Hier erscheinen deine gefundenen Karten. Tippe auf „Foto hinzufügen“, um die erste freizuschalten."
 
-    override val notDiscovered = "Noch nicht entdeckt"
     override val size = "Größe"
     override fun upTo(cm: Int) = "bis $cm cm"
     override val depth = "Tiefe"
@@ -202,7 +200,6 @@ object EnglishStrings : Strings {
     override val showFound = "Found"
     override val noCardsFoundYet = "Your found cards appear here. Tap “Add photo” to unlock the first one."
 
-    override val notDiscovered = "Not discovered yet"
     override val size = "Size"
     override fun upTo(cm: Int) = "up to $cm cm"
     override val depth = "Depth"
