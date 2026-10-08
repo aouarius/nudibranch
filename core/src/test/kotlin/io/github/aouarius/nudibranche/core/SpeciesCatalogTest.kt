@@ -29,6 +29,14 @@ class SpeciesCatalogTest {
     }
 
     @Test
+    fun comicArtFilesAreNamedAfterSpecies() {
+        val ids = SpeciesCatalog.parse(File("../app/src/main/assets/species.json").readText()).map { it.id }.toSet()
+        val art = File("../app/src/main/assets/species_art").listFiles().orEmpty().map { it.nameWithoutExtension }
+        assertTrue(art.isNotEmpty())
+        assertTrue("unknown art files: ${art - ids}", ids.containsAll(art))
+    }
+
+    @Test
     fun photoCreditNamesAuthorLicenseAndSource() {
         assertEquals("© Yves Bas · CC BY · iNaturalist", SpeciesPhoto("a.jpg", "Yves Bas", "CC BY", "https://x").credit)
         assertEquals("CC0 · iNaturalist", SpeciesPhoto("a.jpg", null, "CC0", "https://x").credit)
