@@ -183,9 +183,32 @@ private fun CardArt(species: Species, sighting: Sighting?) {
                 modifier = Modifier.fillMaxSize(),
             )
         } else {
-            Text("?", color = Color(0xFF4A505B), fontSize = 40.sp, fontWeight = FontWeight.Black)
+            val art = comicArtUri(species)
+            if (art != null) {
+                AsyncImage(
+                    model = art,
+                    contentDescription = species.latinName,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            } else {
+                Text("?", color = Color(0xFF4A505B), fontSize = 40.sp, fontWeight = FontWeight.Black)
+            }
         }
     }
+}
+
+/** Comic art files in assets/species_art, named after the species id (e.g. glaucus-atlanticus.jpg). */
+private var comicArtFiles: Map<String, String>? = null
+
+/** Comic illustration shown on a card until the diver finds the species, if there is one. */
+@Composable
+private fun comicArtUri(species: Species): String? {
+    val context = LocalContext.current
+    val files = comicArtFiles ?: (context.assets.list("species_art").orEmpty()
+        .associateBy { it.substringBeforeLast('.') }
+        .also { comicArtFiles = it })
+    return files[species.id]?.let { "file:///android_asset/species_art/$it" }
 }
 
 @Composable
