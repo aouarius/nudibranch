@@ -88,7 +88,7 @@ fun CatalogScreen(viewModel: CatalogViewModel = viewModel()) {
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Column(Modifier.weight(1f)) {
-                    Text("Nudibranche", color = CardColors.Text, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                    Text("Nudidex", color = CardColors.Text, fontSize = 24.sp, fontWeight = FontWeight.Bold)
                     Text(
                         "${collection.unlockedCount()} von ${viewModel.species.size} Karten gefunden",
                         color = CardColors.TextMuted,
