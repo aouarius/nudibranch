@@ -181,7 +181,9 @@ private fun CollectionPage(viewModel: CatalogViewModel, onShowGlobe: () -> Unit,
     val collection = viewModel.collection
     var region by rememberSaveable { mutableStateOf<Region?>(null) }
     var detailId by rememberSaveable { mutableStateOf<String?>(null) }
-    val shown = viewModel.species.filter { region == null || it.region == region }
+    val shown = viewModel.species.filter {
+        (region == null || it.region == region) && (!viewModel.onlyFound || collection.isUnlocked(it.id))
+    }
 
     Column {
         PageHeader(
@@ -190,7 +192,24 @@ private fun CollectionPage(viewModel: CatalogViewModel, onShowGlobe: () -> Unit,
             viewModel = viewModel,
             action = { TextButton(onClick = onShowGlobe) { Text(strings.findSpotsButton, fontSize = 14.sp) } },
         )
+        Row(Modifier.padding(start = Space.l, end = Space.l, bottom = Space.s)) {
+            SegmentedPill(
+                options = listOf(false, true),
+                selected = viewModel.onlyFound,
+                label = { if (it) strings.showFound else strings.showAll },
+                onSelect = viewModel::changeOnlyFound,
+            )
+        }
         RegionFilter(selected = region, onSelect = { region = it })
+        if (shown.isEmpty() && viewModel.onlyFound) {
+            Text(
+                strings.noCardsFoundYet,
+                color = AppColors.TextMuted,
+                fontSize = 15.sp,
+                lineHeight = 21.sp,
+                modifier = Modifier.padding(horizontal = Space.xl, vertical = Space.xl),
+            )
+        }
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = 156.dp),
             contentPadding = PaddingValues(start = Space.l, end = Space.l, top = Space.m, bottom = 104.dp),
@@ -223,23 +242,28 @@ private fun CollectionPage(viewModel: CatalogViewModel, onShowGlobe: () -> Unit,
 
 /** Two-part pill: DE | EN. */
 @Composable
-private fun LanguageToggle(current: Language, onChange: (Language) -> Unit) {
+private fun LanguageToggle(current: Language, onChange: (Language) -> Unit) =
+    SegmentedPill(Language.entries, current, label = { it.name }, onSelect = onChange)
+
+/** Pill with two or more options, the chosen one filled. */
+@Composable
+private fun <T> SegmentedPill(options: List<T>, selected: T, label: (T) -> String, onSelect: (T) -> Unit) {
     val shape = RoundedCornerShape(50)
     Row(
         Modifier
             .clip(shape)
             .border(1.dp, AppColors.Border, shape),
     ) {
-        Language.entries.forEach { language ->
-            val selected = language == current
+        options.forEach { option ->
+            val isSelected = option == selected
             Text(
-                language.name,
-                color = if (selected) AppColors.Background else AppColors.TextMuted,
+                label(option),
+                color = if (isSelected) AppColors.Background else AppColors.TextMuted,
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
-                    .background(if (selected) AppColors.Accent else AppColors.Background)
-                    .clickable { onChange(language) }
+                    .background(if (isSelected) AppColors.Accent else AppColors.Background)
+                    .clickable { onSelect(option) }
                     .padding(horizontal = 12.dp, vertical = 6.dp),
             )
         }

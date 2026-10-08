@@ -15,6 +15,9 @@ interface Strings {
     val findSpotsButton: String
     val addPhoto: String
     val allRegions: String
+    val showAll: String
+    val showFound: String
+    val noCardsFoundYet: String
 
     val notDiscovered: String
     val size: String
@@ -99,6 +102,9 @@ object GermanStrings : Strings {
     override val findSpotsButton = "🌍 Fundorte"
     override val addPhoto = "Foto hinzufügen"
     override val allRegions = "Alle"
+    override val showAll = "Alle"
+    override val showFound = "Gefundene"
+    override val noCardsFoundYet = "Hier erscheinen deine gefundenen Karten. Tippe auf „Foto hinzufügen“, um die erste freizuschalten."
 
     override val notDiscovered = "Noch nicht entdeckt"
     override val size = "Größe"
@@ -192,6 +198,9 @@ object EnglishStrings : Strings {
     override val findSpotsButton = "🌍 Find spots"
     override val addPhoto = "Add photo"
     override val allRegions = "All"
+    override val showAll = "All"
+    override val showFound = "Found"
+    override val noCardsFoundYet = "Your found cards appear here. Tap “Add photo” to unlock the first one."
 
     override val notDiscovered = "Not discovered yet"
     override val size = "Size"

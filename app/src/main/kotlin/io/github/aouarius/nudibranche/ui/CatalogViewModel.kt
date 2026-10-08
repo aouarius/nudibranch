@@ -56,6 +56,15 @@ class CatalogViewModel(app: Application) : AndroidViewModel(app) {
     )
         private set
 
+    /** Collection page shows only found cards instead of all of them. */
+    var onlyFound: Boolean by mutableStateOf(settings.getBoolean("onlyFound", false))
+        private set
+
+    fun changeOnlyFound(value: Boolean) {
+        onlyFound = value
+        settings.edit().putBoolean("onlyFound", value).apply()
+    }
+
     fun changeLanguage(newLanguage: Language) {
         language = newLanguage
         settings.edit().putString("language", newLanguage.name).apply()
