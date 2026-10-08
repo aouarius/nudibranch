@@ -82,6 +82,7 @@ interface Strings {
 
     fun yourPhotos(count: Int): String
     val addPhotoHere: String
+    val tapToEnlarge: String
     val cardPhoto: String
     val useAsCardPhoto: String
     val delete: String
@@ -172,6 +173,7 @@ object GermanStrings : Strings {
 
     override fun yourPhotos(count: Int) = if (count == 1) "Dein Foto" else "Deine Fotos ($count)"
     override val addPhotoHere = "Foto hinzufügen"
+    override val tapToEnlarge = "Antippen zum Vergrößern"
     override val cardPhoto = "Kartenfoto"
     override val useAsCardPhoto = "Als Kartenfoto"
     override val delete = "Löschen"
@@ -264,6 +266,7 @@ object EnglishStrings : Strings {
 
     override fun yourPhotos(count: Int) = if (count == 1) "Your photo" else "Your photos ($count)"
     override val addPhotoHere = "Add photo"
+    override val tapToEnlarge = "Tap to enlarge"
     override val cardPhoto = "Card photo"
     override val useAsCardPhoto = "Use on card"
     override val delete = "Delete"

@@ -278,6 +278,7 @@ private fun CardDetailDialog(
     val cover = viewModel.collection.coverOf(species.id)
     var flipped by remember { mutableStateOf(false) }
     var editing by remember { mutableStateOf<Sighting?>(null) }
+    var viewing by remember { mutableStateOf<Int?>(null) }
     Dialog(onDismissRequest = onDismiss) {
         Column(
             Modifier.verticalScroll(rememberScrollState()),
@@ -325,15 +326,29 @@ private fun CardDetailDialog(
                     sightings = sightings,
                     cover = cover,
                     onAdd = onAddPhoto,
-                    onSetCover = viewModel::setCover,
-                    onDelete = { sighting ->
-                        viewModel.deleteSighting(sighting)
-                        if (sightings.size == 1) flipped = false
-                    },
+                    onOpen = { viewing = it },
                     modifier = Modifier.width(DialogCardWidth),
                 )
             }
         }
+    }
+
+    viewing?.let { index ->
+        PhotoViewer(
+            species = species,
+            sightings = sightings,
+            startIndex = index,
+            cover = cover,
+            onSetCover = viewModel::setCover,
+            onDelete = { sighting ->
+                viewModel.deleteSighting(sighting)
+                if (sightings.size == 1) {
+                    flipped = false
+                    viewing = null
+                }
+            },
+            onDismiss = { viewing = null },
+        )
     }
 }
 

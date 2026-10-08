@@ -18,15 +18,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,26 +34,16 @@ import coil.compose.AsyncImage
 import io.github.aouarius.nudibranche.core.Sighting
 import java.io.File
 
-private val DeleteRed = Color(0xFFFF7A7A)
-
-/**
- * The diver's photos of one species under the card: tap a photo to put it on the
- * card or delete it, or add another one.
- */
+/** The diver's photos of one species under the card: tap one to see it big, or add another. */
 @Composable
 fun CardPhotos(
     sightings: List<Sighting>,
     cover: Sighting?,
     onAdd: () -> Unit,
-    onSetCover: (Sighting) -> Unit,
-    onDelete: (Sighting) -> Unit,
+    onOpen: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val strings = LocalStrings.current
-    var selectedHash by remember { mutableStateOf<String?>(null) }
-    var confirmDelete by remember { mutableStateOf<Sighting?>(null) }
-    val selected = sightings.firstOrNull { it.photoHash == selectedHash }
-
     Column(
         modifier
             .clip(RoundedCornerShape(16.dp))
@@ -67,64 +51,31 @@ fun CardPhotos(
             .padding(Space.m),
     ) {
         if (sightings.isNotEmpty()) {
-            Text(strings.yourPhotos(sightings.size), color = AppColors.Text, fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+            Row(verticalAlignment = Alignment.Bottom) {
+                Text(strings.yourPhotos(sightings.size), color = AppColors.Text, fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                Spacer(Modifier.weight(1f))
+                Text(strings.tapToEnlarge, color = AppColors.TextMuted, fontSize = 12.sp)
+            }
             Spacer(Modifier.height(Space.s))
         }
         Row(
             Modifier.horizontalScroll(rememberScrollState()),
             horizontalArrangement = Arrangement.spacedBy(Space.s),
         ) {
-            sightings.forEach { sighting ->
-                PhotoThumb(
-                    sighting = sighting,
-                    isCover = sighting.photoHash == cover?.photoHash,
-                    isSelected = sighting.photoHash == selectedHash,
-                    onClick = { selectedHash = if (selectedHash == sighting.photoHash) null else sighting.photoHash },
-                )
+            sightings.forEachIndexed { index, sighting ->
+                PhotoThumb(sighting, isCover = sighting.photoHash == cover?.photoHash, onClick = { onOpen(index) })
             }
             AddTile(onAdd, showLabel = sightings.isEmpty())
         }
-        if (selected != null) {
-            Spacer(Modifier.height(Space.xs))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                if (selected.photoHash == cover?.photoHash) {
-                    Text(strings.cardPhoto, color = AppColors.Accent, fontSize = 14.sp, modifier = Modifier.padding(start = Space.xs))
-                } else {
-                    TextButton(onClick = { onSetCover(selected) }) { Text(strings.useAsCardPhoto, fontSize = 14.sp) }
-                }
-                Spacer(Modifier.weight(1f))
-                TextButton(onClick = { confirmDelete = selected }) {
-                    Text(strings.delete, color = DeleteRed, fontSize = 14.sp)
-                }
-            }
-        }
-    }
-
-    confirmDelete?.let { sighting ->
-        AlertDialog(
-            onDismissRequest = { confirmDelete = null },
-            title = { Text(strings.deletePhotoTitle) },
-            text = { Text(strings.deletePhotoText(lastPhoto = sightings.size == 1), fontSize = 15.sp, lineHeight = 21.sp) },
-            confirmButton = {
-                TextButton(onClick = {
-                    confirmDelete = null
-                    selectedHash = null
-                    onDelete(sighting)
-                }) { Text(strings.delete, color = DeleteRed) }
-            },
-            dismissButton = { TextButton(onClick = { confirmDelete = null }) { Text(strings.cancel) } },
-        )
     }
 }
 
 @Composable
-private fun PhotoThumb(sighting: Sighting, isCover: Boolean, isSelected: Boolean, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(10.dp)
+private fun PhotoThumb(sighting: Sighting, isCover: Boolean, onClick: () -> Unit) {
     Box(
         Modifier
             .size(72.dp)
-            .clip(shape)
-            .border(if (isSelected) 3.dp else 0.dp, if (isSelected) AppColors.Accent else Color.Transparent, shape)
+            .clip(RoundedCornerShape(10.dp))
             .background(AppColors.Border)
             .clickable(onClick = onClick),
     ) {
@@ -132,10 +83,7 @@ private fun PhotoThumb(sighting: Sighting, isCover: Boolean, isSelected: Boolean
             model = File(LocalContext.current.filesDir, sighting.photoPath),
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .matchParentSize()
-                .padding(if (isSelected) 3.dp else 0.dp)
-                .clip(RoundedCornerShape(8.dp)),
+            modifier = Modifier.matchParentSize(),
         )
         if (isCover) {
             Box(
