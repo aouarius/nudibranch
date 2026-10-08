@@ -59,4 +59,40 @@ class CardCollectionTest {
         assertEquals("Punta Fetovaia", updated.sightingsOf("a")[1].dive.site)
         assertTrue(updated.sightingsOf("a")[0].dive.isEmpty)
     }
+
+    @Test
+    fun chosenPhotoBecomesTheCardFront() {
+        val collection = CardCollection()
+            .add(sighting("a", "h1"))
+            .add(sighting("a", "h2"))
+        assertEquals("h1", collection.coverOf("a")?.photoHash)
+        val picked = collection.setCover("h2")
+        assertEquals("h2", picked.coverOf("a")?.photoHash)
+        assertEquals(picked, CardCollection.decode(picked.encode()))
+    }
+
+    @Test
+    fun removingPhotosLocksTheCardAgain() {
+        val collection = CardCollection()
+            .add(sighting("a", "h1"))
+            .add(sighting("a", "h2"))
+            .setCover("h2")
+
+        val one = collection.remove("h2")
+        assertEquals("h1", one.coverOf("a")?.photoHash)
+        assertTrue(one.isUnlocked("a"))
+
+        val none = one.remove("h1")
+        assertFalse(none.isUnlocked("a"))
+        assertEquals(null, none.coverOf("a"))
+        assertTrue(none.covers.isEmpty())
+        // The photo can be added again after it was removed.
+        assertTrue(none.add(sighting("a", "h1")).isUnlocked("a"))
+    }
+
+    @Test
+    fun oldCollectionsWithoutCoversStillLoad() {
+        val old = CardCollection.decode("""{"sightings":[]}""")
+        assertTrue(old.covers.isEmpty())
+    }
 }

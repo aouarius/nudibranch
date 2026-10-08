@@ -79,6 +79,14 @@ interface Strings {
     val region: String
     val rarity: String
     fun firstFound(date: String): String
+
+    fun yourPhotos(count: Int): String
+    val addPhotoHere: String
+    val cardPhoto: String
+    val useAsCardPhoto: String
+    val delete: String
+    val deletePhotoTitle: String
+    fun deletePhotoText(lastPhoto: Boolean): String
 }
 
 object GermanStrings : Strings {
@@ -161,6 +169,16 @@ object GermanStrings : Strings {
     override val region = "Region"
     override val rarity = "Seltenheit"
     override fun firstFound(date: String) = "Zum ersten Mal gefunden am $date"
+
+    override fun yourPhotos(count: Int) = if (count == 1) "Dein Foto" else "Deine Fotos ($count)"
+    override val addPhotoHere = "Foto hinzufügen"
+    override val cardPhoto = "Kartenfoto"
+    override val useAsCardPhoto = "Als Kartenfoto"
+    override val delete = "Löschen"
+    override val deletePhotoTitle = "Foto löschen?"
+    override fun deletePhotoText(lastPhoto: Boolean) =
+        "Der Logbuch-Eintrag zu diesem Foto wird mitgelöscht." +
+            if (lastPhoto) " Es ist dein letztes Foto dieser Art, die Karte wird danach wieder gesperrt." else ""
 }
 
 object EnglishStrings : Strings {
@@ -243,6 +261,16 @@ object EnglishStrings : Strings {
     override val region = "Region"
     override val rarity = "Rarity"
     override fun firstFound(date: String) = "First found on $date"
+
+    override fun yourPhotos(count: Int) = if (count == 1) "Your photo" else "Your photos ($count)"
+    override val addPhotoHere = "Add photo"
+    override val cardPhoto = "Card photo"
+    override val useAsCardPhoto = "Use on card"
+    override val delete = "Delete"
+    override val deletePhotoTitle = "Delete photo?"
+    override fun deletePhotoText(lastPhoto: Boolean) =
+        "The logbook entry for this photo is deleted too." +
+            if (lastPhoto) " It is your last photo of this species, so the card will be locked again." else ""
 }
 
 fun stringsFor(language: Language): Strings = if (language == Language.DE) GermanStrings else EnglishStrings

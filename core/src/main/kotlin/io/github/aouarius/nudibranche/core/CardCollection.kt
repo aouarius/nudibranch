@@ -35,15 +35,27 @@ data class Sighting(
     val dive: DiveDetails = DiveDetails(),
 )
 
+/**
+ * All photos the diver added. [covers] maps a species id to the photo hash the
+ * diver picked for the card front; without a pick the first photo is used.
+ */
 @Serializable
-data class CardCollection(val sightings: List<Sighting> = emptyList()) {
+data class CardCollection(
+    val sightings: List<Sighting> = emptyList(),
+    val covers: Map<String, String> = emptyMap(),
+) {
 
     val usedHashes: Set<String> get() = sightings.mapTo(mutableSetOf()) { it.photoHash }
 
     fun isUnlocked(speciesId: String): Boolean = sightings.any { it.speciesId == speciesId }
 
-    /** The first sighting unlocks the card and stays its photo. */
+    /** The sighting that unlocked the card. */
     fun firstSighting(speciesId: String): Sighting? = sightings.firstOrNull { it.speciesId == speciesId }
+
+    /** The photo shown on the card front. */
+    fun coverOf(speciesId: String): Sighting? =
+        sightings.firstOrNull { it.speciesId == speciesId && it.photoHash == covers[speciesId] }
+            ?: firstSighting(speciesId)
 
     fun sightingsOf(speciesId: String): List<Sighting> = sightings.filter { it.speciesId == speciesId }
 
@@ -54,6 +66,21 @@ data class CardCollection(val sightings: List<Sighting> = emptyList()) {
     fun add(sighting: Sighting): CardCollection {
         require(sighting.photoHash !in usedHashes) { "Foto bereits verwendet" }
         return copy(sightings = sightings + sighting)
+    }
+
+    /** Shows this photo on the front of its species' card. */
+    fun setCover(photoHash: String): CardCollection {
+        val sighting = sightings.firstOrNull { it.photoHash == photoHash } ?: return this
+        return copy(covers = covers + (sighting.speciesId to photoHash))
+    }
+
+    /** Removes one photo. Without photos left the card is locked again. */
+    fun remove(photoHash: String): CardCollection {
+        val sighting = sightings.firstOrNull { it.photoHash == photoHash } ?: return this
+        return copy(
+            sightings = sightings - sighting,
+            covers = covers.filterValues { it != photoHash },
+        )
     }
 
     /** Replaces the dive notes of the sighting with this photo. */

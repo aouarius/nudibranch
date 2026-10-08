@@ -87,7 +87,7 @@ fun FindsGlobeDialog(viewModel: CatalogViewModel, onDismiss: () -> Unit) {
                 )
                 selectedFind?.let { (sighting, species, spot) ->
                     Spacer(Modifier.height(Space.m))
-                    SpeciesCard(species, viewModel.collection.firstSighting(species.id), Modifier.width(200.dp), compact = true)
+                    SpeciesCard(species, sighting, Modifier.width(200.dp), compact = true)
                     Spacer(Modifier.height(Space.s))
                     Text(
                         listOfNotNull(sighting.dive.site, formatSpot(spot, strings)).joinToString(" · "),

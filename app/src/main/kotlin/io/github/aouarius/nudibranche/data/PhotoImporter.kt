@@ -47,6 +47,10 @@ class PhotoImporter(private val context: Context) {
         relativePath
     }
 
+    suspend fun delete(relativePath: String) = withContext(Dispatchers.IO) {
+        File(context.filesDir, relativePath).delete()
+    }
+
     private fun parseExifDate(value: String): LocalDateTime? =
         runCatching { LocalDateTime.parse(value.trim(), EXIF_DATE) }.getOrNull()
 

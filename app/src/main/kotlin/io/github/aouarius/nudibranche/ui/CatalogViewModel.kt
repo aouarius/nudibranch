@@ -34,7 +34,7 @@ sealed interface ImportState {
     data class EnterDiveDetails(val sighting: Sighting, val species: Species, val firstFind: Boolean) : ImportState
     data class Rejected(val problems: List<PhotoProblem>) : ImportState
     data object Failed : ImportState
-    data class Unlocked(val species: Species, val firstFind: Boolean) : ImportState
+    data class Unlocked(val species: Species, val firstFind: Boolean, val sighting: Sighting) : ImportState
 }
 
 class CatalogViewModel(app: Application) : AndroidViewModel(app) {
@@ -78,7 +78,8 @@ class CatalogViewModel(app: Application) : AndroidViewModel(app) {
     var importState: ImportState by mutableStateOf(ImportState.Idle)
         private set
 
-    fun onPhotoPicked(uri: Uri) {
+    /** With [forSpecies] the photo goes straight to that card, without asking for the species. */
+    fun onPhotoPicked(uri: Uri, forSpecies: Species? = null) {
         importState = ImportState.Checking
         viewModelScope.launch {
             importState = try {
@@ -96,6 +97,7 @@ class CatalogViewModel(app: Application) : AndroidViewModel(app) {
             } catch (e: Exception) {
                 ImportState.Failed
             }
+            if (forSpecies != null && importState is ImportState.ChooseSpecies) onSpeciesChosen(forSpecies)
         }
     }
 
@@ -119,14 +121,29 @@ class CatalogViewModel(app: Application) : AndroidViewModel(app) {
 
     fun onDiveDetailsEntered(dive: DiveDetails) {
         val state = importState as? ImportState.EnterDiveDetails ?: return
-        collection = collection.add(state.sighting.copy(dive = dive))
-        importState = ImportState.Unlocked(state.species, state.firstFind)
+        val sighting = state.sighting.copy(dive = dive)
+        collection = collection.add(sighting)
+        importState = ImportState.Unlocked(state.species, state.firstFind, sighting)
         viewModelScope.launch { store.save(collection) }
     }
 
     fun updateDive(sighting: Sighting, dive: DiveDetails) {
         collection = collection.updateDive(sighting.photoHash, dive)
         viewModelScope.launch { store.save(collection) }
+    }
+
+    fun setCover(sighting: Sighting) {
+        collection = collection.setCover(sighting.photoHash)
+        viewModelScope.launch { store.save(collection) }
+    }
+
+    /** Deletes the photo and its logbook entry. Without photos left the card is locked again. */
+    fun deleteSighting(sighting: Sighting) {
+        collection = collection.remove(sighting.photoHash)
+        viewModelScope.launch {
+            store.save(collection)
+            importer.delete(sighting.photoPath)
+        }
     }
 
     fun dismissImport() {

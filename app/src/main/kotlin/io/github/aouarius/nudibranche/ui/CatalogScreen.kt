@@ -25,6 +25,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
@@ -40,6 +41,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -88,6 +90,13 @@ private fun Catalog(viewModel: CatalogViewModel) {
     val picker = rememberLauncherForActivityResult(PickVisualMedia()) { uri ->
         if (uri != null) viewModel.onPhotoPicked(uri)
     }
+    // Adding a photo from a card skips the species question.
+    var photoForSpeciesId by rememberSaveable { mutableStateOf<String?>(null) }
+    val cardPicker = rememberLauncherForActivityResult(PickVisualMedia()) { uri ->
+        val species = viewModel.species.firstOrNull { it.id == photoForSpeciesId }
+        if (uri != null && species != null) viewModel.onPhotoPicked(uri, forSpecies = species)
+        photoForSpeciesId = null
+    }
 
     Scaffold(
         containerColor = AppColors.Background,
@@ -119,7 +128,14 @@ private fun Catalog(viewModel: CatalogViewModel) {
     ) { padding ->
         Column(Modifier.padding(padding)) {
             when (page) {
-                Page.COLLECTION -> CollectionPage(viewModel, onShowGlobe = { showGlobe = true })
+                Page.COLLECTION -> CollectionPage(
+                    viewModel,
+                    onShowGlobe = { showGlobe = true },
+                    onAddPhoto = { species ->
+                        photoForSpeciesId = species.id
+                        cardPicker.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
+                    },
+                )
                 Page.LIBRARY -> LibraryPage(viewModel)
             }
         }
@@ -160,7 +176,7 @@ fun PageHeader(
 
 /** The main page: the player's cards. */
 @Composable
-private fun CollectionPage(viewModel: CatalogViewModel, onShowGlobe: () -> Unit) {
+private fun CollectionPage(viewModel: CatalogViewModel, onShowGlobe: () -> Unit, onAddPhoto: (Species) -> Unit) {
     val strings = LocalStrings.current
     val collection = viewModel.collection
     var region by rememberSaveable { mutableStateOf<Region?>(null) }
@@ -184,7 +200,7 @@ private fun CollectionPage(viewModel: CatalogViewModel, onShowGlobe: () -> Unit)
             items(shown, key = { it.id }) { species ->
                 SpeciesCard(
                     species = species,
-                    sighting = collection.firstSighting(species.id),
+                    sighting = collection.coverOf(species.id),
                     compact = true,
                     modifier = Modifier.clickable { detailId = species.id },
                 )
@@ -193,7 +209,15 @@ private fun CollectionPage(viewModel: CatalogViewModel, onShowGlobe: () -> Unit)
     }
 
     viewModel.species.firstOrNull { it.id == detailId }?.let { species ->
-        CardDetailDialog(species = species, viewModel = viewModel, onDismiss = { detailId = null })
+        CardDetailDialog(
+            species = species,
+            viewModel = viewModel,
+            onDismiss = { detailId = null },
+            onAddPhoto = {
+                detailId = null
+                onAddPhoto(species)
+            },
+        )
     }
 }
 
@@ -243,19 +267,28 @@ fun RegionFilter(selected: Region?, onSelect: (Region?) -> Unit) {
 }
 
 @Composable
-private fun CardDetailDialog(species: Species, viewModel: CatalogViewModel, onDismiss: () -> Unit) {
+private fun CardDetailDialog(
+    species: Species,
+    viewModel: CatalogViewModel,
+    onDismiss: () -> Unit,
+    onAddPhoto: () -> Unit,
+) {
     val strings = LocalStrings.current
     val sightings = viewModel.collection.sightingsOf(species.id)
+    val cover = viewModel.collection.coverOf(species.id)
     var flipped by remember { mutableStateOf(false) }
     var editing by remember { mutableStateOf<Sighting?>(null) }
     Dialog(onDismissRequest = onDismiss) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            Modifier.verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
             FlippableCard(
                 flipped = flipped,
                 modifier = Modifier
                     .width(DialogCardWidth)
                     .clickable(enabled = sightings.isNotEmpty() && editing == null) { flipped = !flipped },
-                front = { SpeciesCard(species, sightings.firstOrNull()) },
+                front = { SpeciesCard(species, cover) },
                 back = {
                     val edited = editing
                     if (edited != null) {
@@ -284,6 +317,20 @@ private fun CardDetailDialog(species: Species, viewModel: CatalogViewModel, onDi
                     },
                     color = AppColors.TextMuted,
                     fontSize = 14.sp,
+                )
+            }
+            if (editing == null) {
+                Spacer(Modifier.height(Space.l))
+                CardPhotos(
+                    sightings = sightings,
+                    cover = cover,
+                    onAdd = onAddPhoto,
+                    onSetCover = viewModel::setCover,
+                    onDelete = { sighting ->
+                        viewModel.deleteSighting(sighting)
+                        if (sightings.size == 1) flipped = false
+                    },
+                    modifier = Modifier.width(DialogCardWidth),
                 )
             }
         }
@@ -375,13 +422,18 @@ private fun ImportDialogs(viewModel: CatalogViewModel) {
                     fontWeight = FontWeight.Bold,
                 )
                 Spacer(Modifier.height(Space.l))
-                SpeciesCard(
-                    state.species,
-                    viewModel.collection.firstSighting(state.species.id),
-                    Modifier.width(DialogCardWidth),
-                )
+                SpeciesCard(state.species, state.sighting, Modifier.width(DialogCardWidth))
                 Spacer(Modifier.height(Space.l))
-                Button(onClick = viewModel::dismissImport) { Text(strings.great, fontSize = 15.sp) }
+                Row(horizontalArrangement = Arrangement.spacedBy(Space.m)) {
+                    val isCover = viewModel.collection.coverOf(state.species.id)?.photoHash == state.sighting.photoHash
+                    if (!isCover) {
+                        OutlinedButton(onClick = {
+                            viewModel.setCover(state.sighting)
+                            viewModel.dismissImport()
+                        }) { Text(strings.useAsCardPhoto, fontSize = 15.sp) }
+                    }
+                    Button(onClick = viewModel::dismissImport) { Text(strings.great, fontSize = 15.sp) }
+                }
             }
         }
     }
