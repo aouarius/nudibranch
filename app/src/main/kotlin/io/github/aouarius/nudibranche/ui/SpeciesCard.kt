@@ -251,7 +251,7 @@ private fun HoloShimmer(modifier: Modifier) {
     }
 }
 
-private fun depthText(species: Species, strings: Strings): String =
+internal fun depthText(species: Species, strings: Strings): String =
     if (species.depthMaxM == 0) strings.surface else "${species.depthMinM}–${species.depthMaxM} m"
 
 fun formatCardDate(isoDateTime: String, strings: Strings): String? =

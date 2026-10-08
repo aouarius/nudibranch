@@ -27,7 +27,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -35,6 +37,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -74,66 +78,116 @@ fun CatalogScreen(viewModel: CatalogViewModel = viewModel()) {
     }
 }
 
+private enum class Page { COLLECTION, LIBRARY }
+
 @Composable
 private fun Catalog(viewModel: CatalogViewModel) {
     val strings = LocalStrings.current
-    val collection = viewModel.collection
-    var region by rememberSaveable { mutableStateOf<Region?>(null) }
-    var detailId by rememberSaveable { mutableStateOf<String?>(null) }
+    var page by rememberSaveable { mutableStateOf(Page.COLLECTION) }
     var showGlobe by rememberSaveable { mutableStateOf(false) }
     val picker = rememberLauncherForActivityResult(PickVisualMedia()) { uri ->
         if (uri != null) viewModel.onPhotoPicked(uri)
     }
-    val shown = viewModel.species.filter { region == null || it.region == region }
 
     Scaffold(
         containerColor = AppColors.Background,
+        bottomBar = {
+            NavigationBar(containerColor = AppColors.Surface) {
+                NavigationBarItem(
+                    selected = page == Page.COLLECTION,
+                    onClick = { page = Page.COLLECTION },
+                    icon = { Icon(Icons.Filled.Home, contentDescription = null) },
+                    label = { Text(strings.collectionTab) },
+                )
+                NavigationBarItem(
+                    selected = page == Page.LIBRARY,
+                    onClick = { page = Page.LIBRARY },
+                    icon = { Icon(Icons.AutoMirrored.Filled.List, contentDescription = null) },
+                    label = { Text(strings.libraryTab) },
+                )
+            }
+        },
         floatingActionButton = {
-            ExtendedFloatingActionButton(
-                onClick = { picker.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly)) },
-                icon = { Icon(Icons.Filled.Add, contentDescription = null) },
-                text = { Text(strings.addPhoto, fontSize = 15.sp) },
-            )
+            if (page == Page.COLLECTION) {
+                ExtendedFloatingActionButton(
+                    onClick = { picker.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly)) },
+                    icon = { Icon(Icons.Filled.Add, contentDescription = null) },
+                    text = { Text(strings.addPhoto, fontSize = 15.sp) },
+                )
+            }
         },
     ) { padding ->
         Column(Modifier.padding(padding)) {
-            Column(Modifier.padding(start = Space.l, end = Space.l, top = Space.l, bottom = Space.s)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        "Nudidex",
-                        color = AppColors.Text,
-                        fontSize = 30.sp,
-                        fontWeight = FontWeight.Black,
-                        letterSpacing = 0.5.sp,
-                        modifier = Modifier.weight(1f),
-                    )
-                    LanguageToggle(viewModel.language, onChange = viewModel::changeLanguage)
-                }
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        strings.cardsFound(collection.unlockedCount(), viewModel.species.size),
-                        color = AppColors.TextMuted,
-                        fontSize = 14.sp,
-                        modifier = Modifier.weight(1f),
-                    )
-                    TextButton(onClick = { showGlobe = true }) { Text(strings.findSpotsButton, fontSize = 14.sp) }
-                }
+            when (page) {
+                Page.COLLECTION -> CollectionPage(viewModel, onShowGlobe = { showGlobe = true })
+                Page.LIBRARY -> LibraryPage(viewModel)
             }
-            RegionFilter(selected = region, onSelect = { region = it })
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(minSize = 156.dp),
-                contentPadding = PaddingValues(start = Space.l, end = Space.l, top = Space.m, bottom = 104.dp),
-                horizontalArrangement = Arrangement.spacedBy(Space.m),
-                verticalArrangement = Arrangement.spacedBy(Space.m),
-            ) {
-                items(shown, key = { it.id }) { species ->
-                    SpeciesCard(
-                        species = species,
-                        sighting = collection.firstSighting(species.id),
-                        compact = true,
-                        modifier = Modifier.clickable { detailId = species.id },
-                    )
-                }
+        }
+    }
+
+    if (showGlobe) {
+        FindsGlobeDialog(viewModel, onDismiss = { showGlobe = false })
+    }
+    ImportDialogs(viewModel)
+}
+
+/** Title row with the language switch, shared by both pages. */
+@Composable
+fun PageHeader(
+    title: String,
+    subtitle: String,
+    viewModel: CatalogViewModel,
+    action: @Composable () -> Unit = {},
+) {
+    Column(Modifier.padding(start = Space.l, end = Space.l, top = Space.l, bottom = Space.s)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                title,
+                color = AppColors.Text,
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Black,
+                letterSpacing = 0.5.sp,
+                modifier = Modifier.weight(1f),
+            )
+            LanguageToggle(viewModel.language, onChange = viewModel::changeLanguage)
+        }
+        Row(Modifier.height(40.dp), verticalAlignment = Alignment.CenterVertically) {
+            Text(subtitle, color = AppColors.TextMuted, fontSize = 14.sp, modifier = Modifier.weight(1f))
+            action()
+        }
+    }
+}
+
+/** The main page: the player's cards. */
+@Composable
+private fun CollectionPage(viewModel: CatalogViewModel, onShowGlobe: () -> Unit) {
+    val strings = LocalStrings.current
+    val collection = viewModel.collection
+    var region by rememberSaveable { mutableStateOf<Region?>(null) }
+    var detailId by rememberSaveable { mutableStateOf<String?>(null) }
+    val shown = viewModel.species.filter { region == null || it.region == region }
+
+    Column {
+        PageHeader(
+            title = "Nudidex",
+            subtitle = strings.cardsFound(collection.unlockedCount(), viewModel.species.size),
+            viewModel = viewModel,
+            action = { TextButton(onClick = onShowGlobe) { Text(strings.findSpotsButton, fontSize = 14.sp) } },
+        )
+        RegionFilter(selected = region, onSelect = { region = it })
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(minSize = 156.dp),
+            contentPadding = PaddingValues(start = Space.l, end = Space.l, top = Space.m, bottom = 104.dp),
+            horizontalArrangement = Arrangement.spacedBy(Space.m),
+            verticalArrangement = Arrangement.spacedBy(Space.m),
+        ) {
+            items(shown, key = { it.id }) { species ->
+                SpeciesCard(
+                    species = species,
+                    sighting = collection.firstSighting(species.id),
+                    compact = true,
+                    modifier = Modifier.clickable { detailId = species.id },
+                )
             }
         }
     }
@@ -141,10 +195,6 @@ private fun Catalog(viewModel: CatalogViewModel) {
     viewModel.species.firstOrNull { it.id == detailId }?.let { species ->
         CardDetailDialog(species = species, viewModel = viewModel, onDismiss = { detailId = null })
     }
-    if (showGlobe) {
-        FindsGlobeDialog(viewModel, onDismiss = { showGlobe = false })
-    }
-    ImportDialogs(viewModel)
 }
 
 /** Two-part pill: DE | EN. */
@@ -173,7 +223,7 @@ private fun LanguageToggle(current: Language, onChange: (Language) -> Unit) {
 }
 
 @Composable
-private fun RegionFilter(selected: Region?, onSelect: (Region?) -> Unit) {
+fun RegionFilter(selected: Region?, onSelect: (Region?) -> Unit) {
     val strings = LocalStrings.current
     Row(
         Modifier

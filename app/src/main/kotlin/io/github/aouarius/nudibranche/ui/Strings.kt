@@ -68,6 +68,17 @@ interface Strings {
     val south: String
     val east: String
     val west: String
+
+    val collectionTab: String
+    val libraryTab: String
+    val libraryTitle: String
+    fun libraryCount(total: Int, found: Int): String
+    val found: String
+    val notFoundYet: String
+    val family: String
+    val region: String
+    val rarity: String
+    fun firstFound(date: String): String
 }
 
 object GermanStrings : Strings {
@@ -139,6 +150,17 @@ object GermanStrings : Strings {
     override val south = "S"
     override val east = "O"
     override val west = "W"
+
+    override val collectionTab = "Sammlung"
+    override val libraryTab = "Bibliothek"
+    override val libraryTitle = "Bibliothek"
+    override fun libraryCount(total: Int, found: Int) = "$total Arten · $found gefunden"
+    override val found = "Gefunden"
+    override val notFoundYet = "Noch nicht gefunden"
+    override val family = "Familie"
+    override val region = "Region"
+    override val rarity = "Seltenheit"
+    override fun firstFound(date: String) = "Zum ersten Mal gefunden am $date"
 }
 
 object EnglishStrings : Strings {
@@ -210,6 +232,17 @@ object EnglishStrings : Strings {
     override val south = "S"
     override val east = "E"
     override val west = "W"
+
+    override val collectionTab = "Collection"
+    override val libraryTab = "Library"
+    override val libraryTitle = "Library"
+    override fun libraryCount(total: Int, found: Int) = "$total species · $found found"
+    override val found = "Found"
+    override val notFoundYet = "Not found yet"
+    override val family = "Family"
+    override val region = "Region"
+    override val rarity = "Rarity"
+    override fun firstFound(date: String) = "First found on $date"
 }
 
 fun stringsFor(language: Language): Strings = if (language == Language.DE) GermanStrings else EnglishStrings
