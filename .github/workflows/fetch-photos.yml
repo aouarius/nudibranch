@@ -1,0 +1,19 @@
+name: Fetch species photos
+
+# Runs the photo fetcher on GitHub's runners (they can reach iNaturalist) and
+# uploads the candidate photos as an artifact to review before committing.
+on:
+  workflow_dispatch:
+  push:
+    branches: [fetch-species-photos]
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/fetch_species_photos.py app/src/main/assets/species.json photo-candidates 3
+      - uses: actions/upload-artifact@v4
+        with:
+          name: species-photo-candidates
+          path: photo-candidates
