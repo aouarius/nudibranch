@@ -1,0 +1,411 @@
+{
+ "species": 100,
+ "trainPhotos": 25171,
+ "valPhotos": 4361,
+ "top1": 0.8232056867690897,
+ "top3": 0.9289153863792708,
+ "perSpecies": {
+  "aegires-villosus": {
+   "photos": 308,
+   "top3": 0.88
+  },
+  "antiopella-cristata": {
+   "photos": 378,
+   "top3": 0.9047619047619048
+  },
+  "ardeadoris-egretta": {
+   "photos": 244,
+   "top3": 1.0
+  },
+  "babakina-anadoni": {
+   "photos": 152,
+   "top3": 0.9230769230769231
+  },
+  "bornella-anguilla": {
+   "photos": 314,
+   "top3": 0.8636363636363636
+  },
+  "bornella-calcarata": {
+   "photos": 41,
+   "top3": 0.3333333333333333
+  },
+  "bornella-stellifera": {
+   "photos": 202,
+   "top3": 0.7
+  },
+  "calmella-cavolini": {
+   "photos": 314,
+   "top3": 0.8723404255319149
+  },
+  "caloria-elegans": {
+   "photos": 255,
+   "top3": 0.9285714285714286
+  },
+  "ceratosoma-tenue": {
+   "photos": 340,
+   "top3": 0.8723404255319149
+  },
+  "ceratosoma-trilobatum": {
+   "photos": 315,
+   "top3": 0.8679245283018868
+  },
+  "chromodoris-annae": {
+   "photos": 500,
+   "top3": 0.9878048780487805
+  },
+  "chromodoris-dianae": {
+   "photos": 113,
+   "top3": 0.8666666666666667
+  },
+  "chromodoris-elisabethina": {
+   "photos": 305,
+   "top3": 0.92
+  },
+  "chromodoris-lochi": {
+   "photos": 480,
+   "top3": 0.9538461538461539
+  },
+  "chromodoris-magnifica": {
+   "photos": 344,
+   "top3": 1.0
+  },
+  "chromodoris-quadricolor": {
+   "photos": 314,
+   "top3": 0.9473684210526315
+  },
+  "chromodoris-strigata": {
+   "photos": 324,
+   "top3": 0.8974358974358975
+  },
+  "chromodoris-willani": {
+   "photos": 384,
+   "top3": 0.9811320754716981
+  },
+  "coryphellina-exoptata": {
+   "photos": 410,
+   "top3": 0.8983050847457628
+  },
+  "coryphellina-rubrolineata": {
+   "photos": 49,
+   "top3": 1.0
+  },
+  "cratena-peregrina": {
+   "photos": 465,
+   "top3": 0.9156626506024096
+  },
+  "dendrodoris-grandiflora": {
+   "photos": 104,
+   "top3": 0.7142857142857143
+  },
+  "dendrodoris-krebsii": {
+   "photos": 140,
+   "top3": 0.8947368421052632
+  },
+  "dendrodoris-limbata": {
+   "photos": 308,
+   "top3": 0.9591836734693877
+  },
+  "diaphorodoris-papillata": {
+   "photos": 303,
+   "top3": 0.88
+  },
+  "dondice-occidentalis": {
+   "photos": 177,
+   "top3": 0.84
+  },
+  "doriopsilla-areolata": {
+   "photos": 300,
+   "top3": 0.9117647058823529
+  },
+  "doriprismatica-atromarginata": {
+   "photos": 441,
+   "top3": 0.9722222222222222
+  },
+  "edmundsella-pedata": {
+   "photos": 577,
+   "top3": 0.9156626506024096
+  },
+  "felimare-fontandraui": {
+   "photos": 313,
+   "top3": 0.926829268292683
+  },
+  "felimare-orsinii": {
+   "photos": 277,
+   "top3": 0.8695652173913043
+  },
+  "felimare-picta": {
+   "photos": 390,
+   "top3": 0.9622641509433962
+  },
+  "felimare-ruthae": {
+   "photos": 178,
+   "top3": 0.9629629629629629
+  },
+  "felimare-tricolor": {
+   "photos": 331,
+   "top3": 0.8974358974358975
+  },
+  "felimare-villafranca": {
+   "photos": 316,
+   "top3": 0.8571428571428571
+  },
+  "felimida-binza": {
+   "photos": 312,
+   "top3": 0.875
+  },
+  "felimida-clenchi": {
+   "photos": 88,
+   "top3": 1.0
+  },
+  "felimida-luteorosea": {
+   "photos": 300,
+   "top3": 0.9523809523809523
+  },
+  "flabellina-affinis": {
+   "photos": 399,
+   "top3": 0.9074074074074074
+  },
+  "flabellina-dushia": {
+   "photos": 212,
+   "top3": 0.9
+  },
+  "glaucus-atlanticus": {
+   "photos": 356,
+   "top3": 1.0
+  },
+  "glossodoris-hikuerensis": {
+   "photos": 242,
+   "top3": 0.975
+  },
+  "godiva-quadricolor": {
+   "photos": 176,
+   "top3": 0.6875
+  },
+  "goniobranchus-annulatus": {
+   "photos": 264,
+   "top3": 0.9487179487179487
+  },
+  "goniobranchus-coi": {
+   "photos": 321,
+   "top3": 0.9056603773584906
+  },
+  "goniobranchus-fidelis": {
+   "photos": 346,
+   "top3": 0.9591836734693877
+  },
+  "goniobranchus-geminus": {
+   "photos": 168,
+   "top3": 1.0
+  },
+  "goniobranchus-kuniei": {
+   "photos": 344,
+   "top3": 1.0
+  },
+  "gymnodoris-aurita": {
+   "photos": 43,
+   "top3": 0.8888888888888888
+  },
+  "gymnodoris-ceylonica": {
+   "photos": 171,
+   "top3": 0.8636363636363636
+  },
+  "halgerda-batangas": {
+   "photos": 388,
+   "top3": 0.921875
+  },
+  "halgerda-willeyi": {
+   "photos": 309,
+   "top3": 1.0
+  },
+  "hexabranchus-sanguineus": {
+   "photos": 318,
+   "top3": 0.9833333333333333
+  },
+  "hypselodoris-apolegma": {
+   "photos": 310,
+   "top3": 0.9743589743589743
+  },
+  "hypselodoris-bullockii": {
+   "photos": 359,
+   "top3": 0.9649122807017544
+  },
+  "hypselodoris-emma": {
+   "photos": 315,
+   "top3": 0.9354838709677419
+  },
+  "hypselodoris-infucata": {
+   "photos": 331,
+   "top3": 0.9607843137254902
+  },
+  "hypselodoris-maculosa": {
+   "photos": 245,
+   "top3": 0.8913043478260869
+  },
+  "hypselodoris-tryoni": {
+   "photos": 437,
+   "top3": 0.96875
+  },
+  "jorunna-funebris": {
+   "photos": 465,
+   "top3": 0.9722222222222222
+  },
+  "jorunna-parva": {
+   "photos": 143,
+   "top3": 0.8421052631578947
+  },
+  "kalinga-ornata": {
+   "photos": 38,
+   "top3": 1.0
+  },
+  "limacia-clavigera": {
+   "photos": 578,
+   "top3": 0.8910891089108911
+  },
+  "melibe-colemani": {
+   "photos": 114,
+   "top3": 0.9285714285714286
+  },
+  "melibe-viridis": {
+   "photos": 227,
+   "top3": 1.0
+  },
+  "mexichromis-mariei": {
+   "photos": 208,
+   "top3": 0.9487179487179487
+  },
+  "mexichromis-multituberculata": {
+   "photos": 310,
+   "top3": 1.0
+  },
+  "nembrotha-chamberlaini": {
+   "photos": 329,
+   "top3": 0.9444444444444444
+  },
+  "nembrotha-cristata": {
+   "photos": 335,
+   "top3": 0.925
+  },
+  "nembrotha-kubaryana": {
+   "photos": 389,
+   "top3": 0.9508196721311475
+  },
+  "nembrotha-lineolata": {
+   "photos": 343,
+   "top3": 0.9056603773584906
+  },
+  "nembrotha-megalocera": {
+   "photos": 26,
+   "top3": 1.0
+  },
+  "nemesignis-banyulensis": {
+   "photos": 307,
+   "top3": 0.9347826086956522
+  },
+  "neptunazurea-kempfi": {
+   "photos": 57,
+   "top3": 1.0
+  },
+  "paraflabellina-ischitana": {
+   "photos": 306,
+   "top3": 0.8823529411764706
+  },
+  "peltodoris-atromaculata": {
+   "photos": 357,
+   "top3": 0.9705882352941176
+  },
+  "phidiana-lynceus": {
+   "photos": 235,
+   "top3": 0.8387096774193549
+  },
+  "phyllidia-coelestis": {
+   "photos": 389,
+   "top3": 0.9701492537313433
+  },
+  "phyllidia-elegans": {
+   "photos": 449,
+   "top3": 0.9824561403508771
+  },
+  "phyllidia-flava": {
+   "photos": 168,
+   "top3": 1.0
+  },
+  "phyllidia-ocellata": {
+   "photos": 513,
+   "top3": 0.9868421052631579
+  },
+  "phyllidia-undula": {
+   "photos": 89,
+   "top3": 1.0
+  },
+  "phyllidia-varicosa": {
+   "photos": 572,
+   "top3": 0.9529411764705882
+  },
+  "phyllidiella-nigra": {
+   "photos": 322,
+   "top3": 0.96875
+  },
+  "phyllidiella-pustulosa": {
+   "photos": 446,
+   "top3": 0.9655172413793104
+  },
+  "phyllodesmium-briareum": {
+   "photos": 318,
+   "top3": 1.0
+  },
+  "platydoris-argo": {
+   "photos": 219,
+   "top3": 0.8275862068965517
+  },
+  "polycera-hummi": {
+   "photos": 78,
+   "top3": 1.0
+  },
+  "polycera-quadrilineata": {
+   "photos": 573,
+   "top3": 0.8795180722891566
+  },
+  "pteraeolidia-semperi": {
+   "photos": 567,
+   "top3": 0.851063829787234
+  },
+  "reticulidia-halgerda": {
+   "photos": 220,
+   "top3": 0.9714285714285714
+  },
+  "roboastra-gracilis": {
+   "photos": 300,
+   "top3": 0.972972972972973
+  },
+  "rudmania-krohni": {
+   "photos": 307,
+   "top3": 0.7857142857142857
+  },
+  "rudmania-purpurea": {
+   "photos": 302,
+   "top3": 0.9591836734693877
+  },
+  "spurilla-braziliana": {
+   "photos": 365,
+   "top3": 0.8775510204081632
+  },
+  "spurilla-neapolitana": {
+   "photos": 305,
+   "top3": 0.8043478260869565
+  },
+  "tambja-morosa": {
+   "photos": 360,
+   "top3": 0.9782608695652174
+  },
+  "thecacera-picta": {
+   "photos": 308,
+   "top3": 1.0
+  },
+  "trapania-maculata": {
+   "photos": 135,
+   "top3": 0.9444444444444444
+  }
+ },
+ "tfliteAgreement": 0.9607843137254902,
+ "modelBytes": 3377560
+}
