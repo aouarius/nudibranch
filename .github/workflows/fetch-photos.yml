@@ -15,7 +15,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: python3 tools/fetch_species_photos.py app/src/main/assets/species.json photo-candidates 3
+      # A list of new species to look up wins over the species already in the app.
+      - run: |
+          list=app/src/main/assets/species.json
+          if [ -f tools/new_species_candidates.json ]; then list=tools/new_species_candidates.json; fi
+          python3 tools/fetch_species_photos.py "$list" photo-candidates 2
       - name: Commit candidates for review
         run: |
           git config user.name "github-actions[bot]"
