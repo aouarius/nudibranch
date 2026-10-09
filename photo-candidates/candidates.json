@@ -1,0 +1,2007 @@
+{
+  "chromodoris-quadricolor": {
+    "taxonId": 337968,
+    "taxonName": "Chromodoris quadricolor",
+    "observations": 535,
+    "family": "Chromodorididae",
+    "englishName": "Pyjama Slug",
+    "germanName": "Pyjama-Sternschnecke",
+    "candidates": [
+      {
+        "file": "chromodoris-quadricolor-1.jpg",
+        "photoId": 30234358,
+        "license": "cc-by-sa",
+        "attribution": "(c) Georgina Jones, some rights reserved (CC BY-SA), uploaded by Georgina Jones",
+        "sourceUrl": "https://www.inaturalist.org/photos/30234358"
+      },
+      {
+        "file": "chromodoris-quadricolor-2.jpg",
+        "photoId": 30322944,
+        "license": "cc-by-sa",
+        "attribution": "(c) Georgina Jones, some rights reserved (CC BY-SA), uploaded by Georgina Jones",
+        "sourceUrl": "https://www.inaturalist.org/photos/30322944"
+      }
+    ]
+  },
+  "goniobranchus-annulatus": {
+    "taxonId": 353273,
+    "taxonName": "Goniobranchus annulatus",
+    "observations": 344,
+    "family": "Chromodorididae",
+    "englishName": "Ringed Goniobranch",
+    "germanName": "Ring-Prachtsternschnecke",
+    "candidates": [
+      {
+        "file": "goniobranchus-annulatus-1.jpg",
+        "photoId": 555089993,
+        "license": "cc-by",
+        "attribution": "(c) Astra, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/555089993"
+      },
+      {
+        "file": "goniobranchus-annulatus-2.jpg",
+        "photoId": 716964019,
+        "license": "cc-by-sa",
+        "attribution": "(c) Georgina Jones, some rights reserved (CC BY-SA)",
+        "sourceUrl": "https://www.inaturalist.org/photos/716964019"
+      }
+    ]
+  },
+  "nembrotha-megalocera": {
+    "taxonId": 504152,
+    "taxonName": "Nembrotha megalocera",
+    "observations": 31,
+    "family": "Polyceridae",
+    "englishName": null,
+    "germanName": "Rotmeer-Sternschnecke",
+    "candidates": [
+      {
+        "file": "nembrotha-megalocera-1.jpg",
+        "photoId": 51105932,
+        "license": "cc-by-sa",
+        "attribution": "(c) Micha Baum, some rights reserved (CC BY-SA)",
+        "sourceUrl": "https://www.inaturalist.org/photos/51105932"
+      },
+      {
+        "file": "nembrotha-megalocera-2.jpg",
+        "photoId": 334397060,
+        "license": "cc-by",
+        "attribution": "(c) Daniel Benák, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/334397060"
+      }
+    ]
+  },
+  "hypselodoris-infucata": {
+    "taxonId": 52862,
+    "taxonName": "Hypselodoris infucata",
+    "observations": 1057,
+    "family": "Chromodorididae",
+    "englishName": "Painted Hypselodoris",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "hypselodoris-infucata-1.jpg",
+        "photoId": 664778973,
+        "license": "cc-by-sa",
+        "attribution": "(c) Georgina Jones, some rights reserved (CC BY-SA)",
+        "sourceUrl": "https://www.inaturalist.org/photos/664778973"
+      },
+      {
+        "file": "hypselodoris-infucata-2.jpg",
+        "photoId": 394591606,
+        "license": "cc-by",
+        "attribution": "(c) Doreen, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/394591606"
+      }
+    ]
+  },
+  "phyllidia-undula": {
+    "taxonId": 1150296,
+    "taxonName": "Phyllidia undula",
+    "observations": 117,
+    "family": "Phyllidiidae",
+    "englishName": "Wave Wart Slug",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "phyllidia-undula-1.jpg",
+        "photoId": 602017910,
+        "license": "cc-by",
+        "attribution": "(c) Libby Keatley, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/602017910"
+      },
+      {
+        "file": "phyllidia-undula-2.jpg",
+        "photoId": 477275242,
+        "license": "cc0",
+        "attribution": "no rights reserved",
+        "sourceUrl": "https://www.inaturalist.org/photos/477275242"
+      }
+    ]
+  },
+  "plocamopherus-ocellatus": {
+    "taxonId": 1066216,
+    "taxonName": "Plocamopherus ocellatus",
+    "observations": 11,
+    "family": "Polyceridae",
+    "englishName": null,
+    "germanName": null,
+    "candidates": []
+  },
+  "glossodoris-hikuerensis": {
+    "taxonId": 469419,
+    "taxonName": "Glossodoris hikuerensis",
+    "observations": 321,
+    "family": "Chromodorididae",
+    "englishName": "Brown-edge Glossodorid",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "glossodoris-hikuerensis-1.jpg",
+        "photoId": 250693821,
+        "license": "cc-by",
+        "attribution": "(c) Bernard Picton, some rights reserved (CC BY), uploaded by Bernard Picton",
+        "sourceUrl": "https://www.inaturalist.org/photos/250693821"
+      },
+      {
+        "file": "glossodoris-hikuerensis-2.jpg",
+        "photoId": 70667841,
+        "license": "cc-by",
+        "attribution": "(c) Dan Schofield, some rights reserved (CC BY), uploaded by Dan Schofield",
+        "sourceUrl": "https://www.inaturalist.org/photos/70667841"
+      }
+    ]
+  },
+  "hypselodoris-maculosa": {
+    "taxonId": 143297,
+    "taxonName": "Hypselodoris maculosa",
+    "observations": 408,
+    "family": "Chromodorididae",
+    "englishName": "Spotted Hypselodoris",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "hypselodoris-maculosa-1.jpg",
+        "photoId": 6921451,
+        "license": "cc-by",
+        "attribution": "(c) Bernard Picton, some rights reserved (CC BY), uploaded by Bernard Picton",
+        "sourceUrl": "https://www.inaturalist.org/photos/6921451"
+      },
+      {
+        "file": "hypselodoris-maculosa-2.jpg",
+        "photoId": 10993813,
+        "license": "cc-by",
+        "attribution": "(c) Tine Kinn Kvamme, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/10993813"
+      }
+    ]
+  },
+  "chromodoris-elisabethina": {
+    "taxonId": 126095,
+    "taxonName": "Chromodoris elisabethina",
+    "observations": 675,
+    "family": "Chromodorididae",
+    "englishName": "Elisabeth's Chromodoris",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "chromodoris-elisabethina-1.jpg",
+        "photoId": 6921651,
+        "license": "cc-by",
+        "attribution": "(c) Bernard Picton, some rights reserved (CC BY), uploaded by Bernard Picton",
+        "sourceUrl": "https://www.inaturalist.org/photos/6921651"
+      },
+      {
+        "file": "chromodoris-elisabethina-2.jpg",
+        "photoId": 11041285,
+        "license": "cc-by",
+        "attribution": "(c) Bernard Picton, some rights reserved (CC BY), uploaded by Bernard Picton",
+        "sourceUrl": "https://www.inaturalist.org/photos/11041285"
+      }
+    ]
+  },
+  "chromodoris-magnifica": {
+    "taxonId": 121048,
+    "taxonName": "Chromodoris magnifica",
+    "observations": 1161,
+    "family": "Chromodorididae",
+    "englishName": "Magnificent Chromodoris",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "chromodoris-magnifica-1.jpg",
+        "photoId": 468062458,
+        "license": "cc-by",
+        "attribution": "(c) Ioannis Magouras, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/468062458"
+      },
+      {
+        "file": "chromodoris-magnifica-2.jpg",
+        "photoId": 250693199,
+        "license": "cc-by",
+        "attribution": "(c) Bernard Picton, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/250693199"
+      }
+    ]
+  },
+  "chromodoris-lochi": {
+    "taxonId": 201640,
+    "taxonName": "Chromodoris lochi",
+    "observations": 1958,
+    "family": "Chromodorididae",
+    "englishName": "Loch's Chromodoris",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "chromodoris-lochi-1.jpg",
+        "photoId": 32254769,
+        "license": "cc-by-sa",
+        "attribution": "(c) Georgina Jones, some rights reserved (CC BY-SA), uploaded by Georgina Jones",
+        "sourceUrl": "https://www.inaturalist.org/photos/32254769"
+      },
+      {
+        "file": "chromodoris-lochi-2.jpg",
+        "photoId": 493451,
+        "license": "cc-by",
+        "attribution": "(c) Steve Childs, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/493451"
+      }
+    ]
+  },
+  "chromodoris-dianae": {
+    "taxonId": 126096,
+    "taxonName": "Chromodoris dianae",
+    "observations": 166,
+    "family": "Chromodorididae",
+    "englishName": "Diana's Chromodoris",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "chromodoris-dianae-1.jpg",
+        "photoId": 11761144,
+        "license": "cc-by",
+        "attribution": "(c) Bernard Picton, some rights reserved (CC BY), uploaded by Bernard Picton",
+        "sourceUrl": "https://www.inaturalist.org/photos/11761144"
+      },
+      {
+        "file": "chromodoris-dianae-2.jpg",
+        "photoId": 33580962,
+        "license": "cc-by-sa",
+        "attribution": "(c) Georgina Jones, some rights reserved (CC BY-SA), uploaded by Georgina Jones",
+        "sourceUrl": "https://www.inaturalist.org/photos/33580962"
+      }
+    ]
+  },
+  "chromodoris-strigata": {
+    "taxonId": 143227,
+    "taxonName": "Chromodoris strigata",
+    "observations": 503,
+    "family": "Chromodorididae",
+    "englishName": "Streaked Chromodoris",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "chromodoris-strigata-1.jpg",
+        "photoId": 114729702,
+        "license": "cc-by",
+        "attribution": "(c) Dan Schofield, some rights reserved (CC BY), uploaded by Dan Schofield",
+        "sourceUrl": "https://www.inaturalist.org/photos/114729702"
+      },
+      {
+        "file": "chromodoris-strigata-2.jpg",
+        "photoId": 70667792,
+        "license": "cc-by",
+        "attribution": "(c) Dan Schofield, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/70667792"
+      }
+    ]
+  },
+  "hypselodoris-apolegma": {
+    "taxonId": 54667,
+    "taxonName": "Hypselodoris apolegma",
+    "observations": 483,
+    "family": "Chromodorididae",
+    "englishName": "Giant Hypselodoris",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "hypselodoris-apolegma-1.jpg",
+        "photoId": 57993266,
+        "license": "cc-by",
+        "attribution": "(c) Dan Schofield, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/57993266"
+      },
+      {
+        "file": "hypselodoris-apolegma-2.jpg",
+        "photoId": 73525146,
+        "license": "cc-by",
+        "attribution": "(c) Dan Schofield, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/73525146"
+      }
+    ]
+  },
+  "hypselodoris-bullockii": {
+    "taxonId": 548309,
+    "taxonName": "Hypselodoris bullockii",
+    "observations": 965,
+    "family": "Chromodorididae",
+    "englishName": "Bullock's Hypselodoris",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "hypselodoris-bullockii-1.jpg",
+        "photoId": 82659167,
+        "license": "cc-by",
+        "attribution": "(c) Dan Schofield, some rights reserved (CC BY), uploaded by Dan Schofield",
+        "sourceUrl": "https://www.inaturalist.org/photos/82659167"
+      },
+      {
+        "file": "hypselodoris-bullockii-2.jpg",
+        "photoId": 57993293,
+        "license": "cc-by",
+        "attribution": "(c) Dan Schofield, some rights reserved (CC BY), uploaded by Dan Schofield",
+        "sourceUrl": "https://www.inaturalist.org/photos/57993293"
+      }
+    ]
+  },
+  "hypselodoris-tryoni": {
+    "taxonId": 468033,
+    "taxonName": "Hypselodoris tryoni",
+    "observations": 2375,
+    "family": "Chromodorididae",
+    "englishName": "Tryon's Hypselodoris",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "hypselodoris-tryoni-1.jpg",
+        "photoId": 620834687,
+        "license": "cc-by",
+        "attribution": "(c) Jay Paroline, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/620834687"
+      },
+      {
+        "file": "hypselodoris-tryoni-2.jpg",
+        "photoId": 60158655,
+        "license": "cc-by",
+        "attribution": "(c) Kai Squires, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/60158655"
+      }
+    ]
+  },
+  "hypselodoris-maridadilus": {
+    "taxonId": 123418,
+    "taxonName": "Hypselodoris maridadilus",
+    "observations": 86,
+    "family": "Chromodorididae",
+    "englishName": null,
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "hypselodoris-maridadilus-1.jpg",
+        "photoId": 55611797,
+        "license": "cc-by-sa",
+        "attribution": "(c) Ewout Knoester, some rights reserved (CC BY-SA), uploaded by Ewout Knoester",
+        "sourceUrl": "https://www.inaturalist.org/photos/55611797"
+      },
+      {
+        "file": "hypselodoris-maridadilus-2.jpg",
+        "photoId": 15650657,
+        "license": "cc-by-sa",
+        "attribution": "(c) Georgina Jones, some rights reserved (CC BY-SA), uploaded by Georgina Jones",
+        "sourceUrl": "https://www.inaturalist.org/photos/15650657"
+      }
+    ]
+  },
+  "hypselodoris-emma": {
+    "taxonId": 319379,
+    "taxonName": "Hypselodoris emma",
+    "observations": 477,
+    "family": "Chromodorididae",
+    "englishName": "Emma's Hypselodoris",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "hypselodoris-emma-1.jpg",
+        "photoId": 2670656,
+        "license": "cc-by",
+        "attribution": "(c) Bart, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/2670656"
+      },
+      {
+        "file": "hypselodoris-emma-2.jpg",
+        "photoId": 657155394,
+        "license": "cc-by-sa",
+        "attribution": "(c) Ewout Knoester, some rights reserved (CC BY-SA)",
+        "sourceUrl": "https://www.inaturalist.org/photos/657155394"
+      }
+    ]
+  },
+  "hypselodoris-kanga": {
+    "taxonId": 473492,
+    "taxonName": "Hypselodoris kanga",
+    "observations": 52,
+    "family": "Chromodorididae",
+    "englishName": null,
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "hypselodoris-kanga-1.jpg",
+        "photoId": 28051755,
+        "license": "cc-by-sa",
+        "attribution": "(c) Ewout Knoester, some rights reserved (CC BY-SA)",
+        "sourceUrl": "https://www.inaturalist.org/photos/28051755"
+      },
+      {
+        "file": "hypselodoris-kanga-2.jpg",
+        "photoId": 39129700,
+        "license": "cc-by-sa",
+        "attribution": "(c) Ewout Knoester, some rights reserved (CC BY-SA)",
+        "sourceUrl": "https://www.inaturalist.org/photos/39129700"
+      }
+    ]
+  },
+  "goniobranchus-kuniei": {
+    "taxonId": 469422,
+    "taxonName": "Goniobranchus kuniei",
+    "observations": 1022,
+    "family": "Chromodorididae",
+    "englishName": null,
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "goniobranchus-kuniei-1.jpg",
+        "photoId": 82984424,
+        "license": "cc-by",
+        "attribution": "(c) Dan Schofield, some rights reserved (CC BY), uploaded by Dan Schofield",
+        "sourceUrl": "https://www.inaturalist.org/photos/82984424"
+      },
+      {
+        "file": "goniobranchus-kuniei-2.jpg",
+        "photoId": 89979,
+        "license": "cc-by",
+        "attribution": "(c) Steve Childs, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/89979"
+      }
+    ]
+  },
+  "goniobranchus-geminus": {
+    "taxonId": 502350,
+    "taxonName": "Goniobranchus geminus",
+    "observations": 243,
+    "family": "Chromodorididae",
+    "englishName": "Gem Sea Slug",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "goniobranchus-geminus-1.jpg",
+        "photoId": 4351961,
+        "license": "cc-by",
+        "attribution": "(c) Steve Childs, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/4351961"
+      },
+      {
+        "file": "goniobranchus-geminus-2.jpg",
+        "photoId": 4351962,
+        "license": "cc-by",
+        "attribution": "(c) Steve Childs, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/4351962"
+      }
+    ]
+  },
+  "goniobranchus-coi": {
+    "taxonId": 481507,
+    "taxonName": "Goniobranchus coi",
+    "observations": 795,
+    "family": "Chromodorididae",
+    "englishName": "Coi's Goniobranchus",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "goniobranchus-coi-1.jpg",
+        "photoId": 90041,
+        "license": "cc-by",
+        "attribution": "(c) Steve Childs, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/90041"
+      },
+      {
+        "file": "goniobranchus-coi-2.jpg",
+        "photoId": 90040,
+        "license": "cc-by",
+        "attribution": "(c) Steve Childs, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/90040"
+      }
+    ]
+  },
+  "goniobranchus-reticulatus": {
+    "taxonId": 469414,
+    "taxonName": "Goniobranchus reticulatus",
+    "observations": 28,
+    "family": "Chromodorididae",
+    "englishName": "Reticulated Goniobranchus",
+    "germanName": null,
+    "candidates": []
+  },
+  "goniobranchus-fidelis": {
+    "taxonId": 469421,
+    "taxonName": "Goniobranchus fidelis",
+    "observations": 1139,
+    "family": "Chromodorididae",
+    "englishName": "Faithful Sea Slug",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "goniobranchus-fidelis-1.jpg",
+        "photoId": 538485504,
+        "license": "cc-by",
+        "attribution": "(c) 呂一起(Lyu yi-chi), some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/538485504"
+      },
+      {
+        "file": "goniobranchus-fidelis-2.jpg",
+        "photoId": 488721522,
+        "license": "cc-by",
+        "attribution": "(c) Piotr Lukasik, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/488721522"
+      }
+    ]
+  },
+  "goniobranchus-tinctorius": {
+    "taxonId": 469417,
+    "taxonName": "Goniobranchus tinctorius",
+    "observations": 43,
+    "family": "Chromodorididae",
+    "englishName": "Red-netted Goniobranch",
+    "germanName": null,
+    "candidates": []
+  },
+  "ardeadoris-egretta": {
+    "taxonId": 121406,
+    "taxonName": "Ardeadoris egretta",
+    "observations": 353,
+    "family": "Chromodorididae",
+    "englishName": null,
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "ardeadoris-egretta-1.jpg",
+        "photoId": 90223,
+        "license": "cc-by",
+        "attribution": "(c) Bart, some rights reserved (CC BY), uploaded by Bart",
+        "sourceUrl": "https://www.inaturalist.org/photos/90223"
+      },
+      {
+        "file": "ardeadoris-egretta-2.jpg",
+        "photoId": 59837405,
+        "license": "cc-by",
+        "attribution": "(c) Kai Squires, some rights reserved (CC BY), uploaded by Kai Squires",
+        "sourceUrl": "https://www.inaturalist.org/photos/59837405"
+      }
+    ]
+  },
+  "glossodoris-cincta": {
+    "taxonId": 126093,
+    "taxonName": "Glossodoris cincta",
+    "observations": 31,
+    "family": "Chromodorididae",
+    "englishName": "Girdled Glossodoris",
+    "germanName": null,
+    "candidates": []
+  },
+  "doriprismatica-atromarginata": {
+    "taxonId": 468042,
+    "taxonName": "Doriprismatica atromarginata",
+    "observations": 5154,
+    "family": "Chromodorididae",
+    "englishName": "Black-margined Nudibranch",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "doriprismatica-atromarginata-1.jpg",
+        "photoId": 7394,
+        "license": "cc-by",
+        "attribution": "(c) Silke Baron, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/7394"
+      },
+      {
+        "file": "doriprismatica-atromarginata-2.jpg",
+        "photoId": 455254064,
+        "license": "cc-by",
+        "attribution": "(c) Lawrence Hylton, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/455254064"
+      }
+    ]
+  },
+  "mexichromis-multituberculata": {
+    "taxonId": 54668,
+    "taxonName": "Mexichromis multituberculata",
+    "observations": 686,
+    "family": "Chromodorididae",
+    "englishName": "Bumpy Mexichromis",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "mexichromis-multituberculata-1.jpg",
+        "photoId": 501295448,
+        "license": "cc-by-sa",
+        "attribution": "(c) Georgina Jones, some rights reserved (CC BY-SA)",
+        "sourceUrl": "https://www.inaturalist.org/photos/501295448"
+      },
+      {
+        "file": "mexichromis-multituberculata-2.jpg",
+        "photoId": 67164823,
+        "license": "cc-by",
+        "attribution": "(c) Dan Schofield, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/67164823"
+      }
+    ]
+  },
+  "mexichromis-mariei": {
+    "taxonId": 505643,
+    "taxonName": "Mexichromis mariei",
+    "observations": 321,
+    "family": "Chromodorididae",
+    "englishName": "Marie's Mexichromis",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "mexichromis-mariei-1.jpg",
+        "photoId": 89993,
+        "license": "cc-by",
+        "attribution": "(c) Bart, some rights reserved (CC BY), uploaded by Bart",
+        "sourceUrl": "https://www.inaturalist.org/photos/89993"
+      },
+      {
+        "file": "mexichromis-mariei-2.jpg",
+        "photoId": 52182060,
+        "license": "cc-by",
+        "attribution": "(c) Dan Schofield, some rights reserved (CC BY), uploaded by Dan Schofield",
+        "sourceUrl": "https://www.inaturalist.org/photos/52182060"
+      }
+    ]
+  },
+  "halgerda-batangas": {
+    "taxonId": 125934,
+    "taxonName": "Halgerda batangas",
+    "observations": 918,
+    "family": "Discodorididae",
+    "englishName": "Batangas Halgerda",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "halgerda-batangas-1.jpg",
+        "photoId": 89958,
+        "license": "cc-by",
+        "attribution": "(c) Bart, some rights reserved (CC BY), uploaded by Bart",
+        "sourceUrl": "https://www.inaturalist.org/photos/89958"
+      },
+      {
+        "file": "halgerda-batangas-2.jpg",
+        "photoId": 315724529,
+        "license": "cc-by",
+        "attribution": "(c) Bernard Picton, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/315724529"
+      }
+    ]
+  },
+  "halgerda-willeyi": {
+    "taxonId": 390159,
+    "taxonName": "Halgerda willeyi",
+    "observations": 565,
+    "family": "Discodorididae",
+    "englishName": "Willey’s Nudibranch",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "halgerda-willeyi-1.jpg",
+        "photoId": 257388236,
+        "license": "cc-by",
+        "attribution": "(c) Susan Prior, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/257388236"
+      },
+      {
+        "file": "halgerda-willeyi-2.jpg",
+        "photoId": 28051810,
+        "license": "cc-by-sa",
+        "attribution": "(c) Ewout Knoester, some rights reserved (CC BY-SA)",
+        "sourceUrl": "https://www.inaturalist.org/photos/28051810"
+      }
+    ]
+  },
+  "jorunna-funebris": {
+    "taxonId": 50300,
+    "taxonName": "Jorunna funebris",
+    "observations": 2099,
+    "family": "Discodorididae",
+    "englishName": "Mourning Dorid",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "jorunna-funebris-1.jpg",
+        "photoId": 10994316,
+        "license": "cc-by",
+        "attribution": "(c) Tine Kinn Kvamme, some rights reserved (CC BY), uploaded by Tine Kinn Kvamme",
+        "sourceUrl": "https://www.inaturalist.org/photos/10994316"
+      },
+      {
+        "file": "jorunna-funebris-2.jpg",
+        "photoId": 10987683,
+        "license": "cc-by",
+        "attribution": "(c) Tine Kinn Kvamme, some rights reserved (CC BY), uploaded by Tine Kinn Kvamme",
+        "sourceUrl": "https://www.inaturalist.org/photos/10987683"
+      }
+    ]
+  },
+  "nembrotha-cristata": {
+    "taxonId": 119438,
+    "taxonName": "Nembrotha cristata",
+    "observations": 944,
+    "family": "Polyceridae",
+    "englishName": "Crested Nembrotha",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "nembrotha-cristata-1.jpg",
+        "photoId": 86866118,
+        "license": "cc-by",
+        "attribution": "(c) Dan Schofield, some rights reserved (CC BY), uploaded by Dan Schofield",
+        "sourceUrl": "https://www.inaturalist.org/photos/86866118"
+      },
+      {
+        "file": "nembrotha-cristata-2.jpg",
+        "photoId": 55864,
+        "license": "cc-by",
+        "attribution": "(c) Steve Childs, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/55864"
+      }
+    ]
+  },
+  "nembrotha-chamberlaini": {
+    "taxonId": 121050,
+    "taxonName": "Nembrotha chamberlaini",
+    "observations": 842,
+    "family": "Polyceridae",
+    "englishName": "Chamberlain's Nembrotha",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "nembrotha-chamberlaini-1.jpg",
+        "photoId": 54426746,
+        "license": "cc-by",
+        "attribution": "(c) Dan Schofield, some rights reserved (CC BY), uploaded by Dan Schofield",
+        "sourceUrl": "https://www.inaturalist.org/photos/54426746"
+      },
+      {
+        "file": "nembrotha-chamberlaini-2.jpg",
+        "photoId": 129402851,
+        "license": "cc-by",
+        "attribution": "(c) Eric Crandall, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/129402851"
+      }
+    ]
+  },
+  "nembrotha-lineolata": {
+    "taxonId": 119860,
+    "taxonName": "Nembrotha lineolata",
+    "observations": 761,
+    "family": "Polyceridae",
+    "englishName": "Lined Nembrotha",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "nembrotha-lineolata-1.jpg",
+        "photoId": 57618,
+        "license": "cc-by",
+        "attribution": "(c) SarahDepper, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/57618"
+      },
+      {
+        "file": "nembrotha-lineolata-2.jpg",
+        "photoId": 506038655,
+        "license": "cc-by-sa",
+        "attribution": "(c) Georgina Jones, some rights reserved (CC BY-SA), uploaded by Georgina Jones",
+        "sourceUrl": "https://www.inaturalist.org/photos/506038655"
+      }
+    ]
+  },
+  "roboastra-gracilis": {
+    "taxonId": 120982,
+    "taxonName": "Roboastra gracilis",
+    "observations": 410,
+    "family": "Polyceridae",
+    "englishName": "Slender Roboastra",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "roboastra-gracilis-1.jpg",
+        "photoId": 10977482,
+        "license": "cc-by",
+        "attribution": "(c) Tine Kinn Kvamme, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/10977482"
+      },
+      {
+        "file": "roboastra-gracilis-2.jpg",
+        "photoId": 591493543,
+        "license": "cc-by",
+        "attribution": "(c) Jakkarin Burananit, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/591493543"
+      }
+    ]
+  },
+  "tambja-morosa": {
+    "taxonId": 120948,
+    "taxonName": "Tambja morosa",
+    "observations": 1323,
+    "family": "Polyceridae",
+    "englishName": "Gloomy Nudibranch",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "tambja-morosa-1.jpg",
+        "photoId": 66090,
+        "license": "cc-by",
+        "attribution": "(c) Steve Childs, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/66090"
+      },
+      {
+        "file": "tambja-morosa-2.jpg",
+        "photoId": 66093,
+        "license": "cc-by",
+        "attribution": "(c) Steve Childs, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/66093"
+      }
+    ]
+  },
+  "phyllidia-ocellata": {
+    "taxonId": 50554,
+    "taxonName": "Phyllidia ocellata",
+    "observations": 2593,
+    "family": "Phyllidiidae",
+    "englishName": "Ocellate Phyllidia",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "phyllidia-ocellata-1.jpg",
+        "photoId": 10989882,
+        "license": "cc-by",
+        "attribution": "(c) Tine Kinn Kvamme, some rights reserved (CC BY), uploaded by Tine Kinn Kvamme",
+        "sourceUrl": "https://www.inaturalist.org/photos/10989882"
+      },
+      {
+        "file": "phyllidia-ocellata-2.jpg",
+        "photoId": 50480948,
+        "license": "cc-by-sa",
+        "attribution": "(c) Georgina Jones, some rights reserved (CC BY-SA)",
+        "sourceUrl": "https://www.inaturalist.org/photos/50480948"
+      }
+    ]
+  },
+  "phyllidia-coelestis": {
+    "taxonId": 142294,
+    "taxonName": "Phyllidia coelestis",
+    "observations": 1513,
+    "family": "Phyllidiidae",
+    "englishName": "Sky Blue Phyllidia",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "phyllidia-coelestis-1.jpg",
+        "photoId": 305025373,
+        "license": "cc-by",
+        "attribution": "(c) portioid, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/305025373"
+      },
+      {
+        "file": "phyllidia-coelestis-2.jpg",
+        "photoId": 489709202,
+        "license": "cc-by",
+        "attribution": "(c) Bernie Wong, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/489709202"
+      }
+    ]
+  },
+  "phyllidia-elegans": {
+    "taxonId": 119872,
+    "taxonName": "Phyllidia elegans",
+    "observations": 1588,
+    "family": "Phyllidiidae",
+    "englishName": "Elegant Phyllidia",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "phyllidia-elegans-1.jpg",
+        "photoId": 335478123,
+        "license": "cc-by",
+        "attribution": "(c) portioid, some rights reserved (CC BY), uploaded by portioid",
+        "sourceUrl": "https://www.inaturalist.org/photos/335478123"
+      },
+      {
+        "file": "phyllidia-elegans-2.jpg",
+        "photoId": 48919054,
+        "license": "cc-by",
+        "attribution": "(c) Dan Schofield, some rights reserved (CC BY), uploaded by Dan Schofield",
+        "sourceUrl": "https://www.inaturalist.org/photos/48919054"
+      }
+    ]
+  },
+  "phyllidiella-pustulosa": {
+    "taxonId": 49728,
+    "taxonName": "Phyllidiella pustulosa",
+    "observations": 3836,
+    "family": "Phyllidiidae",
+    "englishName": "Pustulose Wart Slug",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "phyllidiella-pustulosa-1.jpg",
+        "photoId": 10989583,
+        "license": "cc-by",
+        "attribution": "(c) Tine Kinn Kvamme, some rights reserved (CC BY), uploaded by Tine Kinn Kvamme",
+        "sourceUrl": "https://www.inaturalist.org/photos/10989583"
+      },
+      {
+        "file": "phyllidiella-pustulosa-2.jpg",
+        "photoId": 71820397,
+        "license": "cc0",
+        "attribution": "no rights reserved",
+        "sourceUrl": "https://www.inaturalist.org/photos/71820397"
+      }
+    ]
+  },
+  "phyllidiella-nigra": {
+    "taxonId": 50552,
+    "taxonName": "Phyllidiella nigra",
+    "observations": 586,
+    "family": "Phyllidiidae",
+    "englishName": null,
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "phyllidiella-nigra-1.jpg",
+        "photoId": 625751917,
+        "license": "cc-by",
+        "attribution": "(c) PampaSorro, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/625751917"
+      },
+      {
+        "file": "phyllidiella-nigra-2.jpg",
+        "photoId": 318759954,
+        "license": "cc-by",
+        "attribution": "(c) portioid, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/318759954"
+      }
+    ]
+  },
+  "reticulidia-halgerda": {
+    "taxonId": 120989,
+    "taxonName": "Reticulidia halgerda",
+    "observations": 279,
+    "family": "Phyllidiidae",
+    "englishName": "Chocolate Mango Nudibranch",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "reticulidia-halgerda-1.jpg",
+        "photoId": 66761,
+        "license": "cc-by",
+        "attribution": "(c) Steve Childs, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/66761"
+      },
+      {
+        "file": "reticulidia-halgerda-2.jpg",
+        "photoId": 244492061,
+        "license": "cc-by",
+        "attribution": "(c) Debra Baker, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/244492061"
+      }
+    ]
+  },
+  "ceratosoma-trilobatum": {
+    "taxonId": 199474,
+    "taxonName": "Ceratosoma trilobatum",
+    "observations": 855,
+    "family": "Chromodorididae",
+    "englishName": "Three-lobed T-bar Nudibranch",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "ceratosoma-trilobatum-1.jpg",
+        "photoId": 243639422,
+        "license": "cc0",
+        "attribution": "no rights reserved",
+        "sourceUrl": "https://www.inaturalist.org/photos/243639422"
+      },
+      {
+        "file": "ceratosoma-trilobatum-2.jpg",
+        "photoId": 31995360,
+        "license": "cc-by",
+        "attribution": "(c) desertnaturalist, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/31995360"
+      }
+    ]
+  },
+  "ceratosoma-tenue": {
+    "taxonId": 120937,
+    "taxonName": "Ceratosoma tenue",
+    "observations": 932,
+    "family": "Chromodorididae",
+    "englishName": "Many-lobed Ceratosoma",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "ceratosoma-tenue-1.jpg",
+        "photoId": 333978587,
+        "license": "cc-by",
+        "attribution": "(c) Pauline Walsh Jacobson, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/333978587"
+      },
+      {
+        "file": "ceratosoma-tenue-2.jpg",
+        "photoId": 624882849,
+        "license": "cc-by-sa",
+        "attribution": "(c) Ewout Knoester, some rights reserved (CC BY-SA)",
+        "sourceUrl": "https://www.inaturalist.org/photos/624882849"
+      }
+    ]
+  },
+  "miamira-magnifica": {
+    "taxonId": 199491,
+    "taxonName": "Miamira magnifica",
+    "observations": 4,
+    "family": "Chromodorididae",
+    "englishName": null,
+    "germanName": null,
+    "candidates": []
+  },
+  "gymnodoris-ceylonica": {
+    "taxonId": 50305,
+    "taxonName": "Gymnodoris ceylonica",
+    "observations": 234,
+    "family": "Polyceridae",
+    "englishName": null,
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "gymnodoris-ceylonica-1.jpg",
+        "photoId": 436052711,
+        "license": "cc-by",
+        "attribution": "(c) Debra Baker, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/436052711"
+      },
+      {
+        "file": "gymnodoris-ceylonica-2.jpg",
+        "photoId": 40806,
+        "license": "cc-by",
+        "attribution": "(c) Bart, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/40806"
+      }
+    ]
+  },
+  "gymnodoris-aurita": {
+    "taxonId": 50304,
+    "taxonName": "Gymnodoris aurita",
+    "observations": 71,
+    "family": "Polyceridae",
+    "englishName": "Strawberry Nudibranch",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "gymnodoris-aurita-1.jpg",
+        "photoId": 53735934,
+        "license": "cc-by-sa",
+        "attribution": "(c) Ewout Knoester, some rights reserved (CC BY-SA)",
+        "sourceUrl": "https://www.inaturalist.org/photos/53735934"
+      },
+      {
+        "file": "gymnodoris-aurita-2.jpg",
+        "photoId": 21620627,
+        "license": "cc-by-sa",
+        "attribution": "(c) Ewout Knoester, some rights reserved (CC BY-SA)",
+        "sourceUrl": "https://www.inaturalist.org/photos/21620627"
+      }
+    ]
+  },
+  "thecacera-picta": {
+    "taxonId": 468030,
+    "taxonName": "Thecacera picta",
+    "observations": 574,
+    "family": "Polyceridae",
+    "englishName": null,
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "thecacera-picta-1.jpg",
+        "photoId": 645803993,
+        "license": "cc-by",
+        "attribution": "(c) Ben Costamagna, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/645803993"
+      },
+      {
+        "file": "thecacera-picta-2.jpg",
+        "photoId": 294605444,
+        "license": "cc-by-sa",
+        "attribution": "(c) Georgina Jones, some rights reserved (CC BY-SA)",
+        "sourceUrl": "https://www.inaturalist.org/photos/294605444"
+      }
+    ]
+  },
+  "kalinga-ornata": {
+    "taxonId": 61539,
+    "taxonName": "Kalinga ornata",
+    "observations": 63,
+    "family": "Polyceridae",
+    "englishName": "Parade-Float Sea Slug",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "kalinga-ornata-1.jpg",
+        "photoId": 1359930,
+        "license": "cc-by-sa",
+        "attribution": "(c) \"Vincent C. Chen is a Taiwanese recreational diver and free diver who dedicate to underwater photography and the marine lives protection. He is also one of the contributors to EZDive magazine since 2008.\", some rights reserved (CC BY-SA)",
+        "sourceUrl": "https://www.inaturalist.org/photos/1359930"
+      },
+      {
+        "file": "kalinga-ornata-2.jpg",
+        "photoId": 63390651,
+        "license": "cc-by",
+        "attribution": "(c) 呂一起(Lyu yi-chi), some rights reserved (CC BY), uploaded by 呂一起(Lyu yi-chi)",
+        "sourceUrl": "https://www.inaturalist.org/photos/63390651"
+      }
+    ]
+  },
+  "aegires-villosus": {
+    "taxonId": 467975,
+    "taxonName": "Aegires villosus",
+    "observations": 628,
+    "family": "Aegiridae",
+    "englishName": null,
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "aegires-villosus-1.jpg",
+        "photoId": 2071726,
+        "license": "cc-by",
+        "attribution": "(c) Steve Childs, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/2071726"
+      },
+      {
+        "file": "aegires-villosus-2.jpg",
+        "photoId": 718234161,
+        "license": "cc-by",
+        "attribution": "(c) Gregor Bailar, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/718234161"
+      }
+    ]
+  },
+  "pteraeolidia-semperi": {
+    "taxonId": 469568,
+    "taxonName": "Pteraeolidia semperi",
+    "observations": 4447,
+    "family": "Facelinidae",
+    "englishName": "Blue Dragon",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "pteraeolidia-semperi-1.jpg",
+        "photoId": 265631745,
+        "license": "cc-by",
+        "attribution": "(c) Debra Baker, some rights reserved (CC BY), uploaded by Debra Baker",
+        "sourceUrl": "https://www.inaturalist.org/photos/265631745"
+      },
+      {
+        "file": "pteraeolidia-semperi-2.jpg",
+        "photoId": 667528142,
+        "license": "cc-by-sa",
+        "attribution": "(c) Georgina Jones, some rights reserved (CC BY-SA)",
+        "sourceUrl": "https://www.inaturalist.org/photos/667528142"
+      }
+    ]
+  },
+  "coryphellina-exoptata": {
+    "taxonId": 871903,
+    "taxonName": "Coryphellina exoptata",
+    "observations": 1514,
+    "family": "Flabellinidae",
+    "englishName": "Desirable Flabellina",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "coryphellina-exoptata-1.jpg",
+        "photoId": 77179824,
+        "license": "cc-by",
+        "attribution": "(c) Dan Schofield, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/77179824"
+      },
+      {
+        "file": "coryphellina-exoptata-2.jpg",
+        "photoId": 350289971,
+        "license": "cc-by",
+        "attribution": "(c) portioid, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/350289971"
+      }
+    ]
+  },
+  "phyllodesmium-briareum": {
+    "taxonId": 54892,
+    "taxonName": "Phyllodesmium briareum",
+    "observations": 562,
+    "family": "Myrrhinidae",
+    "englishName": "Yellow-tipped Phyllodesmium",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "phyllodesmium-briareum-1.jpg",
+        "photoId": 7701,
+        "license": "cc-by",
+        "attribution": "(c) Steve Childs, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/7701"
+      },
+      {
+        "file": "phyllodesmium-briareum-2.jpg",
+        "photoId": 333535754,
+        "license": "cc-by-sa",
+        "attribution": "(c) Georgina Jones, some rights reserved (CC BY-SA), uploaded by Georgina Jones",
+        "sourceUrl": "https://www.inaturalist.org/photos/333535754"
+      }
+    ]
+  },
+  "phyllodesmium-longicirrum": {
+    "taxonId": 358202,
+    "taxonName": "Phyllodesmium longicirrum",
+    "observations": 163,
+    "family": "Myrrhinidae",
+    "englishName": null,
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "phyllodesmium-longicirrum-1.jpg",
+        "photoId": 331945136,
+        "license": "cc-by",
+        "attribution": "(c) desertnaturalist, some rights reserved (CC BY), uploaded by desertnaturalist",
+        "sourceUrl": "https://www.inaturalist.org/photos/331945136"
+      },
+      {
+        "file": "phyllodesmium-longicirrum-2.jpg",
+        "photoId": 331945711,
+        "license": "cc-by",
+        "attribution": "(c) desertnaturalist, some rights reserved (CC BY), uploaded by desertnaturalist",
+        "sourceUrl": "https://www.inaturalist.org/photos/331945711"
+      }
+    ]
+  },
+  "melibe-viridis": {
+    "taxonId": 50551,
+    "taxonName": "Melibe viridis",
+    "observations": 416,
+    "family": "Tethydidae",
+    "englishName": "Green Melibe",
+    "germanName": "Grüne Melibe",
+    "candidates": [
+      {
+        "file": "melibe-viridis-1.jpg",
+        "photoId": 500790497,
+        "license": "cc-by",
+        "attribution": "(c) Tom Heijnen, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/500790497"
+      },
+      {
+        "file": "melibe-viridis-2.jpg",
+        "photoId": 54503276,
+        "license": "cc-by",
+        "attribution": "(c) Dan Schofield, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/54503276"
+      }
+    ]
+  },
+  "melibe-colemani": {
+    "taxonId": 557665,
+    "taxonName": "Melibe colemani",
+    "observations": 199,
+    "family": "Tethydidae",
+    "englishName": null,
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "melibe-colemani-1.jpg",
+        "photoId": 11096464,
+        "license": "cc-by",
+        "attribution": "(c) Bernard Picton, some rights reserved (CC BY), uploaded by Bernard Picton",
+        "sourceUrl": "https://www.inaturalist.org/photos/11096464"
+      },
+      {
+        "file": "melibe-colemani-2.jpg",
+        "photoId": 396858368,
+        "license": "cc-by",
+        "attribution": "(c) portioid, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/396858368"
+      }
+    ]
+  },
+  "bornella-anguilla": {
+    "taxonId": 64717,
+    "taxonName": "Bornella anguilla",
+    "observations": 481,
+    "family": "Bornellidae",
+    "englishName": "Eel Bornella",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "bornella-anguilla-1.jpg",
+        "photoId": 14142146,
+        "license": "cc-by-sa",
+        "attribution": "(c) Georgina Jones, some rights reserved (CC BY-SA), uploaded by Georgina Jones",
+        "sourceUrl": "https://www.inaturalist.org/photos/14142146"
+      },
+      {
+        "file": "bornella-anguilla-2.jpg",
+        "photoId": 43016507,
+        "license": "cc-by-sa",
+        "attribution": "(c) Georgina Jones, some rights reserved (CC BY-SA)",
+        "sourceUrl": "https://www.inaturalist.org/photos/43016507"
+      }
+    ]
+  },
+  "bornella-stellifer": {
+    "error": "taxon not found",
+    "didYouMean": [
+      "Bornella stellifera"
+    ]
+  },
+  "marionia-rubra": {
+    "taxonId": 627145,
+    "taxonName": "Marionia rubra",
+    "observations": 34,
+    "family": "Tritoniidae",
+    "englishName": null,
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "marionia-rubra-1.jpg",
+        "photoId": 28051775,
+        "license": "cc-by-sa",
+        "attribution": "(c) Ewout Knoester, some rights reserved (CC BY-SA), uploaded by Ewout Knoester",
+        "sourceUrl": "https://www.inaturalist.org/photos/28051775"
+      },
+      {
+        "file": "marionia-rubra-2.jpg",
+        "photoId": 28051782,
+        "license": "cc-by-sa",
+        "attribution": "(c) Ewout Knoester, some rights reserved (CC BY-SA), uploaded by Ewout Knoester",
+        "sourceUrl": "https://www.inaturalist.org/photos/28051782"
+      }
+    ]
+  },
+  "felimida-luteorosea": {
+    "taxonId": 469622,
+    "taxonName": "Felimida luteorosea",
+    "observations": 405,
+    "family": "Chromodorididae",
+    "englishName": null,
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "felimida-luteorosea-1.jpg",
+        "photoId": 49925629,
+        "license": "cc-by",
+        "attribution": "(c) Julien Renoult, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/49925629"
+      },
+      {
+        "file": "felimida-luteorosea-2.jpg",
+        "photoId": 433845727,
+        "license": "cc-by",
+        "attribution": "(c) Diego González Dopico, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/433845727"
+      }
+    ]
+  },
+  "felimare-villafranca": {
+    "taxonId": 469610,
+    "taxonName": "Felimare villafranca",
+    "observations": 1190,
+    "family": "Chromodorididae",
+    "englishName": null,
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "felimare-villafranca-1.jpg",
+        "photoId": 244941605,
+        "license": "cc-by",
+        "attribution": "(c) Javier Sánchez Álvarez, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/244941605"
+      },
+      {
+        "file": "felimare-villafranca-2.jpg",
+        "photoId": 8372688,
+        "license": "cc-by",
+        "attribution": "(c) Julien Renoult, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/8372688"
+      }
+    ]
+  },
+  "felimida-krohni": {
+    "error": "taxon not found",
+    "didYouMean": [
+      "Rudmania krohni"
+    ]
+  },
+  "felimida-purpurea": {
+    "error": "taxon not found",
+    "didYouMean": [
+      "Rudmania purpurea"
+    ]
+  },
+  "felimare-fontandraui": {
+    "taxonId": 469613,
+    "taxonName": "Felimare fontandraui",
+    "observations": 781,
+    "family": "Chromodorididae",
+    "englishName": null,
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "felimare-fontandraui-1.jpg",
+        "photoId": 523529196,
+        "license": "cc-by",
+        "attribution": "(c) Donald Davesne, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/523529196"
+      },
+      {
+        "file": "felimare-fontandraui-2.jpg",
+        "photoId": 224301301,
+        "license": "cc-by",
+        "attribution": "(c) Daniel Benák, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/224301301"
+      }
+    ]
+  },
+  "felimare-orsinii": {
+    "taxonId": 469727,
+    "taxonName": "Felimare orsinii",
+    "observations": 377,
+    "family": "Chromodorididae",
+    "englishName": null,
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "felimare-orsinii-1.jpg",
+        "photoId": 228260018,
+        "license": "cc-by",
+        "attribution": "(c) Bernard Picton, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/228260018"
+      },
+      {
+        "file": "felimare-orsinii-2.jpg",
+        "photoId": 531169705,
+        "license": "cc-by",
+        "attribution": "(c) Daniel Benák, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/531169705"
+      }
+    ]
+  },
+  "paraflabellina-ischitana": {
+    "taxonId": 606787,
+    "taxonName": "Paraflabellina ischitana",
+    "observations": 801,
+    "family": "Flabellinidae",
+    "englishName": null,
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "paraflabellina-ischitana-1.jpg",
+        "photoId": 497469863,
+        "license": "cc-by",
+        "attribution": "(c) Donald Davesne, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/497469863"
+      },
+      {
+        "file": "paraflabellina-ischitana-2.jpg",
+        "photoId": 488827721,
+        "license": "cc-by",
+        "attribution": "(c) Vsevolod Rudyi, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/488827721"
+      }
+    ]
+  },
+  "calmella-cavolini": {
+    "taxonId": 489127,
+    "taxonName": "Calmella cavolini",
+    "observations": 549,
+    "family": "Flabellinidae",
+    "englishName": null,
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "calmella-cavolini-1.jpg",
+        "photoId": 80488570,
+        "license": "cc-by",
+        "attribution": "(c) Chris Taklis, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/80488570"
+      },
+      {
+        "file": "calmella-cavolini-2.jpg",
+        "photoId": 521687896,
+        "license": "cc-by",
+        "attribution": "(c) Chris Taklis, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/521687896"
+      }
+    ]
+  },
+  "trapania-maculata": {
+    "taxonId": 475698,
+    "taxonName": "Trapania maculata",
+    "observations": 173,
+    "family": "Goniodorididae",
+    "englishName": null,
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "trapania-maculata-1.jpg",
+        "photoId": 177947279,
+        "license": "cc-by",
+        "attribution": "(c) Lukas Schärer, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/177947279"
+      },
+      {
+        "file": "trapania-maculata-2.jpg",
+        "photoId": 502810809,
+        "license": "cc0",
+        "attribution": "no rights reserved",
+        "sourceUrl": "https://www.inaturalist.org/photos/502810809"
+      }
+    ]
+  },
+  "spurilla-neapolitana": {
+    "taxonId": 50480,
+    "taxonName": "Spurilla neapolitana",
+    "observations": 636,
+    "family": "Aeolidiidae",
+    "englishName": null,
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "spurilla-neapolitana-1.jpg",
+        "photoId": 516856969,
+        "license": "cc-by",
+        "attribution": "(c) Carlos Fernandez-Cid, carloscies, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/516856969"
+      },
+      {
+        "file": "spurilla-neapolitana-2.jpg",
+        "photoId": 149677588,
+        "license": "cc-by",
+        "attribution": "(c) Thomas Dreux, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/149677588"
+      }
+    ]
+  },
+  "dondice-banyulensis": {
+    "error": "taxon not found",
+    "didYouMean": [
+      "Nemesignis banyulensis"
+    ]
+  },
+  "doriopsilla-areolata": {
+    "taxonId": 338033,
+    "taxonName": "Doriopsilla areolata",
+    "observations": 494,
+    "family": "Dendrodorididae",
+    "englishName": "scribbled nudibranch",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "doriopsilla-areolata-1.jpg",
+        "photoId": 132320486,
+        "license": "cc-by-sa",
+        "attribution": "(c) Georgina Jones, some rights reserved (CC BY-SA), uploaded by Georgina Jones",
+        "sourceUrl": "https://www.inaturalist.org/photos/132320486"
+      },
+      {
+        "file": "doriopsilla-areolata-2.jpg",
+        "photoId": 135425597,
+        "license": "cc-by-sa",
+        "attribution": "(c) Georgina Jones, some rights reserved (CC BY-SA), uploaded by Georgina Jones",
+        "sourceUrl": "https://www.inaturalist.org/photos/135425597"
+      }
+    ]
+  },
+  "diaphorodoris-papillata": {
+    "taxonId": 476212,
+    "taxonName": "Diaphorodoris papillata",
+    "observations": 719,
+    "family": "Calycidorididae",
+    "englishName": "Red Papillae Dorid",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "diaphorodoris-papillata-1.jpg",
+        "photoId": 127647414,
+        "license": "cc-by",
+        "attribution": "(c) Julien Renoult, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/127647414"
+      },
+      {
+        "file": "diaphorodoris-papillata-2.jpg",
+        "photoId": 553312372,
+        "license": "cc-by",
+        "attribution": "(c) Juan Rodríguez, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/553312372"
+      }
+    ]
+  },
+  "godiva-quadricolor": {
+    "taxonId": 487381,
+    "taxonName": "Godiva quadricolor",
+    "observations": 236,
+    "family": "Myrrhinidae",
+    "englishName": "Four-colour Nudibranch",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "godiva-quadricolor-1.jpg",
+        "photoId": 13209407,
+        "license": "cc-by",
+        "attribution": "(c) Bernard Picton, some rights reserved (CC BY), uploaded by Bernard Picton",
+        "sourceUrl": "https://www.inaturalist.org/photos/13209407"
+      },
+      {
+        "file": "godiva-quadricolor-2.jpg",
+        "photoId": 100796169,
+        "license": "cc-by-sa",
+        "attribution": "(c) Georgina Jones, some rights reserved (CC BY-SA)",
+        "sourceUrl": "https://www.inaturalist.org/photos/100796169"
+      }
+    ]
+  },
+  "janolus-cristatus": {
+    "error": "taxon not found",
+    "didYouMean": [
+      "Antiopella cristata"
+    ]
+  },
+  "dendrodoris-grandiflora": {
+    "taxonId": 326345,
+    "taxonName": "Dendrodoris grandiflora",
+    "observations": 146,
+    "family": "Dendrodorididae",
+    "englishName": null,
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "dendrodoris-grandiflora-1.jpg",
+        "photoId": 231688400,
+        "license": "cc-by",
+        "attribution": "(c) Eridan Xharahi, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/231688400"
+      },
+      {
+        "file": "dendrodoris-grandiflora-2.jpg",
+        "photoId": 231716540,
+        "license": "cc-by",
+        "attribution": "(c) Eridan Xharahi, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/231716540"
+      }
+    ]
+  },
+  "dendrodoris-limbata": {
+    "taxonId": 326344,
+    "taxonName": "Dendrodoris limbata",
+    "observations": 576,
+    "family": "Dendrodorididae",
+    "englishName": null,
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "dendrodoris-limbata-1.jpg",
+        "photoId": 480757833,
+        "license": "cc-by",
+        "attribution": "(c) Lou Wagstaffe, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/480757833"
+      },
+      {
+        "file": "dendrodoris-limbata-2.jpg",
+        "photoId": 639593081,
+        "license": "cc0",
+        "attribution": "no rights reserved",
+        "sourceUrl": "https://www.inaturalist.org/photos/639593081"
+      }
+    ]
+  },
+  "phyllidia-flava": {
+    "taxonId": 489149,
+    "taxonName": "Phyllidia flava",
+    "observations": 216,
+    "family": "Phyllidiidae",
+    "englishName": "White-spotted yellow wart slug",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "phyllidia-flava-1.jpg",
+        "photoId": 701121398,
+        "license": "cc-by",
+        "attribution": "(c) Vsevolod Rudyi, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/701121398"
+      },
+      {
+        "file": "phyllidia-flava-2.jpg",
+        "photoId": 140271709,
+        "license": "cc-by",
+        "attribution": "(c) Julien Renoult, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/140271709"
+      }
+    ]
+  },
+  "babakina-anadoni": {
+    "taxonId": 476198,
+    "taxonName": "Babakina anadoni",
+    "observations": 206,
+    "family": "Babakinidae",
+    "englishName": "Gaudy Babakina",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "babakina-anadoni-1.jpg",
+        "photoId": 467836860,
+        "license": "cc-by",
+        "attribution": "(c) D. Rafael S. Fernandes, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/467836860"
+      },
+      {
+        "file": "babakina-anadoni-2.jpg",
+        "photoId": 262638819,
+        "license": "cc-by-sa",
+        "attribution": "(c) Jorge I. Merchán Mayorga, some rights reserved (CC BY-SA)",
+        "sourceUrl": "https://www.inaturalist.org/photos/262638819"
+      }
+    ]
+  },
+  "felimida-clenchi": {
+    "taxonId": 471751,
+    "taxonName": "Felimida clenchi",
+    "observations": 98,
+    "family": "Chromodorididae",
+    "englishName": "Harlequin Blue Felimida",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "felimida-clenchi-1.jpg",
+        "photoId": 342071352,
+        "license": "cc-by",
+        "attribution": "(c) Pauline Walsh Jacobson, some rights reserved (CC BY), uploaded by Pauline Walsh Jacobson",
+        "sourceUrl": "https://www.inaturalist.org/photos/342071352"
+      },
+      {
+        "file": "felimida-clenchi-2.jpg",
+        "photoId": 328224664,
+        "license": "cc-by-sa",
+        "attribution": "(c) Jorge I. Merchán Mayorga, some rights reserved (CC BY-SA)",
+        "sourceUrl": "https://www.inaturalist.org/photos/328224664"
+      }
+    ]
+  },
+  "tritonia-hamnerorum": {
+    "error": "taxon not found",
+    "didYouMean": []
+  },
+  "phidiana-lynceus": {
+    "taxonId": 328798,
+    "taxonName": "Phidiana lynceus",
+    "observations": 271,
+    "family": "Facelinidae",
+    "englishName": "Lynx Phidiana",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "phidiana-lynceus-1.jpg",
+        "photoId": 334658125,
+        "license": "cc-by-sa",
+        "attribution": "(c) Jorge I. Merchán Mayorga, some rights reserved (CC BY-SA)",
+        "sourceUrl": "https://www.inaturalist.org/photos/334658125"
+      },
+      {
+        "file": "phidiana-lynceus-2.jpg",
+        "photoId": 318144623,
+        "license": "cc-by",
+        "attribution": "(c) Elkin Meriño Florez, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/318144623"
+      }
+    ]
+  },
+  "spurilla-braziliana": {
+    "taxonId": 488439,
+    "taxonName": "Spurilla braziliana",
+    "observations": 999,
+    "family": "Aeolidiidae",
+    "englishName": "Brazilian Aeolid",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "spurilla-braziliana-1.jpg",
+        "photoId": 231767049,
+        "license": "cc-by",
+        "attribution": "(c) João D'Andretta, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/231767049"
+      },
+      {
+        "file": "spurilla-braziliana-2.jpg",
+        "photoId": 172903411,
+        "license": "cc0",
+        "attribution": "no rights reserved",
+        "sourceUrl": "https://www.inaturalist.org/photos/172903411"
+      }
+    ]
+  },
+  "flabellina-dushia": {
+    "taxonId": 549652,
+    "taxonName": "Flabellina dushia",
+    "observations": 399,
+    "family": "Flabellinidae",
+    "englishName": "Dushia Flabellina",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "flabellina-dushia-1.jpg",
+        "photoId": 237936828,
+        "license": "cc-by",
+        "attribution": "(c) Pauline Walsh Jacobson, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/237936828"
+      },
+      {
+        "file": "flabellina-dushia-2.jpg",
+        "photoId": 168428978,
+        "license": "cc-by",
+        "attribution": "(c) Pauline Walsh Jacobson, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/168428978"
+      }
+    ]
+  },
+  "felimare-kempfi": {
+    "error": "taxon not found",
+    "didYouMean": [
+      "Neptunazurea kempfi"
+    ]
+  },
+  "felimare-ruthae": {
+    "taxonId": 469728,
+    "taxonName": "Felimare ruthae",
+    "observations": 190,
+    "family": "Chromodorididae",
+    "englishName": "Gold Line Sea Goddess",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "felimare-ruthae-1.jpg",
+        "photoId": 330383268,
+        "license": "cc-by-sa",
+        "attribution": "(c) Jorge I. Merchán Mayorga, some rights reserved (CC BY-SA)",
+        "sourceUrl": "https://www.inaturalist.org/photos/330383268"
+      },
+      {
+        "file": "felimare-ruthae-2.jpg",
+        "photoId": 332872705,
+        "license": "cc-by",
+        "attribution": "(c) Dan Schofield, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/332872705"
+      }
+    ]
+  },
+  "felimida-binza": {
+    "taxonId": 504108,
+    "taxonName": "Felimida binza",
+    "observations": 512,
+    "family": "Chromodorididae",
+    "englishName": "Harlequin Sea Goddess",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "felimida-binza-1.jpg",
+        "photoId": 242397717,
+        "license": "cc-by",
+        "attribution": "(c) Pauline Walsh Jacobson, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/242397717"
+      },
+      {
+        "file": "felimida-binza-2.jpg",
+        "photoId": 357968605,
+        "license": "cc-by",
+        "attribution": "(c) Pauline Walsh Jacobson, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/357968605"
+      }
+    ]
+  },
+  "polycera-hummi": {
+    "taxonId": 882691,
+    "taxonName": "Polycera hummi",
+    "observations": 111,
+    "family": "Polyceridae",
+    "englishName": "Humm's Nudibranch",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "polycera-hummi-1.jpg",
+        "photoId": 34648584,
+        "license": "cc-by-sa",
+        "attribution": "(c) kourt_barber, some rights reserved (CC BY-SA), uploaded by kourt_barber",
+        "sourceUrl": "https://www.inaturalist.org/photos/34648584"
+      },
+      {
+        "file": "polycera-hummi-2.jpg",
+        "photoId": 34648599,
+        "license": "cc-by-sa",
+        "attribution": "(c) kourt_barber, some rights reserved (CC BY-SA), uploaded by kourt_barber",
+        "sourceUrl": "https://www.inaturalist.org/photos/34648599"
+      }
+    ]
+  },
+  "bornella-calcarata": {
+    "taxonId": 557103,
+    "taxonName": "Bornella calcarata",
+    "observations": 46,
+    "family": "Bornellidae",
+    "englishName": "Tassled Bornella",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "bornella-calcarata-1.jpg",
+        "photoId": 614776995,
+        "license": "cc0",
+        "attribution": "no rights reserved",
+        "sourceUrl": "https://www.inaturalist.org/photos/614776995"
+      },
+      {
+        "file": "bornella-calcarata-2.jpg",
+        "photoId": 140907738,
+        "license": "cc-by-sa",
+        "attribution": "(c) Jorge I. Merchán Mayorga, some rights reserved (CC BY-SA)",
+        "sourceUrl": "https://www.inaturalist.org/photos/140907738"
+      }
+    ]
+  },
+  "dondice-occidentalis": {
+    "taxonId": 549651,
+    "taxonName": "Dondice occidentalis",
+    "observations": 214,
+    "family": "Myrrhinidae",
+    "englishName": "Fringeback Dondice",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "dondice-occidentalis-1.jpg",
+        "photoId": 225109801,
+        "license": "cc-by",
+        "attribution": "(c) Dan Schofield, some rights reserved (CC BY), uploaded by Dan Schofield",
+        "sourceUrl": "https://www.inaturalist.org/photos/225109801"
+      },
+      {
+        "file": "dondice-occidentalis-2.jpg",
+        "photoId": 225109750,
+        "license": "cc-by",
+        "attribution": "(c) Dan Schofield, some rights reserved (CC BY), uploaded by Dan Schofield",
+        "sourceUrl": "https://www.inaturalist.org/photos/225109750"
+      }
+    ]
+  },
+  "dendrodoris-krebsii": {
+    "taxonId": 292733,
+    "taxonName": "Dendrodoris krebsii",
+    "observations": 181,
+    "family": "Dendrodorididae",
+    "englishName": "Slimy Dendrodoris",
+    "germanName": null,
+    "candidates": [
+      {
+        "file": "dendrodoris-krebsii-1.jpg",
+        "photoId": 253412192,
+        "license": "cc-by",
+        "attribution": "(c) \nPatrick J. Krug & Ángel Valdés, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/253412192"
+      },
+      {
+        "file": "dendrodoris-krebsii-2.jpg",
+        "photoId": 253412193,
+        "license": "cc-by",
+        "attribution": "(c) \nPatrick J. Krug & Ángel Valdés, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/photos/253412193"
+      }
+    ]
+  }
+}
