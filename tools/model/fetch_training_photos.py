@@ -1,7 +1,8 @@
 """Downloads freely licensed iNaturalist photos to train the species recognition model.
 
-For every species in species.json it takes research-grade observations whose photos are
-CC0, CC BY or CC BY-SA, at most one photo per observation (so one animal is not counted
+For every species in species.json it takes research-grade observations whose photos carry a
+Creative Commons licence (most iNaturalist photos are CC BY-NC; the photos are only used for
+training and never shipped in the app), at most one photo per observation (so one animal is not counted
 many times), and stores them as <out>/<species-id>/<observation>.jpg at 320 px.
 
 Usage: python3 tools/model/fetch_training_photos.py <species.json> <out-dir> [photos-per-species]
@@ -20,6 +21,7 @@ from PIL import Image
 API = "https://api.inaturalist.org/v1"
 HEADERS = {"User-Agent": "Nudidex/0.2 (github.com/aouarius/nudibranch)"}
 SIZE = 320
+LICENSES = ("cc0", "cc-by", "cc-by-sa", "cc-by-nc", "cc-by-nc-sa")
 
 
 def get_json(path, **params):
@@ -45,7 +47,7 @@ def photo_urls(taxon, wanted):
     """(observation id, photo url) pairs, newest observations first."""
     found, id_below = [], None
     while len(found) < wanted:
-        params = dict(taxon_id=taxon, photo_license="cc0,cc-by,cc-by-sa", quality_grade="research",
+        params = dict(taxon_id=taxon, photo_license=",".join(LICENSES), quality_grade="research",
                       per_page=200, order_by="id", order="desc")
         if id_below:
             params["id_below"] = id_below
@@ -54,7 +56,7 @@ def photo_urls(taxon, wanted):
             break
         for observation in results:
             photos = [p for p in observation.get("photos", [])
-                      if (p.get("license_code") or "").lower() in ("cc0", "cc-by", "cc-by-sa")]
+                      if (p.get("license_code") or "").lower() in LICENSES]
             if photos:
                 found.append((observation["id"], photos[0]["url"].replace("/square.", "/medium.")))
         id_below = results[-1]["id"]

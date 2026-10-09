@@ -1,6 +1,6 @@
 name: Train species model
 
-# Fetches freely licensed iNaturalist photos for every species in the app, trains the
+# Fetches Creative Commons iNaturalist photos for every species in the app, trains the
 # recognition model on GitHub's runners and commits the result to the
 # train-species-model branch (model, labels and a report with the accuracy).
 on:
