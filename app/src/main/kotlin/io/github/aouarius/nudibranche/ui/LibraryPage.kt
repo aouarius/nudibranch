@@ -122,7 +122,7 @@ private fun SpeciesPhoto.assetUri() = "file:///android_asset/species_photos/$fil
 
 /** Reference photo with the species number on a small rarity-colored tag. */
 @Composable
-private fun SpeciesThumbnail(species: Species) {
+internal fun SpeciesThumbnail(species: Species) {
     val photo = species.photo ?: return NumberBadge(species)
     Box(
         Modifier
