@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -102,7 +101,7 @@ fun PhotoViewer(
                 )
             }
 
-            Column(Modifier.fillMaxWidth().safeDrawingPadding()) {
+            Column(Modifier.fillMaxWidth().clearOfSystemBars()) {
                 Row(
                     Modifier
                         .fillMaxWidth()
@@ -129,7 +128,7 @@ fun PhotoViewer(
                     .align(Alignment.BottomCenter)
                     .fillMaxWidth()
                     .background(Color.Black.copy(alpha = 0.55f))
-                    .safeDrawingPadding()
+                    .clearOfSystemBars()
                     .padding(horizontal = Space.l, vertical = Space.m),
             ) {
                 Text(

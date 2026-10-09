@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -129,7 +128,7 @@ fun SpotPickerDialog(
             Modifier
                 .fillMaxSize()
                 .background(AppColors.Background)
-                .safeDrawingPadding(),
+                .clearOfSystemBars(),
         ) {
             Row(Modifier.fillMaxWidth().padding(horizontal = Space.xs), verticalAlignment = Alignment.CenterVertically) {
                 IconButton(onClick = onDismiss) {

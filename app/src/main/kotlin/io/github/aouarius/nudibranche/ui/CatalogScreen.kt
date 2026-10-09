@@ -80,7 +80,6 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -341,7 +340,7 @@ private fun CardDialog(onDismiss: () -> Unit, content: @Composable ColumnScope.(
                     .verticalScroll(rememberScrollState())
                     // The dialog reaches under the status and navigation bars, so the last
                     // row (the photo strip) must be able to scroll above them.
-                    .safeDrawingPadding()
+                    .clearOfSystemBars()
                     .padding(horizontal = Space.l, vertical = Space.xl)
                     // Taps on the content itself must not close the dialog.
                     .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) {},
