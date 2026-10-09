@@ -10,6 +10,7 @@ coil = "2.7.0"
 serialization = "1.8.1"
 junit = "4.13.2"
 maplibre = "11.8.8"
+litert = "1.4.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -25,6 +26,7 @@ androidx-exifinterface = { group = "androidx.exifinterface", name = "exifinterfa
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+litert = { group = "com.google.ai.edge.litert", name = "litert", version.ref = "litert" }
 maplibre-android = { group = "org.maplibre.gl", name = "android-sdk", version.ref = "maplibre" }
 
 [plugins]

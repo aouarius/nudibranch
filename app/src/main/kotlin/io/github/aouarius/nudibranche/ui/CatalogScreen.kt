@@ -68,6 +68,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.coroutines.launch
 import io.github.aouarius.nudibranche.data.CardShare
+import io.github.aouarius.nudibranche.core.Recognition
+import io.github.aouarius.nudibranche.core.Suggestion
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -506,6 +508,7 @@ private fun ImportDialogs(viewModel: CatalogViewModel) {
         }
         is ImportState.ChooseSpecies -> SpeciesPicker(
             species = viewModel.species,
+            suggestions = state.suggestions,
             onChoose = viewModel::onSpeciesChosen,
             onDismiss = viewModel::dismissImport,
         )
@@ -569,7 +572,12 @@ private fun ImportDialogs(viewModel: CatalogViewModel) {
 }
 
 @Composable
-private fun SpeciesPicker(species: List<Species>, onChoose: (Species) -> Unit, onDismiss: () -> Unit) {
+private fun SpeciesPicker(
+    species: List<Species>,
+    suggestions: List<Suggestion>,
+    onChoose: (Species) -> Unit,
+    onDismiss: () -> Unit,
+) {
     val strings = LocalStrings.current
     var query by remember { mutableStateOf("") }
     val matches = species.filter {
@@ -578,12 +586,20 @@ private fun SpeciesPicker(species: List<Species>, onChoose: (Species) -> Unit, o
             it.germanName?.contains(query, ignoreCase = true) == true ||
             it.englishName?.contains(query, ignoreCase = true) == true
     }
+    val sure = suggestions.firstOrNull()?.let { it.confidence >= Recognition.CONFIDENT } == true
     Dialog(onDismissRequest = onDismiss) {
         Surface(shape = RoundedCornerShape(20.dp)) {
-            Column(Modifier.padding(Space.l).heightIn(max = 600.dp)) {
+            Column(Modifier.padding(Space.l).heightIn(max = 640.dp)) {
                 Text(strings.whichSpecies, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                Spacer(Modifier.height(Space.xs))
-                Text(strings.recognitionLater, color = AppColors.TextMuted, fontSize = 13.sp, lineHeight = 18.sp)
+                if (!sure) {
+                    Spacer(Modifier.height(Space.xs))
+                    Text(
+                        if (suggestions.isEmpty()) strings.noSuggestions else strings.suggestionsUnsure,
+                        color = AppColors.TextMuted,
+                        fontSize = 13.sp,
+                        lineHeight = 18.sp,
+                    )
+                }
                 Spacer(Modifier.height(Space.m))
                 OutlinedTextField(
                     value = query,
@@ -594,6 +610,15 @@ private fun SpeciesPicker(species: List<Species>, onChoose: (Species) -> Unit, o
                 )
                 Spacer(Modifier.height(Space.s))
                 LazyColumn(Modifier.weight(1f, fill = false)) {
+                    if (query.isBlank() && suggestions.isNotEmpty()) {
+                        item(key = "suggestions") { PickerHeading(strings.suggestionsTitle) }
+                        items(suggestions, key = { "suggestion-${it.species.id}" }) { suggestion ->
+                            SuggestionRow(suggestion, highlighted = sure && suggestion == suggestions.first()) {
+                                onChoose(suggestion.species)
+                            }
+                        }
+                        item(key = "all") { PickerHeading(strings.allSpecies) }
+                    }
                     items(matches, key = { it.id }) { item ->
                         Column(
                             Modifier
@@ -616,5 +641,47 @@ private fun SpeciesPicker(species: List<Species>, onChoose: (Species) -> Unit, o
                 TextButton(onClick = onDismiss, modifier = Modifier.align(Alignment.End)) { Text(strings.cancel) }
             }
         }
+    }
+}
+
+@Composable
+private fun PickerHeading(text: String) {
+    Text(
+        text.uppercase(),
+        color = AppColors.TextMuted,
+        fontSize = 11.sp,
+        fontWeight = FontWeight.Bold,
+        letterSpacing = 0.8.sp,
+        modifier = Modifier.padding(top = Space.m, bottom = Space.xs),
+    )
+}
+
+/** A guess of the model with its reference photo and how sure the model is. */
+@Composable
+private fun SuggestionRow(suggestion: Suggestion, highlighted: Boolean, onClick: () -> Unit) {
+    val strings = LocalStrings.current
+    val item = suggestion.species
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(vertical = Space.xs)
+            .clip(RoundedCornerShape(14.dp))
+            .background(if (highlighted) AppColors.Accent.copy(alpha = 0.18f) else AppColors.Background)
+            .clickable(onClick = onClick)
+            .padding(Space.s),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        SpeciesThumbnail(item)
+        Spacer(Modifier.width(Space.m))
+        Column(Modifier.weight(1f)) {
+            Text(item.name(strings.language), fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+            Text(item.latinName, color = AppColors.TextMuted, fontStyle = FontStyle.Italic, fontSize = 13.sp)
+        }
+        Text(
+            "${Math.round(suggestion.confidence * 100)} %",
+            color = if (highlighted) AppColors.Accent else AppColors.TextMuted,
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Bold,
+        )
     }
 }

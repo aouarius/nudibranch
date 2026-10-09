@@ -39,7 +39,10 @@ interface Strings {
     val sightingSaved: String
     val great: String
     val whichSpecies: String
-    val recognitionLater: String
+    val suggestionsTitle: String
+    val suggestionsUnsure: String
+    val noSuggestions: String
+    val allSpecies: String
     val search: String
     val cancel: String
     val skip: String
@@ -164,8 +167,10 @@ object GermanStrings : Strings {
     override val sightingSaved = "Weitere Sichtung gespeichert"
     override val great = "Super"
     override val whichSpecies = "Welche Art ist auf dem Foto?"
-    override val recognitionLater =
-        "Die automatische Erkennung kommt in einer späteren Version. Bis dahin wählst du die Art selbst."
+    override val suggestionsTitle = "Das könnte sie sein"
+    override val suggestionsUnsure = "Ich bin mir nicht ganz sicher. Vergleich die Vorschläge oder such die Art in der Liste."
+    override val noSuggestions = "Ich erkenne die Art nicht sicher. Wähl sie bitte aus der Liste."
+    override val allSpecies = "Alle Arten"
     override val search = "Suchen"
     override val cancel = "Abbrechen"
     override val skip = "Überspringen"
@@ -323,8 +328,10 @@ object EnglishStrings : Strings {
     override val sightingSaved = "Sighting saved"
     override val great = "Great"
     override val whichSpecies = "Which species is in the photo?"
-    override val recognitionLater =
-        "Automatic recognition is coming in a later version. Until then, you choose the species yourself."
+    override val suggestionsTitle = "This could be it"
+    override val suggestionsUnsure = "I'm not quite sure. Compare the suggestions or search the list."
+    override val noSuggestions = "I can't tell the species for sure. Please pick it from the list."
+    override val allSpecies = "All species"
     override val search = "Search"
     override val cancel = "Cancel"
     override val skip = "Skip"

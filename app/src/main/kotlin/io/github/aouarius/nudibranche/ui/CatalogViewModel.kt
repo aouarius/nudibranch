@@ -22,10 +22,12 @@ import io.github.aouarius.nudibranche.core.PhotoProblem
 import io.github.aouarius.nudibranche.core.Sighting
 import io.github.aouarius.nudibranche.core.Species
 import io.github.aouarius.nudibranche.core.SpeciesCatalog
+import io.github.aouarius.nudibranche.core.Suggestion
 import io.github.aouarius.nudibranche.data.Backup
 import io.github.aouarius.nudibranche.data.CollectionStore
 import io.github.aouarius.nudibranche.data.ImportedPhoto
 import io.github.aouarius.nudibranche.data.PhotoImporter
+import io.github.aouarius.nudibranche.data.SpeciesRecognizer
 import kotlinx.coroutines.launch
 import java.io.File
 import java.time.LocalDateTime
@@ -34,7 +36,8 @@ import java.util.Locale
 sealed interface ImportState {
     data object Idle : ImportState
     data object Checking : ImportState
-    class ChooseSpecies(val photo: ImportedPhoto) : ImportState
+    /** [suggestions] are the model's best guesses, most likely first; empty when it has none. */
+    class ChooseSpecies(val photo: ImportedPhoto, val suggestions: List<Suggestion> = emptyList()) : ImportState
     /** The photo is stored; the card turns over so the diver can write on its back. */
     data class EnterDiveDetails(val sighting: Sighting, val species: Species, val firstFind: Boolean) : ImportState
     data class Rejected(val problems: List<PhotoProblem>) : ImportState
@@ -98,6 +101,7 @@ class CatalogViewModel(app: Application) : AndroidViewModel(app) {
     private val store = CollectionStore(File(app.filesDir, "collection.json"))
     private val importer = PhotoImporter(app)
     private val backup = Backup(app)
+    private val recognizer = SpeciesRecognizer(app)
 
     var collection: CardCollection by mutableStateOf(store.load())
         private set
@@ -128,7 +132,10 @@ class CatalogViewModel(app: Application) : AndroidViewModel(app) {
                     antiCheat = PHOTO_ANTI_CHEAT,
                 )
                 when (result) {
-                    PhotoCheckResult.Accepted -> ImportState.ChooseSpecies(photo)
+                    PhotoCheckResult.Accepted -> ImportState.ChooseSpecies(
+                        photo,
+                        if (forSpecies == null) recognizer.suggest(photo.bytes, species) else emptyList(),
+                    )
                     is PhotoCheckResult.Rejected -> ImportState.Rejected(result.problems)
                 }
             } catch (e: Exception) {
@@ -138,7 +145,7 @@ class CatalogViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    /** Until the recognition model exists, the diver picks the species themselves. */
+    /** The diver confirms a suggestion or picks the species from the list. */
     fun onSpeciesChosen(species: Species) {
         val state = importState as? ImportState.ChooseSpecies ?: return
         viewModelScope.launch {
