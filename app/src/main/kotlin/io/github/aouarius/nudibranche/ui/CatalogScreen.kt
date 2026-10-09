@@ -41,6 +41,11 @@ import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.NavigationBar
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.material3.NavigationRailItem
+import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
@@ -117,52 +122,74 @@ private fun Catalog(viewModel: CatalogViewModel) {
         photoForSpeciesId = null
     }
 
+    val sideways = isSideways()
+    val addPhoto: @Composable () -> Unit = {
+        if (page == Page.COLLECTION) {
+            ExtendedFloatingActionButton(
+                onClick = { picker.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly)) },
+                icon = { Icon(Icons.Filled.Add, contentDescription = null) },
+                text = { Text(strings.addPhoto, fontSize = 15.sp) },
+            )
+        }
+    }
+    val tabs = listOf(
+        Triple(Page.COLLECTION, Icons.Filled.Home, strings.collectionTab),
+        Triple(Page.LIBRARY, Icons.AutoMirrored.Filled.List, strings.libraryTab),
+        Triple(Page.LOGBOOK, Icons.Filled.Star, strings.logbookTab),
+    )
+
     Scaffold(
         containerColor = AppColors.Background,
         bottomBar = {
-            NavigationBar(containerColor = AppColors.Surface) {
-                NavigationBarItem(
-                    selected = page == Page.COLLECTION,
-                    onClick = { page = Page.COLLECTION },
-                    icon = { Icon(Icons.Filled.Home, contentDescription = null) },
-                    label = { Text(strings.collectionTab) },
-                )
-                NavigationBarItem(
-                    selected = page == Page.LIBRARY,
-                    onClick = { page = Page.LIBRARY },
-                    icon = { Icon(Icons.AutoMirrored.Filled.List, contentDescription = null) },
-                    label = { Text(strings.libraryTab) },
-                )
-                NavigationBarItem(
-                    selected = page == Page.LOGBOOK,
-                    onClick = { page = Page.LOGBOOK },
-                    icon = { Icon(Icons.Filled.Star, contentDescription = null) },
-                    label = { Text(strings.logbookTab) },
-                )
+            if (!sideways) {
+                NavigationBar(containerColor = AppColors.Surface) {
+                    tabs.forEach { (tab, icon, label) ->
+                        NavigationBarItem(
+                            selected = page == tab,
+                            onClick = { page = tab },
+                            icon = { Icon(icon, contentDescription = null) },
+                            label = { Text(label) },
+                        )
+                    }
+                }
             }
         },
-        floatingActionButton = {
-            if (page == Page.COLLECTION) {
-                ExtendedFloatingActionButton(
-                    onClick = { picker.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly)) },
-                    icon = { Icon(Icons.Filled.Add, contentDescription = null) },
-                    text = { Text(strings.addPhoto, fontSize = 15.sp) },
-                )
-            }
-        },
+        // Held sideways, the button sits inside the content so it stays clear of the system buttons.
+        floatingActionButton = { if (!sideways) addPhoto() },
     ) { padding ->
-        Column(Modifier.padding(padding)) {
-            when (page) {
-                Page.COLLECTION -> CollectionPage(
-                    viewModel,
-                    onShowGlobe = { showGlobe = true },
-                    onAddPhoto = { species ->
-                        photoForSpeciesId = species.id
-                        cardPicker.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
-                    },
-                )
-                Page.LIBRARY -> LibraryPage(viewModel)
-                Page.LOGBOOK -> LogbookPage(viewModel)
+        Row(Modifier.padding(padding)) {
+            if (sideways) {
+                NavigationRail(containerColor = AppColors.Surface, windowInsets = WindowInsets(0)) {
+                    Spacer(Modifier.weight(1f))
+                    tabs.forEach { (tab, icon, label) ->
+                        NavigationRailItem(
+                            selected = page == tab,
+                            onClick = { page = tab },
+                            icon = { Icon(icon, contentDescription = null) },
+                            label = { Text(label) },
+                        )
+                    }
+                    Spacer(Modifier.weight(1f))
+                }
+            }
+            Box(Modifier.weight(1f)) {
+                Column {
+                    when (page) {
+                        Page.COLLECTION -> CollectionPage(
+                            viewModel,
+                            onShowGlobe = { showGlobe = true },
+                            onAddPhoto = { species ->
+                                photoForSpeciesId = species.id
+                                cardPicker.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
+                            },
+                        )
+                        Page.LIBRARY -> LibraryPage(viewModel)
+                        Page.LOGBOOK -> LogbookPage(viewModel)
+                    }
+                }
+                if (sideways) {
+                    Box(Modifier.align(Alignment.BottomEnd).padding(Space.l)) { addPhoto() }
+                }
             }
         }
     }
@@ -181,6 +208,27 @@ fun PageHeader(
     viewModel: CatalogViewModel,
     action: @Composable () -> Unit = {},
 ) {
+    if (isSideways()) {
+        // Held sideways there is little height, so everything shares one line.
+        Row(
+            Modifier.padding(start = Space.l, end = Space.l, top = Space.s),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(Space.m),
+        ) {
+            Text(title, color = AppColors.Text, fontSize = 22.sp, fontWeight = FontWeight.Black, maxLines = 1)
+            Text(
+                subtitle,
+                color = AppColors.TextMuted,
+                fontSize = 14.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f),
+            )
+            action()
+            LanguageToggle(viewModel.language, onChange = viewModel::changeLanguage)
+        }
+        return
+    }
     Column(Modifier.padding(start = Space.l, end = Space.l, top = Space.l, bottom = Space.s)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
@@ -218,7 +266,7 @@ private fun CollectionPage(viewModel: CatalogViewModel, onShowGlobe: () -> Unit,
             viewModel = viewModel,
             action = { TextButton(onClick = onShowGlobe) { Text(strings.findSpotsButton, fontSize = 14.sp) } },
         )
-        Row(Modifier.padding(start = Space.l, end = Space.l, bottom = Space.s)) {
+        val foundFilter = @Composable {
             SegmentedPill(
                 options = listOf(false, true),
                 selected = viewModel.onlyFound,
@@ -226,7 +274,15 @@ private fun CollectionPage(viewModel: CatalogViewModel, onShowGlobe: () -> Unit,
                 onSelect = viewModel::changeOnlyFound,
             )
         }
-        RegionFilter(selected = region, onSelect = { region = it })
+        if (isSideways()) {
+            Row(Modifier.padding(start = Space.l, top = Space.s), verticalAlignment = Alignment.CenterVertically) {
+                foundFilter()
+                Box(Modifier.weight(1f)) { RegionFilter(selected = region, onSelect = { region = it }) }
+            }
+        } else {
+            Row(Modifier.padding(start = Space.l, end = Space.l, bottom = Space.s)) { foundFilter() }
+            RegionFilter(selected = region, onSelect = { region = it })
+        }
         if (shown.isEmpty() && viewModel.onlyFound) {
             Text(
                 strings.noCardsFoundYet,
@@ -684,4 +740,11 @@ private fun SuggestionRow(suggestion: Suggestion, highlighted: Boolean, onClick:
             fontWeight = FontWeight.Bold,
         )
     }
+}
+
+/** Phone held sideways: wide but too low for the upright layout. */
+@Composable
+fun isSideways(): Boolean {
+    val configuration = LocalConfiguration.current
+    return configuration.screenWidthDp > configuration.screenHeightDp && configuration.screenHeightDp < 600
 }
