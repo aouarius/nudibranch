@@ -8,7 +8,9 @@ enum class Language { DE, EN }
 enum class Region(private val german: String, private val english: String) {
     MITTELMEER("Mittelmeer", "Mediterranean"),
     NORDOSTATLANTIK("Nordostatlantik", "Northeast Atlantic"),
+    ROTES_MEER("Rotes Meer", "Red Sea"),
     INDOPAZIFIK("Indopazifik", "Indo-Pacific"),
+    KARIBIK("Karibik", "Caribbean"),
     WELTWEIT("Weltweit", "Worldwide"),
     ;
 

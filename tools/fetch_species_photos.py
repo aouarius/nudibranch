@@ -62,7 +62,8 @@ def main():
         taxon = find_taxon(latin)
         if taxon is None:
             print(f"{sid}: no taxon found", file=sys.stderr)
-            report[sid] = {"error": "taxon not found"}
+            matches = get_json("taxa", q=latin, per_page=5)["results"]
+            report[sid] = {"error": "taxon not found", "didYouMean": [t["name"] for t in matches]}
             continue
         picked, seen = [], set()
         for photo in candidate_photos(taxon):
@@ -86,7 +87,17 @@ def main():
             if len(picked) >= per_species:
                 break
         print(f"{sid}: taxon {taxon['id']} ({taxon['name']}), {len(picked)} photos")
-        report[sid] = {"taxonId": taxon["id"], "taxonName": taxon["name"], "candidates": picked}
+        german = get_json(f"taxa/{taxon['id']}", locale="de")["results"][0].get("preferred_common_name")
+        report[sid] = {
+            "taxonId": taxon["id"],
+            "taxonName": taxon["name"],
+            # iNaturalist observation count, the basis for a card's rarity.
+            "observations": taxon.get("observations_count"),
+            "family": next((a["name"] for a in taxon.get("ancestors", []) if a.get("rank") == "family"), None),
+            "englishName": taxon.get("preferred_common_name"),
+            "germanName": german,
+            "candidates": picked,
+        }
     (out_dir / "candidates.json").write_text(json.dumps(report, indent=2, ensure_ascii=False))
 
 

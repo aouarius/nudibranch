@@ -30,6 +30,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -194,11 +196,21 @@ private fun CardArt(species: Species, sighting: Sighting?) {
             )
         } else {
             val art = comicArtUri(species)
+            val standIn = species.photo
             if (art != null) {
                 AsyncImage(
                     model = art,
                     contentDescription = species.latinName,
                     contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            } else if (standIn != null) {
+                // Until a comic exists for the species, its library photo stands in, grey and dimmed.
+                AsyncImage(
+                    model = "file:///android_asset/species_photos/${standIn.file}",
+                    contentDescription = species.latinName,
+                    contentScale = ContentScale.Crop,
+                    colorFilter = LockedPhotoFilter,
                     modifier = Modifier.fillMaxSize(),
                 )
             } else {
@@ -207,6 +219,14 @@ private fun CardArt(species: Species, sighting: Sighting?) {
         }
     }
 }
+
+/** Greyscale at 45 % brightness, so a stand-in photo reads as "not found yet". */
+private val LockedPhotoFilter = ColorFilter.colorMatrix(
+    ColorMatrix().apply {
+        setToSaturation(0f)
+        timesAssign(ColorMatrix(floatArrayOf(0.45f, 0f, 0f, 0f, 0f, 0f, 0.45f, 0f, 0f, 0f, 0f, 0f, 0.45f, 0f, 0f, 0f, 0f, 0f, 1f, 0f)))
+    },
+)
 
 /** Comic art files in assets/species_art, named after the species id (e.g. glaucus-atlanticus.jpg). */
 private var comicArtFiles: Map<String, String>? = null
