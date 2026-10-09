@@ -284,7 +284,24 @@ private fun LibraryPhoto(species: Species, photo: SpeciesPhoto) {
 @Composable
 private fun Fact(label: String, value: String) {
     Row {
-        Text(label, color = AppColors.TextMuted, fontSize = 14.sp, modifier = Modifier.width(104.dp))
-        Text(value, color = AppColors.Text, fontSize = 15.sp, lineHeight = 20.sp)
+        Text(
+            label,
+            color = AppColors.TextMuted,
+            fontSize = 14.sp,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier
+                .weight(0.36f)
+                .alignByBaseline(),
+        )
+        Text(
+            value,
+            color = AppColors.Text,
+            fontSize = 15.sp,
+            lineHeight = 20.sp,
+            modifier = Modifier
+                .weight(0.64f)
+                .alignByBaseline(),
+        )
     }
 }

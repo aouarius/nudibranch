@@ -14,16 +14,16 @@ object AppColors {
     val Surface = Color(0xFF23262D)
     val Border = Color(0xFF3A3F49)
     val Text = Color(0xFFE8E8E8)
-    val TextMuted = Color(0xFF9AA3B0)
+    val TextMuted = Color(0xFFB4BCC8)
     val Accent = Color(0xFFB993FF)
 }
 
 object CardColors {
     val Paper = Color(0xFFFDF8EC)
-    val Ink = Color(0xFF1A1A1A)
-    val InkMuted = Color(0xFF5A5A5A)
-    val Label = Color(0xFF6E6E6E)
-    val Divider = Color(0xFFDDD6C6)
+    val Ink = Color(0xFF0F0F0F)
+    val InkMuted = Color(0xFF3B3B3B)
+    val Label = Color(0xFF5B4E37)
+    val Divider = Color(0xFFC9BEA6)
     val ArtBorder = Color(0xFFC9A94A)
     val ArtBackground = Color(0xFF1D4E74)
     val Handwriting = Color(0xFF1F3A73)
@@ -31,7 +31,7 @@ object CardColors {
 
     val LockedFrame = Color(0xFF3A3F47)
     val LockedPaper = Color(0xFF23272E)
-    val LockedText = Color(0xFF8A8F98)
+    val LockedText = Color(0xFFB4BAC4)
 
     private val Holo = listOf(
         Color(0xFFFF6EC4), Color(0xFFFFD36E), Color(0xFF6EFFC4), Color(0xFF6EC8FF), Color(0xFFC46EFF),

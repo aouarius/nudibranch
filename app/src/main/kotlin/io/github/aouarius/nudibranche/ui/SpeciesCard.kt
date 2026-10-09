@@ -57,18 +57,23 @@ private data class CardMetrics(
     val latin: TextUnit,
     val tag: TextUnit,
     val stat: TextUnit,
-    val statLabelWidth: Dp,
+    val statLabel: TextUnit,
+    /** Share of a stat row taken by its label, so long labels never run into the value. */
+    val labelWeight: Float,
+    val statGap: Dp,
     val footer: TextUnit,
 )
 
 private val Compact = CardMetrics(
     frame = 5.dp, inner = 8.dp, gap = 6.dp,
-    name = 13.sp, latin = 10.sp, tag = 9.sp, stat = 10.sp, statLabelWidth = 44.dp, footer = 9.sp,
+    name = 13.sp, latin = 10.sp, tag = 9.sp, stat = 10.sp, statLabel = 9.sp, labelWeight = 0.4f,
+    statGap = 1.5.dp, footer = 9.sp,
 )
 
 private val Large = CardMetrics(
-    frame = 8.dp, inner = 12.dp, gap = 10.dp,
-    name = 18.sp, latin = 13.sp, tag = 11.sp, stat = 13.sp, statLabelWidth = 92.dp, footer = 11.sp,
+    frame = 8.dp, inner = 14.dp, gap = 12.dp,
+    name = 21.sp, latin = 14.sp, tag = 11.sp, stat = 15.sp, statLabel = 12.sp, labelWeight = 0.36f,
+    statGap = 4.dp, footer = 12.sp,
 )
 
 /**
@@ -149,6 +154,7 @@ fun SpeciesCard(
                     text = if (sighting != null) "📷 ${formatCardDate(sighting.takenAt, strings).orEmpty()}" else strings.diveToFind,
                     color = if (unlocked) CardColors.Label else CardColors.LockedText,
                     fontSize = m.footer,
+                    fontWeight = FontWeight.SemiBold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.weight(1f),
@@ -157,6 +163,7 @@ fun SpeciesCard(
                     "#%03d".format(species.number),
                     color = if (unlocked) CardColors.Label else CardColors.LockedText,
                     fontSize = m.footer,
+                    fontWeight = FontWeight.SemiBold,
                 )
             }
         }
@@ -243,16 +250,29 @@ private fun RarityTag(species: Species, unlocked: Boolean, size: TextUnit) {
 
 @Composable
 private fun StatRow(label: String, value: String, m: CardMetrics, ink: Color) {
-    Row(Modifier.padding(vertical = 1.5.dp)) {
+    Row(Modifier.padding(vertical = m.statGap)) {
         Text(
-            label,
+            label.uppercase(),
             color = if (ink == CardColors.Ink) CardColors.Label else ink,
-            fontSize = m.stat,
-            fontWeight = FontWeight.SemiBold,
+            fontSize = m.statLabel,
+            fontWeight = FontWeight.Bold,
+            letterSpacing = 0.4.sp,
             maxLines = 1,
-            modifier = Modifier.width(m.statLabelWidth),
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier
+                .weight(m.labelWeight)
+                .alignByBaseline(),
         )
-        Text(value, color = ink, fontSize = m.stat, lineHeight = m.stat * 1.25f)
+        Text(
+            value,
+            color = ink,
+            fontSize = m.stat,
+            fontWeight = FontWeight.Medium,
+            lineHeight = m.stat * 1.3f,
+            modifier = Modifier
+                .weight(1f - m.labelWeight)
+                .alignByBaseline(),
+        )
     }
 }
 

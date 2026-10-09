@@ -63,6 +63,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.foundation.layout.Box
+import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.aouarius.nudibranche.core.DiveDetails
 import io.github.aouarius.nudibranche.core.Language
@@ -290,6 +297,35 @@ fun RegionFilter(selected: Region?, onSelect: (Region?) -> Unit) {
     }
 }
 
+private val Scrim = Color(0xF20C0E12)
+
+/**
+ * Full-screen dialog for a big card: a dark backdrop hides the grid behind it, tapping
+ * the backdrop closes it, and tall content scrolls.
+ */
+@Composable
+private fun CardDialog(onDismiss: () -> Unit, content: @Composable ColumnScope.() -> Unit) {
+    Dialog(onDismissRequest = onDismiss, properties = DialogProperties(usePlatformDefaultWidth = false)) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .background(Scrim)
+                .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null, onClick = onDismiss),
+            contentAlignment = Alignment.Center,
+        ) {
+            Column(
+                Modifier
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = Space.l, vertical = Space.xl)
+                    // Taps on the content itself must not close the dialog.
+                    .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) {},
+                horizontalAlignment = Alignment.CenterHorizontally,
+                content = content,
+            )
+        }
+    }
+}
+
 @Composable
 private fun CardDetailDialog(
     species: Species,
@@ -303,57 +339,55 @@ private fun CardDetailDialog(
     var flipped by remember { mutableStateOf(false) }
     var editing by remember { mutableStateOf<Sighting?>(null) }
     var viewing by remember { mutableStateOf<Int?>(null) }
-    Dialog(onDismissRequest = onDismiss) {
-        Column(
-            Modifier.verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            FlippableCard(
-                flipped = flipped,
-                modifier = Modifier
-                    .width(DialogCardWidth)
-                    .clickable(enabled = sightings.isNotEmpty() && editing == null) { flipped = !flipped },
-                front = { SpeciesCard(species, cover) },
-                back = {
-                    val edited = editing
-                    if (edited != null) {
-                        CardBackEditor(
-                            species = species,
-                            land = viewModel.land,
-                            initial = edited.dive,
-                            onSave = {
-                                viewModel.updateDive(edited, it)
-                                editing = null
-                            },
-                            onCancel = { editing = null },
-                        )
-                    } else {
-                        CardBack(species, sightings, onEdit = { editing = it })
-                    }
+    CardDialog(onDismiss = onDismiss) {
+        FlippableCard(
+            flipped = flipped,
+            modifier = Modifier
+                .width(DialogCardWidth)
+                .clickable(enabled = sightings.isNotEmpty() && editing == null) { flipped = !flipped },
+            front = { SpeciesCard(species, cover) },
+            back = {
+                val edited = editing
+                if (edited != null) {
+                    CardBackEditor(
+                        species = species,
+                        land = viewModel.land,
+                        initial = edited.dive,
+                        onSave = {
+                            viewModel.updateDive(edited, it)
+                            editing = null
+                        },
+                        onCancel = { editing = null },
+                    )
+                } else {
+                    CardBack(species, sightings, onEdit = { editing = it })
+                }
+            },
+        )
+        if (sightings.isNotEmpty()) {
+            Spacer(Modifier.height(Space.m))
+            Text(
+                when {
+                    editing != null -> strings.writeOnBack
+                    flipped -> strings.tapToTurnBack
+                    else -> strings.tapForLogbook
                 },
+                color = AppColors.TextMuted,
+                fontSize = 13.sp,
+                lineHeight = 18.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.width(DialogCardWidth),
             )
-            if (sightings.isNotEmpty()) {
-                Spacer(Modifier.height(Space.m))
-                Text(
-                    when {
-                        editing != null -> strings.writeOnBack
-                        flipped -> strings.tapToTurnBack
-                        else -> strings.tapForLogbook
-                    },
-                    color = AppColors.TextMuted,
-                    fontSize = 14.sp,
-                )
-            }
-            if (editing == null) {
-                Spacer(Modifier.height(Space.l))
-                CardPhotos(
-                    sightings = sightings,
-                    cover = cover,
-                    onAdd = onAddPhoto,
-                    onOpen = { viewing = it },
-                    modifier = Modifier.width(DialogCardWidth),
-                )
-            }
+        }
+        if (editing == null) {
+            Spacer(Modifier.height(Space.l))
+            CardPhotos(
+                sightings = sightings,
+                cover = cover,
+                onAdd = onAddPhoto,
+                onOpen = { viewing = it },
+                modifier = Modifier.width(DialogCardWidth),
+            )
         }
     }
 
@@ -388,31 +422,29 @@ private fun WriteOnBackDialog(
         delay(900)
         flipped = true
     }
-    Dialog(onDismissRequest = { onSave(state.sighting.dive) }) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(
-                if (flipped) strings.writeOnBack else strings.yourCard,
-                color = AppColors.Text,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-            )
-            Spacer(Modifier.height(Space.m))
-            FlippableCard(
-                flipped = flipped,
-                modifier = Modifier.width(DialogCardWidth),
-                front = { SpeciesCard(state.species, state.sighting) },
-                back = {
-                    CardBackEditor(
-                        species = state.species,
-                        land = land,
-                        initial = state.sighting.dive,
-                        onSave = onSave,
-                        onCancel = { onSave(state.sighting.dive) },
-                        cancelLabel = strings.skip,
-                    )
-                },
-            )
-        }
+    CardDialog(onDismiss = { onSave(state.sighting.dive) }) {
+        Text(
+            if (flipped) strings.writeOnBack else strings.yourCard,
+            color = AppColors.Text,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+        )
+        Spacer(Modifier.height(Space.m))
+        FlippableCard(
+            flipped = flipped,
+            modifier = Modifier.width(DialogCardWidth),
+            front = { SpeciesCard(state.species, state.sighting) },
+            back = {
+                CardBackEditor(
+                    species = state.species,
+                    land = land,
+                    initial = state.sighting.dive,
+                    onSave = onSave,
+                    onCancel = { onSave(state.sighting.dive) },
+                    cancelLabel = strings.skip,
+                )
+            },
+        )
     }
 }
 
@@ -452,27 +484,25 @@ private fun ImportDialogs(viewModel: CatalogViewModel) {
             text = { Text(strings.photoUnreadable, fontSize = 15.sp) },
             confirmButton = { TextButton(onClick = viewModel::dismissImport) { Text(strings.ok) } },
         )
-        is ImportState.Unlocked -> Dialog(onDismissRequest = viewModel::dismissImport) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(
-                    if (state.firstFind) strings.newCardUnlocked else strings.sightingSaved,
-                    color = AppColors.Text,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                )
-                Spacer(Modifier.height(Space.l))
-                SpeciesCard(state.species, state.sighting, Modifier.width(DialogCardWidth))
-                Spacer(Modifier.height(Space.l))
-                Row(horizontalArrangement = Arrangement.spacedBy(Space.m)) {
-                    val isCover = viewModel.collection.coverOf(state.species.id)?.photoHash == state.sighting.photoHash
-                    if (!isCover) {
-                        OutlinedButton(onClick = {
-                            viewModel.setCover(state.sighting)
-                            viewModel.dismissImport()
-                        }) { Text(strings.useAsCardPhoto, fontSize = 15.sp) }
-                    }
-                    Button(onClick = viewModel::dismissImport) { Text(strings.great, fontSize = 15.sp) }
+        is ImportState.Unlocked -> CardDialog(onDismiss = viewModel::dismissImport) {
+            Text(
+                if (state.firstFind) strings.newCardUnlocked else strings.sightingSaved,
+                color = AppColors.Text,
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+            )
+            Spacer(Modifier.height(Space.l))
+            SpeciesCard(state.species, state.sighting, Modifier.width(DialogCardWidth))
+            Spacer(Modifier.height(Space.l))
+            Row(horizontalArrangement = Arrangement.spacedBy(Space.m)) {
+                val isCover = viewModel.collection.coverOf(state.species.id)?.photoHash == state.sighting.photoHash
+                if (!isCover) {
+                    OutlinedButton(onClick = {
+                        viewModel.setCover(state.sighting)
+                        viewModel.dismissImport()
+                    }) { Text(strings.useAsCardPhoto, fontSize = 15.sp) }
                 }
+                Button(onClick = viewModel::dismissImport) { Text(strings.great, fontSize = 15.sp) }
             }
         }
     }
