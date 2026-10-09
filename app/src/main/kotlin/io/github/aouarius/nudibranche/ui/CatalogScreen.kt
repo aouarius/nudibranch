@@ -324,7 +324,10 @@ private val Scrim = Color(0xF20C0E12)
  */
 @Composable
 private fun CardDialog(onDismiss: () -> Unit, content: @Composable ColumnScope.() -> Unit) {
-    Dialog(onDismissRequest = onDismiss, properties = DialogProperties(usePlatformDefaultWidth = false)) {
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(usePlatformDefaultWidth = false, decorFitsSystemWindows = false),
+    ) {
         Box(
             Modifier
                 .fillMaxSize()
@@ -335,6 +338,9 @@ private fun CardDialog(onDismiss: () -> Unit, content: @Composable ColumnScope.(
             Column(
                 Modifier
                     .verticalScroll(rememberScrollState())
+                    // The dialog reaches under the status and navigation bars, so the last
+                    // row (the photo strip) must be able to scroll above them.
+                    .clearOfSystemBars()
                     .padding(horizontal = Space.l, vertical = Space.xl)
                     // Taps on the content itself must not close the dialog.
                     .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) {},
