@@ -196,6 +196,7 @@ private fun CardArt(species: Species, sighting: Sighting?) {
             )
         } else {
             val art = comicArtUri(species)
+            val standIn = species.photo
             if (art != null) {
                 AsyncImage(
                     model = art,
@@ -203,10 +204,10 @@ private fun CardArt(species: Species, sighting: Sighting?) {
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize(),
                 )
-            } else if (species.photo != null) {
+            } else if (standIn != null) {
                 // Until a comic exists for the species, its library photo stands in, grey and dimmed.
                 AsyncImage(
-                    model = "file:///android_asset/species_photos/${species.photo.file}",
+                    model = "file:///android_asset/species_photos/${standIn.file}",
                     contentDescription = species.latinName,
                     contentScale = ContentScale.Crop,
                     colorFilter = LockedPhotoFilter,
