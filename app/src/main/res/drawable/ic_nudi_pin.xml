@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Map pin for the find spot: a nudibranch in a drop-shaped pin. The tip (24,62) marks the spot. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="64dp"
+    android:viewportWidth="48"
+    android:viewportHeight="64">
+    <path
+        android:fillColor="#9B6BFF"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:pathData="M24,62 C21,50 4,38 4,22 A20,20 0 1,1 44,22 C44,38 27,50 24,62 Z" />
+    <!-- cerata -->
+    <path android:strokeColor="#FFA53D" android:strokeWidth="2.6" android:strokeLineCap="round"
+        android:pathData="M15,24 L12,14 M19,22 L18,11 M23,21 L24,10 M27,21 L30,11 M31,22 L35,13" />
+    <!-- rhinophores -->
+    <path android:strokeColor="#FFFFFF" android:strokeWidth="2" android:strokeLineCap="round"
+        android:pathData="M34,24 L33,18 M37,24 L39,18" />
+    <!-- body -->
+    <path android:fillColor="#FFFFFF"
+        android:pathData="M9,30 C13,25 22,23 30,23 C35,23 39,23 40,26 C41,29 38,31 34,31 C26,32 17,32 9,30 Z" />
+</vector>
