@@ -1,6 +1,8 @@
 package io.github.aouarius.nudibranche.ui
 
 import androidx.compose.runtime.staticCompositionLocalOf
+import io.github.aouarius.nudibranche.core.Badge
+import io.github.aouarius.nudibranche.core.BadgeKind
 import io.github.aouarius.nudibranche.core.Language
 import io.github.aouarius.nudibranche.core.PhotoProblem
 import java.util.Locale
@@ -95,6 +97,34 @@ interface Strings {
     val delete: String
     val deletePhotoTitle: String
     fun deletePhotoText(lastPhoto: Boolean): String
+
+    val logbookTab: String
+    val logbookTitle: String
+    fun logbookSubtitle(diveDays: Int, photos: Int): String
+    val statSpecies: String
+    val statDiveDays: String
+    val statPhotos: String
+    val statSites: String
+    val statDeepest: String
+    val statFavoriteSite: String
+    val statWater: String
+    fun finds(count: Int): String
+    val byRegion: String
+    val byRarity: String
+    val perYear: String
+    val badgesTitle: String
+    fun badgesEarned(earned: Int, total: Int): String
+    fun badgeTitle(badge: Badge): String
+    fun badgeGoal(badge: Badge): String
+    fun newBadges(count: Int): String
+    val backupTitle: String
+    val backupText: String
+    val backupSave: String
+    val backupLoad: String
+    val backupSaved: String
+    fun backupRestored(photos: Int, cards: Int): String
+    val backupFailed: String
+    val shareCard: String
 }
 
 object GermanStrings : Strings {
@@ -195,6 +225,65 @@ object GermanStrings : Strings {
     override fun deletePhotoText(lastPhoto: Boolean) =
         "Der Logbuch-Eintrag zu diesem Foto wird mitgelöscht." +
             if (lastPhoto) " Es ist dein letztes Foto dieser Art, die Karte wird danach wieder gesperrt." else ""
+    override val logbookTab = "Logbuch"
+    override val logbookTitle = "Logbuch"
+    override fun logbookSubtitle(diveDays: Int, photos: Int) =
+        "${if (diveDays == 1) "1 Tauchtag" else "$diveDays Tauchtage"} · ${if (photos == 1) "1 Foto" else "$photos Fotos"}"
+    override val statSpecies = "Arten"
+    override val statDiveDays = "Tauchtage"
+    override val statPhotos = "Fotos"
+    override val statSites = "Tauchplätze"
+    override val statDeepest = "Tiefster Fund"
+    override val statFavoriteSite = "Lieblingsplatz"
+    override val statWater = "Wasser"
+    override fun finds(count: Int) = if (count == 1) "1 Fund" else "$count Funde"
+    override val byRegion = "Nach Region"
+    override val byRarity = "Nach Seltenheit"
+    override val perYear = "Fotos pro Jahr"
+    override val badgesTitle = "Abzeichen"
+    override fun badgesEarned(earned: Int, total: Int) = "$earned von $total"
+    override fun badgeTitle(badge: Badge) = when (badge.kind) {
+        BadgeKind.FIRST_FIND -> "Erster Fund"
+        BadgeKind.FIVE_SPECIES -> "Sammler"
+        BadgeKind.TEN_SPECIES -> "Kenner"
+        BadgeKind.ALL_SPECIES -> "Nudidex komplett"
+        BadgeKind.REGION_COMPLETE -> "${badge.region?.label(language)} komplett"
+        BadgeKind.FIRST_LEGENDARY -> "Legende"
+        BadgeKind.ALL_LEGENDARY -> "Alle Legenden"
+        BadgeKind.FIVE_FAMILIES -> "Familienbande"
+        BadgeKind.THREE_REGIONS -> "Weltenbummler"
+        BadgeKind.TEN_DIVE_DAYS -> "Stammgast"
+        BadgeKind.DEEP_FIND -> "Tiefenrausch"
+        BadgeKind.TWENTY_FIVE_PHOTOS -> "Fotograf"
+    }
+    override fun badgeGoal(badge: Badge) = when (badge.kind) {
+        BadgeKind.FIRST_FIND -> "Schalte deine erste Karte frei"
+        BadgeKind.FIVE_SPECIES -> "Finde 5 Arten"
+        BadgeKind.TEN_SPECIES -> "Finde 10 Arten"
+        BadgeKind.ALL_SPECIES -> "Finde alle Arten"
+        BadgeKind.REGION_COMPLETE -> "Finde alle Arten aus der Region ${badge.region?.label(language)}"
+        BadgeKind.FIRST_LEGENDARY -> "Finde eine legendäre Art"
+        BadgeKind.ALL_LEGENDARY -> "Finde alle legendären Arten"
+        BadgeKind.FIVE_FAMILIES -> "Finde Arten aus 5 Familien"
+        BadgeKind.THREE_REGIONS -> "Finde Arten in 3 Regionen"
+        BadgeKind.TEN_DIVE_DAYS -> "Mach Funde an 10 Tauchtagen"
+        BadgeKind.DEEP_FIND -> "Ein Fund auf ${badge.target} m oder tiefer"
+        BadgeKind.TWENTY_FIVE_PHOTOS -> "Sammle 25 Fotos"
+    }
+    override fun newBadges(count: Int) = if (count == 1) "Neues Abzeichen!" else "$count neue Abzeichen!"
+    override val backupTitle = "Sicherung"
+    override val backupText =
+        "Speichere deine Sammlung mit allen Fotos als Datei, zum Beispiel in Google Drive. " +
+            "Auf einem neuen Handy lädst du sie wieder, und nichts geht verloren."
+    override val backupSave = "Sicherung speichern"
+    override val backupLoad = "Sicherung laden"
+    override val backupSaved = "Sicherung gespeichert."
+    override fun backupRestored(photos: Int, cards: Int) =
+        if (photos == 0) "Sicherung geladen. Alles darin war schon auf diesem Handy."
+        else "Sicherung geladen: ${if (photos == 1) "1 Foto" else "$photos Fotos"}, " +
+            "${if (cards == 1) "1 neue Karte" else "$cards neue Karten"}."
+    override val backupFailed = "Das hat nicht geklappt. Ist das eine Nudidex-Sicherung?"
+    override val shareCard = "Karte teilen"
 }
 
 object EnglishStrings : Strings {
@@ -295,6 +384,65 @@ object EnglishStrings : Strings {
     override fun deletePhotoText(lastPhoto: Boolean) =
         "The logbook entry for this photo is deleted too." +
             if (lastPhoto) " It is your last photo of this species, so the card will be locked again." else ""
+    override val logbookTab = "Logbook"
+    override val logbookTitle = "Logbook"
+    override fun logbookSubtitle(diveDays: Int, photos: Int) =
+        "${if (diveDays == 1) "1 dive day" else "$diveDays dive days"} · ${if (photos == 1) "1 photo" else "$photos photos"}"
+    override val statSpecies = "Species"
+    override val statDiveDays = "Dive days"
+    override val statPhotos = "Photos"
+    override val statSites = "Dive sites"
+    override val statDeepest = "Deepest find"
+    override val statFavoriteSite = "Favourite site"
+    override val statWater = "Water"
+    override fun finds(count: Int) = if (count == 1) "1 find" else "$count finds"
+    override val byRegion = "By region"
+    override val byRarity = "By rarity"
+    override val perYear = "Photos per year"
+    override val badgesTitle = "Badges"
+    override fun badgesEarned(earned: Int, total: Int) = "$earned of $total"
+    override fun badgeTitle(badge: Badge) = when (badge.kind) {
+        BadgeKind.FIRST_FIND -> "First find"
+        BadgeKind.FIVE_SPECIES -> "Collector"
+        BadgeKind.TEN_SPECIES -> "Expert"
+        BadgeKind.ALL_SPECIES -> "Nudidex complete"
+        BadgeKind.REGION_COMPLETE -> "${badge.region?.label(language)} complete"
+        BadgeKind.FIRST_LEGENDARY -> "Legend"
+        BadgeKind.ALL_LEGENDARY -> "All legends"
+        BadgeKind.FIVE_FAMILIES -> "Family ties"
+        BadgeKind.THREE_REGIONS -> "Globetrotter"
+        BadgeKind.TEN_DIVE_DAYS -> "Regular"
+        BadgeKind.DEEP_FIND -> "Deep diver"
+        BadgeKind.TWENTY_FIVE_PHOTOS -> "Photographer"
+    }
+    override fun badgeGoal(badge: Badge) = when (badge.kind) {
+        BadgeKind.FIRST_FIND -> "Unlock your first card"
+        BadgeKind.FIVE_SPECIES -> "Find 5 species"
+        BadgeKind.TEN_SPECIES -> "Find 10 species"
+        BadgeKind.ALL_SPECIES -> "Find every species"
+        BadgeKind.REGION_COMPLETE -> "Find every species of the ${badge.region?.label(language)} region"
+        BadgeKind.FIRST_LEGENDARY -> "Find a legendary species"
+        BadgeKind.ALL_LEGENDARY -> "Find every legendary species"
+        BadgeKind.FIVE_FAMILIES -> "Find species from 5 families"
+        BadgeKind.THREE_REGIONS -> "Find species in 3 regions"
+        BadgeKind.TEN_DIVE_DAYS -> "Make finds on 10 dive days"
+        BadgeKind.DEEP_FIND -> "A find at ${badge.target} m or deeper"
+        BadgeKind.TWENTY_FIVE_PHOTOS -> "Collect 25 photos"
+    }
+    override fun newBadges(count: Int) = if (count == 1) "New badge!" else "$count new badges!"
+    override val backupTitle = "Backup"
+    override val backupText =
+        "Save your collection with all photos as a file, for example on Google Drive. " +
+            "Load it on a new phone and nothing is lost."
+    override val backupSave = "Save backup"
+    override val backupLoad = "Load backup"
+    override val backupSaved = "Backup saved."
+    override fun backupRestored(photos: Int, cards: Int) =
+        if (photos == 0) "Backup loaded. Everything in it was already on this phone."
+        else "Backup loaded: ${if (photos == 1) "1 photo" else "$photos photos"}, " +
+            "${if (cards == 1) "1 new card" else "$cards new cards"}."
+    override val backupFailed = "That didn't work. Is this a Nudidex backup?"
+    override val shareCard = "Share card"
 }
 
 fun stringsFor(language: Language): Strings = if (language == Language.DE) GermanStrings else EnglishStrings

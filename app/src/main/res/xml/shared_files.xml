@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Card pictures handed to other apps when the diver shares a card. -->
+<paths>
+    <cache-path name="shared" path="shared/" />
+</paths>

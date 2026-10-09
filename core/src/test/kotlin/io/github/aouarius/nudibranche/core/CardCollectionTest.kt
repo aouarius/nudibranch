@@ -95,4 +95,22 @@ class CardCollectionTest {
         val old = CardCollection.decode("""{"sightings":[]}""")
         assertTrue(old.covers.isEmpty())
     }
+
+    @Test
+    fun mergingABackupAddsOnlyMissingPhotos() {
+        val here = CardCollection().add(sighting("a", "h1")).setCover("h1")
+        val backup = CardCollection()
+            .add(sighting("a", "h1"))
+            .add(sighting("a", "h2"))
+            .add(sighting("b", "h3"))
+            .setCover("h2")
+            .setCover("h3")
+
+        val merged = here.merge(backup)
+
+        assertEquals(listOf("h1", "h2", "h3"), merged.sightings.map { it.photoHash })
+        assertEquals("h1", merged.coverOf("a")?.photoHash)
+        assertEquals("h3", merged.coverOf("b")?.photoHash)
+        assertEquals(merged, merged.merge(backup))
+    }
 }

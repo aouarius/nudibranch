@@ -83,6 +83,19 @@ data class CardCollection(
         )
     }
 
+    /**
+     * Adds what a backup holds: photos already here are skipped, and card photo picks
+     * from the backup apply only where no pick was made here.
+     */
+    fun merge(backup: CardCollection): CardCollection {
+        val known = usedHashes
+        val added = backup.sightings.filter { it.photoHash !in known }.distinctBy { it.photoHash }
+        val merged = sightings + added
+        val hashes = merged.mapTo(mutableSetOf()) { it.photoHash }
+        val restoredCovers = backup.covers.filter { (species, hash) -> species !in covers && hash in hashes }
+        return copy(sightings = merged, covers = covers + restoredCovers)
+    }
+
     /** Replaces the dive notes of the sighting with this photo. */
     fun updateDive(photoHash: String, dive: DiveDetails): CardCollection =
         copy(sightings = sightings.map { if (it.photoHash == photoHash) it.copy(dive = dive) else it })

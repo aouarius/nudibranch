@@ -8,9 +8,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import io.github.aouarius.nudibranche.core.Badge
+import io.github.aouarius.nudibranche.core.Badges
 import io.github.aouarius.nudibranche.core.CardCollection
 import io.github.aouarius.nudibranche.core.DiveDetails
 import io.github.aouarius.nudibranche.core.LandShapes
+import io.github.aouarius.nudibranche.core.Logbook
+import io.github.aouarius.nudibranche.core.LogbookStats
 import io.github.aouarius.nudibranche.core.Language
 import io.github.aouarius.nudibranche.core.PhotoCheckResult
 import io.github.aouarius.nudibranche.core.PhotoChecker
@@ -18,6 +22,7 @@ import io.github.aouarius.nudibranche.core.PhotoProblem
 import io.github.aouarius.nudibranche.core.Sighting
 import io.github.aouarius.nudibranche.core.Species
 import io.github.aouarius.nudibranche.core.SpeciesCatalog
+import io.github.aouarius.nudibranche.data.Backup
 import io.github.aouarius.nudibranche.data.CollectionStore
 import io.github.aouarius.nudibranche.data.ImportedPhoto
 import io.github.aouarius.nudibranche.data.PhotoImporter
@@ -34,7 +39,19 @@ sealed interface ImportState {
     data class EnterDiveDetails(val sighting: Sighting, val species: Species, val firstFind: Boolean) : ImportState
     data class Rejected(val problems: List<PhotoProblem>) : ImportState
     data object Failed : ImportState
-    data class Unlocked(val species: Species, val firstFind: Boolean, val sighting: Sighting) : ImportState
+    data class Unlocked(
+        val species: Species,
+        val firstFind: Boolean,
+        val sighting: Sighting,
+        val newBadges: List<Badge> = emptyList(),
+    ) : ImportState
+}
+
+/** Outcome of saving or loading a backup, shown once. */
+sealed interface BackupResult {
+    data object Saved : BackupResult
+    data class Restored(val photos: Int, val cards: Int) : BackupResult
+    data object Failed : BackupResult
 }
 
 class CatalogViewModel(app: Application) : AndroidViewModel(app) {
@@ -80,11 +97,22 @@ class CatalogViewModel(app: Application) : AndroidViewModel(app) {
 
     private val store = CollectionStore(File(app.filesDir, "collection.json"))
     private val importer = PhotoImporter(app)
+    private val backup = Backup(app)
 
     var collection: CardCollection by mutableStateOf(store.load())
         private set
 
     var importState: ImportState by mutableStateOf(ImportState.Idle)
+        private set
+
+    val stats: LogbookStats get() = Logbook.stats(collection, species)
+
+    val badges: List<Badge> get() = Badges.all(collection, species)
+
+    var backupResult: BackupResult? by mutableStateOf(null)
+        private set
+
+    var backupRunning: Boolean by mutableStateOf(false)
         private set
 
     /** With [forSpecies] the photo goes straight to that card, without asking for the species. */
@@ -131,8 +159,10 @@ class CatalogViewModel(app: Application) : AndroidViewModel(app) {
     fun onDiveDetailsEntered(dive: DiveDetails) {
         val state = importState as? ImportState.EnterDiveDetails ?: return
         val sighting = state.sighting.copy(dive = dive)
+        val before = collection
         collection = collection.add(sighting)
-        importState = ImportState.Unlocked(state.species, state.firstFind, sighting)
+        val newBadges = Badges.newlyEarned(before, collection, species)
+        importState = ImportState.Unlocked(state.species, state.firstFind, sighting, newBadges)
         viewModelScope.launch { store.save(collection) }
     }
 
@@ -153,6 +183,41 @@ class CatalogViewModel(app: Application) : AndroidViewModel(app) {
             store.save(collection)
             importer.delete(sighting.photoPath)
         }
+    }
+
+    fun exportBackup(target: Uri) = runBackup {
+        backup.export(collection, target)
+        BackupResult.Saved
+    }
+
+    /** Adds the backup to what is already on the phone; nothing here is overwritten. */
+    fun restoreBackup(source: Uri) = runBackup {
+        val restored = backup.read(source)
+        val before = collection
+        // The collection may have changed while the file was read, so merge into the newest one.
+        collection = collection.merge(restored)
+        store.save(collection)
+        BackupResult.Restored(
+            photos = collection.sightings.size - before.sightings.size,
+            cards = collection.unlockedCount() - before.unlockedCount(),
+        )
+    }
+
+    private fun runBackup(work: suspend () -> BackupResult) {
+        if (backupRunning) return
+        backupRunning = true
+        viewModelScope.launch {
+            backupResult = try {
+                work()
+            } catch (e: Exception) {
+                BackupResult.Failed
+            }
+            backupRunning = false
+        }
+    }
+
+    fun dismissBackupResult() {
+        backupResult = null
     }
 
     fun dismissImport() {

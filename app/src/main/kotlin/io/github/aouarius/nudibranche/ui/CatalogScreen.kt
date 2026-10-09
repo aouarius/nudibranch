@@ -31,6 +31,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -58,6 +60,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.graphics.layer.drawLayer
+import androidx.compose.ui.graphics.rememberGraphicsLayer
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
+import io.github.aouarius.nudibranche.data.CardShare
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -87,7 +97,7 @@ fun CatalogScreen(viewModel: CatalogViewModel = viewModel()) {
     }
 }
 
-private enum class Page { COLLECTION, LIBRARY }
+private enum class Page { COLLECTION, LIBRARY, LOGBOOK }
 
 @Composable
 private fun Catalog(viewModel: CatalogViewModel) {
@@ -121,6 +131,12 @@ private fun Catalog(viewModel: CatalogViewModel) {
                     icon = { Icon(Icons.AutoMirrored.Filled.List, contentDescription = null) },
                     label = { Text(strings.libraryTab) },
                 )
+                NavigationBarItem(
+                    selected = page == Page.LOGBOOK,
+                    onClick = { page = Page.LOGBOOK },
+                    icon = { Icon(Icons.Filled.Star, contentDescription = null) },
+                    label = { Text(strings.logbookTab) },
+                )
             }
         },
         floatingActionButton = {
@@ -144,6 +160,7 @@ private fun Catalog(viewModel: CatalogViewModel) {
                     },
                 )
                 Page.LIBRARY -> LibraryPage(viewModel)
+                Page.LOGBOOK -> LogbookPage(viewModel)
             }
         }
     }
@@ -339,13 +356,26 @@ private fun CardDetailDialog(
     var flipped by remember { mutableStateOf(false) }
     var editing by remember { mutableStateOf<Sighting?>(null) }
     var viewing by remember { mutableStateOf<Int?>(null) }
+    // The front is recorded while it is drawn, so sharing sends exactly what is on screen.
+    val cardPicture = rememberGraphicsLayer()
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     CardDialog(onDismiss = onDismiss) {
         FlippableCard(
             flipped = flipped,
             modifier = Modifier
                 .width(DialogCardWidth)
                 .clickable(enabled = sightings.isNotEmpty() && editing == null) { flipped = !flipped },
-            front = { SpeciesCard(species, cover) },
+            front = {
+                SpeciesCard(
+                    species,
+                    cover,
+                    Modifier.drawWithContent {
+                        cardPicture.record { this@drawWithContent.drawContent() }
+                        drawLayer(cardPicture)
+                    },
+                )
+            },
             back = {
                 val edited = editing
                 if (edited != null) {
@@ -378,6 +408,18 @@ private fun CardDetailDialog(
                 textAlign = TextAlign.Center,
                 modifier = Modifier.width(DialogCardWidth),
             )
+        }
+        if (sightings.isNotEmpty() && !flipped && editing == null) {
+            Spacer(Modifier.height(Space.m))
+            OutlinedButton(onClick = {
+                scope.launch {
+                    val picture = cardPicture.toImageBitmap().asAndroidBitmap()
+                    CardShare.share(context, picture, fileName = species.id, chooserTitle = strings.shareCard)
+                }
+            }) {
+                Icon(Icons.Filled.Share, contentDescription = null, modifier = Modifier.padding(end = Space.s))
+                Text(strings.shareCard, fontSize = 15.sp)
+            }
         }
         if (editing == null) {
             Spacer(Modifier.height(Space.l))
@@ -493,6 +535,24 @@ private fun ImportDialogs(viewModel: CatalogViewModel) {
             )
             Spacer(Modifier.height(Space.l))
             SpeciesCard(state.species, state.sighting, Modifier.width(DialogCardWidth))
+            if (state.newBadges.isNotEmpty()) {
+                Spacer(Modifier.height(Space.l))
+                Text(
+                    strings.newBadges(state.newBadges.size),
+                    color = AppColors.Accent,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                )
+                Spacer(Modifier.height(Space.s))
+                Column(Modifier.width(DialogCardWidth), verticalArrangement = Arrangement.spacedBy(Space.s)) {
+                    state.newBadges.chunked(2).forEach { row ->
+                        Row(horizontalArrangement = Arrangement.spacedBy(Space.s)) {
+                            row.forEach { BadgeTile(it, Modifier.weight(1f)) }
+                            if (row.size == 1) Spacer(Modifier.weight(1f))
+                        }
+                    }
+                }
+            }
             Spacer(Modifier.height(Space.l))
             Row(horizontalArrangement = Arrangement.spacedBy(Space.m)) {
                 val isCover = viewModel.collection.coverOf(state.species.id)?.photoHash == state.sighting.photoHash
