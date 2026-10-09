@@ -5,6 +5,12 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.union
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.unit.dp
 import io.github.aouarius.nudibranche.core.Rarity
 
@@ -51,6 +57,14 @@ object CardColors {
 }
 
 /** Spacing steps used across the app, so gaps line up. */
+/**
+ * Keeps content clear of the status and navigation bars (and the keyboard). Some phones give
+ * full-screen dialogs no bar sizes at all, so there is always at least room for a bar.
+ */
+fun Modifier.clearOfSystemBars(): Modifier = composed { windowInsetsPadding(WindowInsets.safeDrawing.union(MinimumBars)) }
+
+private val MinimumBars = WindowInsets(top = 32.dp, bottom = 56.dp)
+
 object Space {
     val xs = 4.dp
     val s = 8.dp
