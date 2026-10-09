@@ -32,7 +32,7 @@ import io.github.aouarius.nudibranche.core.Rarity
 import io.github.aouarius.nudibranche.core.Species
 import kotlin.math.abs
 
-private val DefaultCenter = LatLon(40.0, 15.0)
+internal val DefaultCenter = LatLon(40.0, 15.0)
 
 fun markerColor(rarity: Rarity): Color = when (rarity) {
     Rarity.HAEUFIG -> Color(0xFFE6E8EC)
@@ -101,9 +101,9 @@ fun FindsGlobeDialog(viewModel: CatalogViewModel, onDismiss: () -> Unit) {
     }
 }
 
-/** Lets the diver tap the find spot on the globe. */
+/** Offline fallback for picking a find spot: turn the globe and tap. */
 @Composable
-fun SpotPickerDialog(
+fun GlobeSpotPickerDialog(
     land: List<DoubleArray>,
     initial: LatLon?,
     onPick: (LatLon?) -> Unit,

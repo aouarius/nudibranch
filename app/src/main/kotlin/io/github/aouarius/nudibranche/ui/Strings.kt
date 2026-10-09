@@ -66,6 +66,11 @@ interface Strings {
     val noSpotChosen: String
     val remove: String
     val useSpot: String
+    val mapHint: String
+    val searchPlace: String
+    val noPlaceFound: String
+    val searchFailed: String
+    val useGlobe: String
     val north: String
     val south: String
     val east: String
@@ -159,6 +164,11 @@ object GermanStrings : Strings {
     override val noSpotChosen = "Noch kein Fundort gewählt"
     override val remove = "Entfernen"
     override val useSpot = "Übernehmen"
+    override val mapHint = "Karte verschieben, bis die Pin-Spitze auf die Fundstelle zeigt"
+    override val searchPlace = "Ort oder Tauchplatz suchen"
+    override val noPlaceFound = "Nichts gefunden"
+    override val searchFailed = "Suche geht gerade nicht (kein Internet?)"
+    override val useGlobe = "Ohne Internet: Globus"
     override val north = "N"
     override val south = "S"
     override val east = "O"
@@ -254,6 +264,11 @@ object EnglishStrings : Strings {
     override val noSpotChosen = "No spot chosen yet"
     override val remove = "Remove"
     override val useSpot = "Use spot"
+    override val mapHint = "Move the map until the pin's tip points at the spot"
+    override val searchPlace = "Search place or dive site"
+    override val noPlaceFound = "Nothing found"
+    override val searchFailed = "Search isn't working right now (no internet?)"
+    override val useGlobe = "Offline: use globe"
     override val north = "N"
     override val south = "S"
     override val east = "E"

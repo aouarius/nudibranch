@@ -59,5 +59,6 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.exifinterface)
     implementation(libs.coil.compose)
+    implementation(libs.maplibre.android)
     debugImplementation(libs.androidx.compose.ui.tooling)
 }

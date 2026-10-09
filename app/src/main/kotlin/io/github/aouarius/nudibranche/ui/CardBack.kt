@@ -183,6 +183,7 @@ fun CardBackEditor(
         SpotPickerDialog(
             land = land,
             initial = spot,
+            searchSuggestion = location.ifBlank { site },
             onPick = {
                 latitude = it?.latitude
                 longitude = it?.longitude
